@@ -18,6 +18,8 @@ dependencies:
   logger: ^2.4.0
   connectivity_plus: ^6.1.0
   flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.0.14
+  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
   flutter_test:
@@ -28,3 +30,22 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets: 
+    - assets/icons/
+    - assets/fonts/
+
+  fonts:
+    - family: Satoshi
+      fonts:
+      - asset: assets/fonts/Satoshi-Black.otf
+      - asset: assets/fonts/Satoshi-BlackItalic.otf
+      - asset: assets/fonts/Satoshi-Bold.otf
+      - asset: assets/fonts/Satoshi-BoldItalic.otf
+      - asset: assets/fonts/Satoshi-Italic.otf
+      - asset: assets/fonts/Satoshi-Light.otf
+      - asset: assets/fonts/Satoshi-LightItalic.otf
+      - asset: assets/fonts/Satoshi-Medium.otf
+      - asset: assets/fonts/Satoshi-MediumItalic.otf
+      - asset: assets/fonts/Satoshi-Regular.otf
+
