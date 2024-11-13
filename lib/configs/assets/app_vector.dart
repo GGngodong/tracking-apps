@@ -1,4 +1,4 @@
-class AppsVector {
+class AppVector {
   static const String basePath = 'assets/icons/';
   static const String format = '.svg';
 

@@ -43,7 +43,7 @@ class _HomePageState extends State<MainPage> {
               child: Container(
                 width: double.infinity,
                 child: PageView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: pageController,
                   itemCount: 4,
                   onPageChanged: (index) {
@@ -81,7 +81,7 @@ class _HomePageState extends State<MainPage> {
               _currentIndex = index;
               pageController.animateToPage(
                 index,
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 curve: Curves.ease,
               );
             });
@@ -129,13 +129,13 @@ class _HomePageState extends State<MainPage> {
 dynamic _switchPage(int index) {
   switch (index) {
     case 0:
-      return HomePage();
+      return const HomePage();
     case 1:
-      return UploadPage();
+      return const UploadPage();
     case 2:
-      return NotificationPage();
+      return const NotificationPage();
     case 3:
-      return ProfilePage();
+      return const ProfilePage();
     default:
   }
 }
