@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             child: widget!,
           );
         },
-        home: const SplashScreen(),
+        home: const OnboardingPage(),
       ),
     );
   }
