@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tracking_apps/configs/assets/app_vector.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
 
@@ -40,7 +38,7 @@ class _HomePageState extends State<MainPage> {
           children: [
             Flexible(
               flex: 9,
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: PageView.builder(
                   physics: const NeverScrollableScrollPhysics(),
@@ -90,33 +88,41 @@ class _HomePageState extends State<MainPage> {
             BottomNavigationBarItem(
               activeIcon: Padding(
                 padding: EdgeInsets.only(bottom: 4.h),
-                child: SvgPicture.asset(AppVector.houseSolid),
+                child: const ImageIcon(
+                    AssetImage('assets/icons/home-selected.png')),
               ),
-              icon: SvgPicture.asset(AppVector.houseSolid),
+              icon: const ImageIcon(
+                  AssetImage('assets/icons/home-unselected.png')),
               label: "Home",
             ),
             BottomNavigationBarItem(
               activeIcon: Padding(
                 padding: EdgeInsets.only(bottom: 4.h),
-                child: SvgPicture.asset(AppVector.cloudArrowUpSolid),
+                child: const ImageIcon(
+                    AssetImage('assets/icons/upload-selected.png')),
               ),
-              icon: SvgPicture.asset(AppVector.cloudArrowUpSolid),
+              icon: const ImageIcon(
+                  AssetImage('assets/icons/upload-unselected.png')),
               label: "Unggah",
             ),
             BottomNavigationBarItem(
               activeIcon: Padding(
                 padding: EdgeInsets.only(bottom: 4.h),
-                child: SvgPicture.asset(AppVector.bellRegular),
+                child: const ImageIcon(
+                    AssetImage('assets/icons/notification-selected.png')),
               ),
-              icon: SvgPicture.asset(AppVector.bellSolid),
+              icon: const ImageIcon(
+                  AssetImage('assets/icons/notification-unselected.png')),
               label: "Notifikasi",
             ),
             BottomNavigationBarItem(
               activeIcon: Padding(
                 padding: EdgeInsets.only(bottom: 4.h),
-                child: SvgPicture.asset(AppVector.userRegular),
+                child: const ImageIcon(
+                    AssetImage('assets/icons/user-selected.png')),
               ),
-              icon: SvgPicture.asset(AppVector.userSolid),
+              icon: const ImageIcon(
+                  AssetImage('assets/icons/user-unselected.png')),
               label: "Profil",
             ),
           ],
