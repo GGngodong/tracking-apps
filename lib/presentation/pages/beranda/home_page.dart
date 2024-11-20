@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/presentation/component/card_surat.dart';
+import 'package:tracking_apps/presentation/component/header_home.dart';
+import 'package:tracking_apps/presentation/component/search_bar_home_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,6 +14,70 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                headerHome(context),
+                Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width,
+                            minWidth: 0,
+                          ),
+                          child: SearchBarHomePage(
+                            hintText: 'Cari Surat Izin',
+                            searchType: TypeSearchBar.withDropdownFilter,
+                            items: const ['OPS', 'DTM', 'DTU', 'DKK'],
+                          ),
+                        )
+                      ],
+                    ))
+              ],
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 20.h,
+                ),
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return const CardSurat(
+                        date: '28 Februari 2023',
+                        categorySurat: 'OPS',
+                        namaDokumen: 'Angkut Subang Bati',
+                        namaPerusahaan: 'PT Dahana',
+                        noSurat: 'B/008/I/2023/Korp-Jkt',
+                        noSuratIzinMabes: 'SI/1128/I/YAN.2.10./2023',
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 10.h,
+                      );
+                    },
+                    itemCount: 3))
+          ],
+        ),
+      ),
+    );
   }
 }
