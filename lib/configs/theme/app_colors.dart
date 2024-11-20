@@ -7,3 +7,15 @@ class AppColors {
   static const grey = Color(0xff000000);
   static const lightGrey = Color(0xff808080);
 }
+
+LinearGradient suratIzinCategory = const LinearGradient(
+  colors: [Color.fromRGBO(180, 222, 231, 1), Color.fromRGBO(129, 213, 229, 1)],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
+
+LinearGradient noSuratColor = const LinearGradient(
+  colors: [Color.fromRGBO(232, 237, 241, 1), Color.fromRGBO(134, 137, 139, 1)],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+);
