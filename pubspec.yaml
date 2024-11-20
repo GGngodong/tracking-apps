@@ -23,6 +23,7 @@ dependencies:
   shared_preferences: ^2.3.3
   percent_indicator: ^4.2.3
   smooth_page_indicator: ^1.2.0+3
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
