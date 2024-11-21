@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
+import 'package:tracking_apps/presentation/pages/login/login.dart';
 import 'package:tracking_apps/presentation/pages/onBoarding/onboarding.dart';
 
 void main() {
@@ -31,7 +33,8 @@ class MyApp extends StatelessWidget {
             child: widget!,
           );
         },
-        home: const OnBoardingPage(),
+        //home: const HomePage()
+        home: const LoginPage()
       ),
     );
   }
