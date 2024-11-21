@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
-import 'package:tracking_apps/presentation/component/header_home.dart';
+import 'package:tracking_apps/presentation/component/header.dart';
 import 'package:tracking_apps/presentation/component/search_bar_home_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,14 +16,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
             Stack(
               children: [
-                headerHome(context),
+                Header(
+                  imageBg: 'assets/home/dahana-gedung.png',
+                  imageFg: 'assets/home/dahana.png',
+                  height: 100.h,
+                  topFg: 90,
+                  leftFg: 0,
+                  rightFg: 0,
+                  topBg: 40,
+                  leftBg: 0,
+                  rightBg: 0,
+                ),
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -36,8 +46,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 16.w,
-                            vertical: 16.h,
+                            horizontal: 10.w,
+                            vertical: 10.h,
                           ),
                           child: SearchBarHomePage(
                             hintText: 'Cari Surat Izin',
@@ -48,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                       )
                     ],
                   ),
-                )
+                ),
               ],
             ),
             Column(
@@ -71,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 16.w,
-                    vertical: 20.h,
+                    vertical: 16.h,
                   ),
                   child: ListView.separated(
                       shrinkWrap: true,
