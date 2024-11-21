@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/header_home.dart';
 import 'package:tracking_apps/presentation/component/search_bar_home_page.dart';
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.amber,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
@@ -24,57 +25,78 @@ class _HomePageState extends State<HomePage> {
               children: [
                 headerHome(context),
                 Positioned(
-                    bottom: 0,
-                    left: 0,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 10.h,
+                  bottom: 0,
+                  left: 0,
+                  child: Column(
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width,
+                          minWidth: 0,
                         ),
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width,
-                            minWidth: 0,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 16.h,
                           ),
                           child: SearchBarHomePage(
                             hintText: 'Cari Surat Izin',
                             searchType: TypeSearchBar.withDropdownFilter,
                             items: const ['OPS', 'DTM', 'DTU', 'DKK'],
                           ),
-                        )
-                      ],
-                    ))
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 20.h,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 16.h,
+                  ),
+                  child: Text(
+                    'Surat Izin',
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
+                  ),
                 ),
-                child: ListView.separated(
-                    shrinkWrap: true,
-                    primary: false,
-                    physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (context, index) {
-                      return const CardSurat(
-                        date: '28 Februari 2023',
-                        categorySurat: 'OPS',
-                        namaDokumen: 'Angkut Subang Bati',
-                        namaPerusahaan: 'PT Dahana',
-                        noSurat: 'B/008/I/2023/Korp-Jkt',
-                        noSuratIzinMabes: 'SI/1128/I/YAN.2.10./2023',
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 10.h,
-                      );
-                    },
-                    itemCount: 3))
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 20.h,
+                  ),
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      primary: false,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) {
+                        return const CardSurat(
+                          date: '28 Februari 2023',
+                          categorySurat: 'OPS',
+                          namaDokumen: 'Angkut Subang Bati',
+                          namaPerusahaan: 'PT Dahana',
+                          noSurat: 'B/008/I/2023/Korp-Jkt',
+                          noSuratIzinMabes: 'SI/1128/I/YAN.2.10./2023',
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 10.h,
+                        );
+                      },
+                      itemCount: 3),
+                ),
+              ],
+            )
           ],
         ),
       ),
