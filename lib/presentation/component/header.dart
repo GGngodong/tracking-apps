@@ -5,6 +5,7 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 class Header extends StatelessWidget {
   final String imageBg;
   final String imageFg;
+  final double? heightSizedBox;
   final double? height, width;
   final double? topFg, leftFg, rightFg, bottomFg;
   final double? topBg, leftBg, rightBg, bottomBg;
@@ -22,12 +23,13 @@ class Header extends StatelessWidget {
       this.topBg,
       this.leftBg,
       this.rightBg,
-      this.bottomBg});
+      this.bottomBg,
+      this.heightSizedBox});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300.h,
+      height: heightSizedBox ?? 300.h,
       child: Stack(
         children: [
           Align(
