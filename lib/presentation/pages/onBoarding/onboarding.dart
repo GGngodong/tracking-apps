@@ -7,6 +7,7 @@ import 'package:tracking_apps/presentation/component/ink_effect.dart';
 import 'package:tracking_apps/presentation/component/onboarding_content.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/presentation/main_page.dart';
+import 'package:tracking_apps/presentation/pages/login/login.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
@@ -102,7 +103,7 @@ class _OnboardingState extends State<OnBoardingPage> {
                                 context,
                                 PageRouteBuilder(pageBuilder:
                                     (context, animation, animationTime) {
-                                  return const MainPage(statusCode: 200);
+                                  return const LoginPage();
                                 }, transitionsBuilder: (context, animation,
                                     secondaryAnimation, child) {
                                   return FadeTransition(
@@ -148,7 +149,7 @@ class _OnboardingState extends State<OnBoardingPage> {
                                           const Duration(seconds: 1),
                                       pageBuilder:
                                           (context, animation, animationTime) {
-                                        return const MainPage(statusCode: 200);
+                                        return const LoginPage();
                                       },
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
@@ -223,13 +224,14 @@ class _OnboardingState extends State<OnBoardingPage> {
         count: 3,
         axisDirection: Axis.horizontal,
         effect: SlideEffect(
-            spacing: 8.0,
-            radius: 4.0.r,
-            dotWidth: 24.0.w,
-            dotHeight: 16.0.h,
-            paintStyle: PaintingStyle.stroke,
-            strokeWidth: 1.5,
-            dotColor: AppColors.lightGrey,
-            activeDotColor: AppColors.primary),
+          spacing: 8.0,
+          radius: 4.0.r,
+          dotWidth: 24.0.w,
+          dotHeight: 16.0.h,
+          paintStyle: PaintingStyle.stroke,
+          strokeWidth: 1.5,
+          dotColor: AppColors.lightGrey,
+          activeDotColor: AppColors.primary,
+        ),
       );
 }
