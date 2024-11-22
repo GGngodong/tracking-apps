@@ -1,20 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/configs/theme/app_colors.dart';
 
-class CustomTextField extends StatelessWidget{
+class CustomTextField extends StatefulWidget {
+  final String header;
   final String hintText;
   final bool isPassword;
-  const CustomTextField({super.key, required this.hintText, required this.isPassword});
+
+  const CustomTextField(
+      {super.key,
+      required this.hintText,
+      this.isPassword = false,
+      required this.header});
+
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool isPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isPasswordVisible = !widget.isPassword;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        suffixIcon: isPassword ? Icon(Icons.visibility_off) : null
+    return Theme(
+      data: Theme.of(context).copyWith(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: AppColors.primary,
+          selectionColor: AppColors.primary.withOpacity(0.4),
+          selectionHandleColor: AppColors.primary,
+        )
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.header,
+            style: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500,
+              color: AppColors.primary,
+            ),
+          ),
+          SizedBox(
+            height: 8.h,
+          ),
+          TextField(
+            obscureText: widget.isPassword && !isPasswordVisible,
+            cursorColor: AppColors.primary,
+            selectionControls: materialTextSelectionControls,
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              hintStyle: TextStyle(color: AppColors.lightGrey),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: BorderSide(
+                  color: AppColors.primary,
+                  width: 1.5.w
+                )
+              ),
+              alignLabelWithHint: false,
+              suffixIcon: widget.isPassword
+                  ? IconButton(
+                      icon: Icon(isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    )
+                  : null,
+            ),
+            keyboardType: widget.isPassword
+                ? TextInputType.visiblePassword
+                : TextInputType.text,
+            textInputAction: TextInputAction.done,
+          ),
+        ],
       ),
     );
   }
