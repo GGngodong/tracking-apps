@@ -84,26 +84,27 @@ class _HomePageState extends State<HomePage> {
                     vertical: 16.h,
                   ),
                   child: ListView.separated(
-                      shrinkWrap: true,
-                      primary: false,
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemBuilder: (context, index) {
-                        return const CardSurat(
-                          date: '28 Februari 2023',
-                          categorySurat: 'OPS',
-                          namaDokumen: 'Angkut Subang Bati',
-                          namaPerusahaan: 'PT Dahana',
-                          noSurat: 'B/008/I/2023/Korp-Jkt',
-                          noSuratIzinMabes: 'SI/1128/I/YAN.2.10./2023',
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 10.h,
-                        );
-                      },
-                      itemCount: 3),
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      return const CardSurat(
+                        date: '28 Februari 2023',
+                        categorySurat: 'OPS',
+                        namaDokumen: 'Angkut Subang Bati',
+                        namaPerusahaan: 'PT Dahana',
+                        noSurat: 'B/008/I/2023/Korp-Jkt',
+                        noSuratIzinMabes: 'SI/1128/I/YAN.2.10./2023',
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 10.h,
+                      );
+                    },
+                    itemCount: 3,
+                  ),
                 ),
               ],
             )
