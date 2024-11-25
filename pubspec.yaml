@@ -24,6 +24,7 @@ dependencies:
   percent_indicator: ^4.2.3
   smooth_page_indicator: ^1.2.0+3
   dropdown_button2: ^2.3.9
+  file_picker: ^8.1.4
 
 dev_dependencies:
   flutter_test:
