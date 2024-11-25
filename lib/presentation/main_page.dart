@@ -9,13 +9,14 @@ import 'pages/upload/upload_page.dart';
 
 class MainPage extends StatefulWidget {
   final int statusCode;
+
   const MainPage({super.key, required this.statusCode});
 
   @override
   State<MainPage> createState() => _HomePageState();
 }
 
-enum NavBarMenu { Home, Upload, Notifciation, Profile }
+enum NavBarMenu { Home, Upload, Notification, Profile }
 
 class _HomePageState extends State<MainPage> {
   NavBarMenu navBarMenu = NavBarMenu.Home;
@@ -64,13 +65,15 @@ class _HomePageState extends State<MainPage> {
           showSelectedLabels: true,
           showUnselectedLabels: true,
           unselectedLabelStyle: TextStyle(
-              color: AppColors.lightGrey,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w700),
+            color: AppColors.lightGrey,
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w700,
+          ),
           selectedLabelStyle: TextStyle(
-              color: AppColors.primary,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w700),
+            color: AppColors.primary,
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w700,
+          ),
           unselectedItemColor: AppColors.lightGrey,
           selectedItemColor: AppColors.primary,
           iconSize: 24.r,
