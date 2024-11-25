@@ -4,9 +4,14 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
+  final bool isLogOut;
   final VoidCallback onPressed;
 
-  const CustomButton({super.key, required this.text, required this.onPressed});
+  const CustomButton(
+      {super.key,
+      required this.text,
+      required this.onPressed,
+      required this.isLogOut});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +21,11 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r))),
+          backgroundColor: isLogOut ? Color(0xFFAF4848) : AppColors.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+        ),
         child: Text(
           text,
           style: TextStyle(
