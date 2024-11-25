@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/main.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/divider_text.dart';
@@ -22,7 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         child: Stack(
           children: [
             _headerRegister(),
@@ -35,17 +34,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 240.h,
                   ),
-                  CustomTextField(
+                  const CustomTextField(
                       hintText: 'Masukan username anda', header: 'Username'),
                   SizedBox(
                     height: 16.h,
                   ),
-                  CustomTextField(
+                  const CustomTextField(
                       hintText: 'Masukan email anda', header: 'Email'),
                   SizedBox(
                     height: 16.h,
                   ),
-                  CustomTextField(
+                  const CustomTextField(
                     hintText: 'Masukan password anda',
                     header: 'Password',
                     isPassword: true,
@@ -53,20 +52,25 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 46.h,
                   ),
-                  CustomButton(text: 'Sign up', onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainPage(statusCode: 200),
+                  CustomButton(
+                    text: 'Sign up',
+                    onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const MainPage(statusCode: 200),
+                      ),
                     ),
-                  ),),
+                    isLogOut: false,
+                  ),
                   SizedBox(
                     height: 32.h,
                   ),
-                  DividerText(text: 'Masuk dengan'),
+                  const DividerText(text: 'Masuk dengan'),
                   SizedBox(
                     height: 32.h,
                   ),
-                  SocialMediaButton(),
+                  const SocialMediaButton(),
                   SizedBox(
                     height: 32.h,
                   ),
@@ -74,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     fun: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginPage(),
+                        builder: (context) => const LoginPage(),
                       ),
                     ),
                     firstText: 'Sudah mempunyai akun?',
@@ -102,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Container(
               width: double.infinity,
               height: 220.h,
-              decoration: BoxDecoration(gradient: suratIzinCategory),
+              decoration: BoxDecoration(gradient: headerAppBar),
             ),
           ),
           Positioned(

@@ -9,6 +9,7 @@ import 'package:tracking_apps/presentation/component/header_title.dart';
 import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
 import 'package:tracking_apps/presentation/main_page.dart';
+import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
 import 'package:tracking_apps/presentation/pages/register/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -100,12 +101,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       CustomButton(
                         text: 'Sign In',
-                        onPressed: () => Navigator.push(
+                        onPressed: () => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MainPage(statusCode: 200),
+                            builder: (BuildContext context) => MainPage(statusCode: 200),
                           ),
-                        ),
+                        ), isLogOut: false,
                       ),
                       SizedBox(
                         height: 32.h,
@@ -122,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                         fun: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RegisterPage(),
+                            builder: (BuildContext context) => RegisterPage(),
                           ),
                         ),
                         firstText: 'Belum mempunyai akun?',
