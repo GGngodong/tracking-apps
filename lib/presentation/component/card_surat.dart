@@ -9,6 +9,8 @@ class CardSurat extends StatelessWidget {
   final String namaPerusahaan;
   final String namaDokumen;
   final String noSuratIzinMabes;
+  final VoidCallback funcRead;
+  final VoidCallback funcDownload;
 
   const CardSurat(
       {required this.date,
@@ -17,7 +19,7 @@ class CardSurat extends StatelessWidget {
       required this.namaPerusahaan,
       required this.noSurat,
       required this.noSuratIzinMabes,
-      super.key});
+      super.key, required this.funcRead, required this.funcDownload});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,7 @@ class CardSurat extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    gradient: suratIzinCategory,
+                    border: Border.all(color: AppColors.tertiary),
                     borderRadius: BorderRadius.circular(16.r),
                     boxShadow: const [
                       BoxShadow(
@@ -76,8 +78,8 @@ class CardSurat extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    gradient: noSuratColor,
                     color: Colors.white,
+                    border: Border.all(color: AppColors.lightGrey),
                     borderRadius: BorderRadius.circular(16.r),
                     boxShadow: const [
                       BoxShadow(
@@ -108,7 +110,7 @@ class CardSurat extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    gradient: suratIzinCategory,
+                    border: Border.all(color: AppColors.tertiary),
                     borderRadius: BorderRadius.circular(16.r),
                     boxShadow: const [
                       BoxShadow(
@@ -134,8 +136,8 @@ class CardSurat extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    gradient: noSuratColor,
                     color: Colors.white,
+                    border: Border.all(color: AppColors.lightGrey),
                     borderRadius: BorderRadius.circular(16.r),
                     boxShadow: const [
                       BoxShadow(
@@ -206,7 +208,7 @@ class CardSurat extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 4.h,
+              height: 6.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -242,7 +244,7 @@ class CardSurat extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: funcDownload,
                     child: Container(
                       width: 122.w,
                       height: 44.h,
@@ -282,7 +284,7 @@ class CardSurat extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: funcRead,
                     child: Container(
                       width: 186.w,
                       height: 44.h,
