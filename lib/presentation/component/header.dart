@@ -37,7 +37,7 @@ class Header extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: 220.h,
-              decoration: BoxDecoration(gradient: suratIzinCategory),
+              decoration: BoxDecoration(gradient: headerAppBar),
             ),
           ),
           Positioned(
