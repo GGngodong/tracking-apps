@@ -106,6 +106,13 @@ class _HomePageState extends State<HomePage> {
                                 const DetailSuratPage(),
                           ),
                         ),
+                        detailSurat: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const DetailSuratPage(),
+                          ),
+                        ),
                       );
                     },
                     separatorBuilder: (context, index) {
