@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/presentation/component/ink_effect.dart';
 
 class CardSurat extends StatelessWidget {
   final String date;
@@ -9,17 +10,22 @@ class CardSurat extends StatelessWidget {
   final String namaPerusahaan;
   final String namaDokumen;
   final String noSuratIzinMabes;
+  final VoidCallback detailSurat;
   final VoidCallback funcRead;
   final VoidCallback funcDownload;
 
-  const CardSurat(
-      {required this.date,
-      required this.categorySurat,
-      required this.namaDokumen,
-      required this.namaPerusahaan,
-      required this.noSurat,
-      required this.noSuratIzinMabes,
-      super.key, required this.funcRead, required this.funcDownload});
+  const CardSurat({
+    required this.date,
+    required this.categorySurat,
+    required this.namaDokumen,
+    required this.namaPerusahaan,
+    required this.noSurat,
+    required this.noSuratIzinMabes,
+    required this.funcRead,
+    required this.funcDownload,
+    required this.detailSurat,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -163,12 +169,15 @@ class CardSurat extends StatelessWidget {
             SizedBox(
               height: 12.h,
             ),
-            Text(
-              namaDokumen,
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
-                fontSize: 18.sp,
+            GestureDetector(
+              onTap: detailSurat,
+              child: Text(
+                namaDokumen,
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18.sp,
+                ),
               ),
             ),
             SizedBox(
