@@ -1,7 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class DropdownForm extends StatelessWidget {
+  final String header;
   final List<String> statusTahapan = [
     'Dalam proses',
     'Terverifikasi',
@@ -12,99 +15,71 @@ class DropdownForm extends StatelessWidget {
   String? selectedValue;
   final _formKey = GlobalKey<FormState>();
 
-  DropdownForm({super.key});
+  DropdownForm({super.key, required this.header});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 80),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(16),
-                  hintText: 'Enter Your Full Name.',
-                  hintStyle: const TextStyle(fontSize: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              DropdownButtonFormField2<String>(
-                isExpanded: true,
-                decoration: InputDecoration(
-                  // Add Horizontal padding using menuItemStyleData.padding so it matches
-                  // the menu padding when button's width is not specified.
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  // Add more decoration..
-                ),
-                hint: const Text(
-                  'Select Your Gender',
-                  style: TextStyle(fontSize: 14),
-                ),
-                items: statusTahapan
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                        ))
-                    .toList(),
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select gender.';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  //Do something when selected item is changed.
-                },
-                onSaved: (value) {
-                  selectedValue = value.toString();
-                },
-                buttonStyleData: const ButtonStyleData(
-                  padding: EdgeInsets.only(right: 8),
-                ),
-                iconStyleData: const IconStyleData(
-                  icon: Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.black45,
-                  ),
-                  iconSize: 24,
-                ),
-                dropdownStyleData: DropdownStyleData(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                ),
-              ),
-              const SizedBox(height: 30),
-              TextButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                  }
-                },
-                child: const Text('Submit Button'),
-              ),
-            ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          header,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            color: AppColors.primary,
           ),
         ),
-      ),
+        SizedBox(
+          height: 8.h,
+        ),
+        DropdownButtonFormField2<String>(
+          isExpanded: true,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 16.h),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+          ),
+          hint: Text(
+            'Pilih status',
+            style: TextStyle(fontSize: 14.sp, color: AppColors.lightGrey),
+          ),
+          items: statusTahapan
+              .map(
+                (item) => DropdownMenuItem(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
+                ),
+              )
+              .toList(),
+          validator: (value) {
+            if (value == null) {
+              return 'Pilih Status.';
+            }
+            return null;
+          },
+          onChanged: (value) {},
+          onSaved: (value) {
+            selectedValue = value.toString();
+          },
+          buttonStyleData: const ButtonStyleData(
+            padding: EdgeInsets.only(right: 8),
+          ),
+          dropdownStyleData: DropdownStyleData(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r)
+            ),
+          ),
+          menuItemStyleData: MenuItemStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 16.w)
+          ),
+        ),
+        SizedBox(height: 30.h,),
+
+      ],
     );
   }
 }
