@@ -4,6 +4,7 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_datepicker.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
+import 'package:tracking_apps/presentation/component/dropdown_form.dart';
 import 'package:tracking_apps/presentation/component/pdf_upload.dart';
 
 class UploadPage extends StatefulWidget {
@@ -75,7 +76,8 @@ Widget _body(BuildContext context) {
         SizedBox(
           height: 12.h,
         ),
-        const CustomDatePicker(header: 'Tanggal Masuk Berkas', hintText: 'Ex. 01/02/2024'),
+        const CustomDatePicker(
+            header: 'Tanggal Masuk Berkas', hintText: 'Ex. 01/02/2024'),
         SizedBox(
           height: 12.h,
         ),
@@ -88,10 +90,13 @@ Widget _body(BuildContext context) {
         ),
         const CustomTextField(
           hintText: 'Masukan nomor surat',
-          header: 'Pilih nomor surat',
+          header: 'Nomor Surat Mabes',
         ),
         SizedBox(
           height: 12.h,
+        ),
+        DropdownForm(
+          header: 'Pilih Status Tahapan',
         ),
         const PdfUpload(
           header: 'Dokumen Surat',
