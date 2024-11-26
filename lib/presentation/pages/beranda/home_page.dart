@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   child: ListView.separated(
                     shrinkWrap: true,
                     primary: false,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.zero,
                     itemBuilder: (context, index) {
                       return CardSurat(
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                DetailSuratPage(),
+                                const DetailSuratPage(),
                           ),
                         ),
                       );

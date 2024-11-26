@@ -56,7 +56,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             selectionControls: materialTextSelectionControls,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: TextStyle(color: AppColors.lightGrey),
+              hintStyle: const TextStyle(color: AppColors.lightGrey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
               ),

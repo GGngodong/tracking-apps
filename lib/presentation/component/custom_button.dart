@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isLogOut ? Color(0xFFAF4848) : AppColors.primary,
+          backgroundColor: isLogOut ? const Color(0xFFAF4848) : AppColors.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.r),
           ),

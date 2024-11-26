@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/main.dart';
 
 class TitleAuth extends StatelessWidget {
   final String firstText;

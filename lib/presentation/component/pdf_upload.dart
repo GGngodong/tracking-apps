@@ -79,7 +79,7 @@ class _PdfUploadState extends State<PdfUpload> {
                           ? Text(
                               _fileName!,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: AppColors.lightGrey,
                               ),
                             )
@@ -118,7 +118,7 @@ class _PdfUploadState extends State<PdfUpload> {
                       _isFileSelected
                           ? TextButton(
                               onPressed: _removeFile,
-                              child: Text(
+                              child: const Text(
                                 'Hapus dokumen',
                                 style: TextStyle(
                                   color: Colors.red,

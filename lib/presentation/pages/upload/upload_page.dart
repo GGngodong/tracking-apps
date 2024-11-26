@@ -61,39 +61,39 @@ Widget _body(BuildContext context) {
         SizedBox(
           height: 12.h,
         ),
-        CustomTextField(
+        const CustomTextField(
           hintText: 'Masukan deskripsi surat izin',
           header: 'Uraian',
         ),
         SizedBox(
           height: 12.h,
         ),
-        CustomTextField(
+        const CustomTextField(
           hintText: 'Masukan nomor surat',
           header: 'No. Surat',
         ),
         SizedBox(
           height: 12.h,
         ),
-        CustomDatePicker(header: 'Tanggal Masuk Berkas', hintText: 'Ex. 01/02/2024'),
+        const CustomDatePicker(header: 'Tanggal Masuk Berkas', hintText: 'Ex. 01/02/2024'),
         SizedBox(
           height: 12.h,
         ),
-        CustomTextField(
+        const CustomTextField(
           hintText: 'Masukan nama perusahaan',
           header: 'Nama Perusahaan',
         ),
         SizedBox(
           height: 12.h,
         ),
-        CustomTextField(
+        const CustomTextField(
           hintText: 'Masukan nomor surat',
           header: 'Pilih nomor surat',
         ),
         SizedBox(
           height: 12.h,
         ),
-        PdfUpload(
+        const PdfUpload(
           header: 'Dokumen Surat',
         ),
         SizedBox(

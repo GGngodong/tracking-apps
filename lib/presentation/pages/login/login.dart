@@ -9,7 +9,6 @@ import 'package:tracking_apps/presentation/component/header_title.dart';
 import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
 import 'package:tracking_apps/presentation/main_page.dart';
-import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
 import 'package:tracking_apps/presentation/pages/register/register.dart';
 
 class LoginPage extends StatefulWidget {
@@ -27,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     setState(() {
       _isLoading = false;
@@ -65,16 +64,16 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HeaderTitle(title: 'Masuk', subTitle: 'Selamat Datang!'),
+                      const HeaderTitle(title: 'Masuk', subTitle: 'Selamat Datang!'),
                       SizedBox(
                         height: 22.h,
                       ),
-                      CustomTextField(
+                      const CustomTextField(
                           hintText: 'Masukan email anda', header: 'Email'),
                       SizedBox(
                         height: 16.h,
                       ),
-                      CustomTextField(
+                      const CustomTextField(
                         hintText: 'Masukan password anda',
                         header: 'Password',
                         isPassword: true,
@@ -104,18 +103,18 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () => Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => MainPage(statusCode: 200),
+                            builder: (BuildContext context) => const MainPage(statusCode: 200),
                           ),
                         ), isLogOut: false,
                       ),
                       SizedBox(
                         height: 32.h,
                       ),
-                      DividerText(text: 'Masuk dengan'),
+                      const DividerText(text: 'Masuk dengan'),
                       SizedBox(
                         height: 32.h,
                       ),
-                      SocialMediaButton(),
+                      const SocialMediaButton(),
                       SizedBox(
                         height: 32.h,
                       ),
@@ -123,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                         fun: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => RegisterPage(),
+                            builder: (BuildContext context) => const RegisterPage(),
                           ),
                         ),
                         firstText: 'Belum mempunyai akun?',

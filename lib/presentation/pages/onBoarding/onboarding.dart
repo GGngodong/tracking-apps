@@ -6,7 +6,6 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/component/ink_effect.dart';
 import 'package:tracking_apps/presentation/component/onboarding_content.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tracking_apps/presentation/main_page.dart';
 import 'package:tracking_apps/presentation/pages/login/login.dart';
 
 class OnBoardingPage extends StatefulWidget {
