@@ -118,9 +118,10 @@ class _PdfUploadState extends State<PdfUpload> {
                       _isFileSelected
                           ? TextButton(
                               onPressed: _removeFile,
-                              child: const Text(
+                              child: Text(
                                 'Hapus dokumen',
                                 style: TextStyle(
+                                  fontSize: 12.sp,
                                   color: Colors.red,
                                   fontWeight: FontWeight.w700,
                                 ),
