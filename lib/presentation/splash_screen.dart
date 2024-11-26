@@ -29,6 +29,11 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
+  void dispose(){
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     getPrefs();
@@ -36,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    _controller.forward();
     return Scaffold(
         body: SizedBox(
       width: screenWidth(context),
