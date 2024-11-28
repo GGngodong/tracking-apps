@@ -25,6 +25,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   dropdown_button2: ^2.3.9
   file_picker: ^8.1.4
+  syncfusion_flutter_pdfviewer: ^27.2.4
 
 dev_dependencies:
   flutter_test:

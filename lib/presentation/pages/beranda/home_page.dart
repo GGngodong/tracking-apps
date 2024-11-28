@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/header.dart';
-import 'package:tracking_apps/presentation/component/search_bar_home_page.dart';
+import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/pages/listSurat/list_surat.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
             Stack(
               children: [
                 Header(
+                  heightSizedBox: 280.h,
                   imageBg: 'assets/home/dahana-gedung.png',
                   imageFg: 'assets/home/dahana.png',
                   height: 100.h,
@@ -46,17 +48,6 @@ class _HomePageState extends State<HomePage> {
                           maxWidth: MediaQuery.of(context).size.width,
                           minWidth: 0,
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 10.h,
-                          ),
-                          child: SearchBarHomePage(
-                            hintText: 'Cari Surat Izin',
-                            searchType: TypeSearchBar.withDropdownFilter,
-                            items: const ['OPS', 'DTM', 'DTU', 'DKK'],
-                          ),
-                        ),
                       )
                     ],
                   ),
@@ -72,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                     vertical: 16.h,
                   ),
                   child: Text(
-                    'Surat Izin',
+                    'Surat Izin Terbaru',
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
@@ -120,11 +111,33 @@ class _HomePageState extends State<HomePage> {
                         height: 10.h,
                       );
                     },
-                    itemCount: 3,
+                    itemCount: 5,
                   ),
                 ),
               ],
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: TextButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const ListSuratPage(),
+                  ),
+                ),
+                child: Text(
+                  'Lihat Selengkapnya',
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
           ],
         ),
       ),
