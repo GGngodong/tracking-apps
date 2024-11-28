@@ -89,10 +89,13 @@ class CardProfile extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 10.h,
+                ),
                 Text(
                   userName,
                   style: TextStyle(
-                    fontSize: 20.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                     color: AppColors.primary,
                   ),
@@ -100,7 +103,7 @@ class CardProfile extends StatelessWidget {
                 Text(
                   email,
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                     color: AppColors.primary,
                   ),
