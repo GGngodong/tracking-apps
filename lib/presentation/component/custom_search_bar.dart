@@ -6,7 +6,7 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 enum TypeSearchBar { regular, withClear, withDropdownFilter }
 
-class SearchBarHomePage extends StatefulWidget {
+class CustomSearchBar extends StatefulWidget {
   final TextEditingController? controller;
   EdgeInsets? margin = EdgeInsets.zero;
   Color? iconColor = AppColors.lightGrey;
@@ -18,7 +18,7 @@ class SearchBarHomePage extends StatefulWidget {
   final List<String> items;
   final TypeSearchBar searchType;
 
-  SearchBarHomePage(
+  CustomSearchBar(
       {this.margin,
       this.iconColor,
       this.controller,
@@ -31,10 +31,10 @@ class SearchBarHomePage extends StatefulWidget {
       super.key});
 
   @override
-  State<SearchBarHomePage> createState() => _SearchBarState();
+  State<CustomSearchBar> createState() => _SearchBarState();
 }
 
-class _SearchBarState extends State<SearchBarHomePage> {
+class _SearchBarState extends State<CustomSearchBar> {
   String? selectedValue;
   @override
   Widget build(BuildContext context) {
