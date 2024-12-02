@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/presentation/component/card_surat.dart';
+import 'package:tracking_apps/presentation/component/card_expanded.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
 
@@ -17,6 +17,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.whitePage,
+      // backgroundColor: Colors.amber,
       appBar: _appBar(),
       body: _body(context),
     );
@@ -65,26 +66,17 @@ Widget _body(BuildContext context) {
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
-            return CardSurat(
+            return CardExpanded(
               date: '28 Februari 2023',
               categorySurat: 'OPS',
               namaDokumen: 'Angkut Subang Bati',
               namaPerusahaan: 'PT Dahana',
               noSurat: 'B/008/I/2023/Korp-Jkt',
               noSuratIzinMabes: 'SI/1128/I/YAN.2.10./2023',
-              funcDownload: () {},
-              funcRead: () => Navigator.push(
+              fun: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                  const DetailSuratPage(),
-                ),
-              ),
-              detailSurat: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                  const DetailSuratPage(),
+                  builder: (BuildContext context) => const DetailSuratPage(),
                 ),
               ),
             );
@@ -94,7 +86,7 @@ Widget _body(BuildContext context) {
               height: 10.h,
             );
           },
-          itemCount: 3,
+          itemCount: 5,
         ),
       ],
     ),
