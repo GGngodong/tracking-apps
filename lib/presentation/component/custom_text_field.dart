@@ -6,12 +6,13 @@ class CustomTextField extends StatefulWidget {
   final String header;
   final String hintText;
   final bool isPassword;
+  final TextEditingController? textController;
 
   const CustomTextField(
       {super.key,
       required this.hintText,
       this.isPassword = false,
-      required this.header});
+      required this.header, this.textController});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -51,6 +52,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             height: 8.h,
           ),
           TextField(
+            controller: widget.textController,
             obscureText: widget.isPassword && !isPasswordVisible,
             cursorColor: AppColors.primary,
             selectionControls: materialTextSelectionControls,
