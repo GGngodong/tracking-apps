@@ -54,13 +54,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   CustomButton(
                     text: 'Sign up',
-                    onPressed: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const MainPage(statusCode: 200),
-                      ),
-                    ),
+                    // onPressed: () => Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (BuildContext context) =>
+                    //         const MainPage(statusCode: 200),
+                    //   ),
+                    // ),
+                    onPressed: (){},
                     isLogOut: false,
                   ),
                   SizedBox(
