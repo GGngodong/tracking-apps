@@ -7,25 +7,62 @@ import 'pages/notification/notification_page.dart';
 import 'pages/profile/profile_page.dart';
 import 'pages/upload/upload_page.dart';
 
-class MainPage extends StatefulWidget {
+class TestMainPage extends StatefulWidget {
   final int statusCode;
+  final bool isAdmin;
 
-  const MainPage({super.key, required this.statusCode});
+  const TestMainPage({super.key, required this.statusCode, required this.isAdmin});
 
   @override
-  State<MainPage> createState() => _HomePageState();
+  State<TestMainPage> createState() => _TestMainPageState();
 }
 
-enum NavBarMenu { Home, Upload, Notification, Profile }
-
-class _HomePageState extends State<MainPage> {
-  NavBarMenu navBarMenu = NavBarMenu.Home;
-  PageController pageController = PageController(initialPage: 0);
+class _TestMainPageState extends State<TestMainPage> {
   int _currentIndex = 0;
+  late final List<Widget> _pages;
+  late final List<BottomNavigationBarItem> _navBarItems;
 
   @override
   void initState() {
     super.initState();
+
+    // Initialize pages and navigation items based on admin status
+    if (widget.isAdmin) {
+      _pages = const [
+        HomePage(),
+        UploadPage(),
+        NotificationPage(),
+        ProfilePage(),
+      ];
+      _navBarItems = [
+        _buildNavBarItem('home'),
+        _buildNavBarItem('upload'),
+        _buildNavBarItem('notification'),
+        _buildNavBarItem('user'),
+      ];
+    } else {
+      _pages = const [
+        HomePage(),
+        NotificationPage(),
+        ProfilePage(),
+      ];
+      _navBarItems = [
+        _buildNavBarItem('home'),
+        _buildNavBarItem('notification'),
+        _buildNavBarItem('user'),
+      ];
+    }
+  }
+
+  BottomNavigationBarItem _buildNavBarItem(String iconName) {
+    return BottomNavigationBarItem(
+      activeIcon: Padding(
+        padding: EdgeInsets.only(bottom: 4.h),
+        child: ImageIcon(AssetImage('assets/icons/$iconName-selected.png')),
+      ),
+      icon: ImageIcon(AssetImage('assets/icons/$iconName-unselected.png')),
+      label: iconName.capitalize(),
+    );
   }
 
   @override
@@ -35,28 +72,9 @@ class _HomePageState extends State<MainPage> {
       bottom: false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Column(
-          children: [
-            Flexible(
-              flex: 9,
-              child: SizedBox(
-                width: double.infinity,
-                child: PageView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController,
-                  itemCount: 4,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    return _switchPage(index);
-                  },
-                ),
-              ),
-            ),
-          ],
+        body: IndexedStack(
+          index: _currentIndex,
+          children: _pages,
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -80,71 +98,15 @@ class _HomePageState extends State<MainPage> {
           onTap: (index) {
             setState(() {
               _currentIndex = index;
-              pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.ease,
-              );
             });
           },
-          items: [
-            BottomNavigationBarItem(
-              activeIcon: Padding(
-                padding: EdgeInsets.only(bottom: 4.h),
-                child: const ImageIcon(
-                    AssetImage('assets/icons/home-selected.png')),
-              ),
-              icon: const ImageIcon(
-                  AssetImage('assets/icons/home-unselected.png')),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Padding(
-                padding: EdgeInsets.only(bottom: 4.h),
-                child: const ImageIcon(
-                    AssetImage('assets/icons/upload-selected.png')),
-              ),
-              icon: const ImageIcon(
-                  AssetImage('assets/icons/upload-unselected.png')),
-              label: "Unggah",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Padding(
-                padding: EdgeInsets.only(bottom: 4.h),
-                child: const ImageIcon(
-                    AssetImage('assets/icons/notification-selected.png')),
-              ),
-              icon: const ImageIcon(
-                  AssetImage('assets/icons/notification-unselected.png')),
-              label: "Notifikasi",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Padding(
-                padding: EdgeInsets.only(bottom: 4.h),
-                child: const ImageIcon(
-                    AssetImage('assets/icons/user-selected.png')),
-              ),
-              icon: const ImageIcon(
-                  AssetImage('assets/icons/user-unselected.png')),
-              label: "Profil",
-            ),
-          ],
+          items: _navBarItems,
         ),
       ),
     );
   }
 }
 
-dynamic _switchPage(int index) {
-  switch (index) {
-    case 0:
-      return const HomePage();
-    case 1:
-      return const UploadPage();
-    case 2:
-      return const NotificationPage();
-    case 3:
-      return const ProfilePage();
-    default:
-  }
+extension StringExtension on String {
+  String capitalize() => '${this[0].toUpperCase()}${substring(1)}';
 }
