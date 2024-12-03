@@ -19,6 +19,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
   void _signIn() async {
@@ -32,9 +34,30 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = false;
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Sign In Successful!'),
-    ));
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    bool isAdmin = false;
+
+    if (email == 'dummy.admin@dahana.id' && password == 'admin') {
+      isAdmin = true;
+    } else if (email == 'dummy.user@dahana.id' && password == 'user') {
+      isAdmin = false;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid credentials!')),
+      );
+      return;
+    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TestMainPage(statusCode: 200, isAdmin: isAdmin),
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Sign In Successful!')),
+    );
   }
 
   @override
@@ -64,16 +87,21 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const HeaderTitle(title: 'Masuk', subTitle: 'Selamat Datang!'),
+                      const HeaderTitle(
+                          title: 'Masuk', subTitle: 'Selamat Datang!'),
                       SizedBox(
                         height: 22.h,
                       ),
-                      const CustomTextField(
-                          hintText: 'Masukan email anda', header: 'Email'),
+                      CustomTextField(
+                        textController: _emailController,
+                        hintText: 'Masukan email anda',
+                        header: 'Email',
+                      ),
                       SizedBox(
                         height: 16.h,
                       ),
-                      const CustomTextField(
+                      CustomTextField(
+                        textController: _passwordController,
                         hintText: 'Masukan password anda',
                         header: 'Password',
                         isPassword: true,
@@ -100,12 +128,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       CustomButton(
                         text: 'Sign In',
-                        onPressed: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => const MainPage(statusCode: 200),
-                          ),
-                        ), isLogOut: false,
+                        onPressed: _signIn,
+                        isLogOut: false,
                       ),
                       SizedBox(
                         height: 32.h,
@@ -122,7 +146,8 @@ class _LoginPageState extends State<LoginPage> {
                         fun: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) => const RegisterPage(),
+                            builder: (BuildContext context) =>
+                                const RegisterPage(),
                           ),
                         ),
                         firstText: 'Belum mempunyai akun?',
