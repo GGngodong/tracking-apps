@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/data/local/shared_pref_helper.dart';
 import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
 
 import 'pages/notification/notification_page.dart';
 import 'pages/profile/profile_page.dart';
 import 'pages/upload/upload_page.dart';
 
-class TestMainPage extends StatefulWidget {
-  final int statusCode;
+class MainPage extends StatefulWidget {
   final bool isAdmin;
 
-  const TestMainPage({super.key, required this.statusCode, required this.isAdmin});
+  const MainPage({super.key, required this.isAdmin});
 
   @override
-  State<TestMainPage> createState() => _TestMainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _TestMainPageState extends State<TestMainPage> {
+class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   late final List<Widget> _pages;
   late final List<BottomNavigationBarItem> _navBarItems;
+
 
   @override
   void initState() {

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/common/service_locator.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/data/model/sign_up_request_parameters.dart';
+import 'package:tracking_apps/domain/usecases/login_usecase.dart';
+import 'package:tracking_apps/domain/usecases/sign_up_usecase.dart';
+import 'package:tracking_apps/presentation/blocs/auth/login/login_user_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/divider_text.dart';
 import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
-import 'package:tracking_apps/presentation/main_page.dart';
 import 'package:tracking_apps/presentation/pages/login/login.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -17,6 +22,10 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,34 +43,54 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     height: 240.h,
                   ),
-                  const CustomTextField(
-                      hintText: 'Masukan username anda', header: 'Username'),
+                  CustomTextField(
+                    hintText: 'Masukan username anda',
+                    header: 'Username',
+                    textController: _usernameController,
+                  ),
                   SizedBox(
                     height: 16.h,
                   ),
-                  const CustomTextField(
-                      hintText: 'Masukan email anda', header: 'Email'),
+                  CustomTextField(
+                    hintText: 'Masukan email anda',
+                    header: 'Email',
+                    textController: _emailController,
+                  ),
                   SizedBox(
                     height: 16.h,
                   ),
-                  const CustomTextField(
+                  CustomTextField(
                     hintText: 'Masukan password anda',
                     header: 'Password',
                     isPassword: true,
+                    textController: _passwordController,
                   ),
                   SizedBox(
                     height: 46.h,
                   ),
                   CustomButton(
                     text: 'Sign up',
-                    // onPressed: () => Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (BuildContext context) =>
-                    //         const MainPage(statusCode: 200),
-                    //   ),
-                    // ),
-                    onPressed: (){},
+                    onPressed: () {
+                      sl<SignUpUseCase>().call(
+                        param: SignUpRequestParameters(
+                          username: _usernameController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        ),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              BlocProvider<LoginUserBloc>(
+                            create: (context) => LoginUserBloc(
+                              loginUseCase: sl<LoginUseCase>(),
+                            ),
+                            child: LoginPage(),
+                          ),
+                        ),
+                      );
+                    },
                     isLogOut: false,
                   ),
                   SizedBox(
