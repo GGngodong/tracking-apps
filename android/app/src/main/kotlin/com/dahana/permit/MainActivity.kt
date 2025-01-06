@@ -1,4 +1,4 @@
-package com.example.tracking_apps
+package com.dahana.permit
 
 import io.flutter.embedding.android.FlutterActivity
 
