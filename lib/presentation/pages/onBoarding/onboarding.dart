@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:tracking_apps/common/service_locator.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/domain/usecases/login_usecase.dart';
-import 'package:tracking_apps/presentation/blocs/auth/login/login_user_bloc.dart';
 import 'package:tracking_apps/presentation/component/ink_effect.dart';
 import 'package:tracking_apps/presentation/component/onboarding_content.dart';
 import 'package:tracking_apps/presentation/pages/login/login.dart';
@@ -106,12 +102,7 @@ class _OnboardingState extends State<OnBoardingPage> {
                                 context,
                                 PageRouteBuilder(pageBuilder:
                                     (context, animation, animationTime) {
-                                  return BlocProvider<LoginUserBloc>(
-                                    create: (context) => LoginUserBloc(
-                                      loginUseCase: sl<LoginUseCase>(),
-                                    ),
-                                    child: LoginPage(),
-                                  );
+                                  return LoginPage();
                                 }, transitionsBuilder: (context, animation,
                                     secondaryAnimation, child) {
                                   return FadeTransition(

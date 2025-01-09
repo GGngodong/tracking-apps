@@ -11,7 +11,6 @@ abstract class AuthApiService {
 
   Future<Either> login(LoginRequestParameters loginRequestParameters);
 
-  Future<Either> getUser(String token);
 }
 
 class AuthApiServiceImpl extends AuthApiService {
@@ -36,7 +35,7 @@ class AuthApiServiceImpl extends AuthApiService {
       return Left(e.response!.data['message']);
     }
   }
-  
+
   @override
   Future<Either> getUser(String token) async {
     try {
@@ -49,5 +48,5 @@ class AuthApiServiceImpl extends AuthApiService {
       return Left(e.response!.data['message']);
     }
   }
-  
+
 }

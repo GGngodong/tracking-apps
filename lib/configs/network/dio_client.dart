@@ -14,6 +14,8 @@ class DioClient {
           ),
         )..interceptors.addAll([LoggerInterceptors()]);
 
+  Dio get dio => _dio;
+
   Future<Response> get(
     String url, {
     Map<String, dynamic>? queryParameters,

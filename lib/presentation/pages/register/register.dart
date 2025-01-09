@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tracking_apps/common/service_locator.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/data/model/sign_up_request_parameters.dart';
-import 'package:tracking_apps/domain/usecases/login_usecase.dart';
-import 'package:tracking_apps/domain/usecases/sign_up_usecase.dart';
-import 'package:tracking_apps/presentation/blocs/auth/login/login_user_bloc.dart';
+import 'package:tracking_apps/lib/network/api_service.dart';
+
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/divider_text.dart';
@@ -25,6 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -70,24 +67,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   CustomButton(
                     text: 'Sign up',
-                    onPressed: () {
-                      sl<SignUpUseCase>().call(
-                        param: SignUpRequestParameters(
-                          username: _usernameController.text,
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        ),
-                      );
+                    onPressed: ()  {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              BlocProvider<LoginUserBloc>(
-                            create: (context) => LoginUserBloc(
-                              loginUseCase: sl<LoginUseCase>(),
-                            ),
-                            child: LoginPage(),
-                          ),
+                          builder: (context) => const LoginPage(),
                         ),
                       );
                     },

@@ -16,23 +16,23 @@ class LoginUserBloc extends Bloc<LoginUserEvent, LoginUserState> {
   }
 
   Future<void> _onLoginUserRequested(
-    LoginUserRequested event,
-    Emitter<LoginUserState> emit,
-  ) async {
+      LoginUserRequested event,
+      Emitter<LoginUserState> emit,
+      ) async {
     emit(LoginUserLoading());
     final result = await loginUseCase.call(
         param: LoginRequestParameters(
-      email: event.email,
-      password: event.password,
-    ));
+          email: event.email,
+          password: event.password,
+        ));
     result.fold(
-      (failure) => emit(LoginUserFailure(failure)),
-      (response) async {
-        final token = response['data']['token'];
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', token);
-        emit(LoginUserSuccess(response));
-      }
+            (failure) => emit(LoginUserFailure(failure)),
+            (response) async {
+          final token = response['data']['token'];
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', token);
+          emit(LoginUserSuccess(response));
+        }
     );
   }
 }

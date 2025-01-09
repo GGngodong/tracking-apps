@@ -1,6 +1,6 @@
 class BaseUrl {
-  // static const baseUrl = 'http://192.168.11.244:8000';
-  static const baseUrl = 'http://192.168.1.10:8000';
+  static const baseUrl = 'http://192.168.11.69:8000';
+  // static const baseUrl = 'http://192.168.1.10:8000';
   // USER
   static const register = '$baseUrl/api/dev/users';
   static const login = '$baseUrl/api/dev/users/login';
