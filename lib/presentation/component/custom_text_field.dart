@@ -6,14 +6,19 @@ class CustomTextField extends StatefulWidget {
   final String header;
   final String hintText;
   final bool isPassword;
+  final void Function(String)? onFieldSubmitted;
   final String? Function(String?)? validator;
   final TextEditingController? textController;
 
-  const CustomTextField(
-      {super.key,
-      required this.hintText,
-      this.isPassword = false,
-      required this.header, this.textController, this.validator});
+  const CustomTextField({
+    super.key,
+    required this.hintText,
+    this.isPassword = false,
+    required this.header,
+    this.textController,
+    this.validator,
+    this.onFieldSubmitted,
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -32,12 +37,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(
-        textSelectionTheme: TextSelectionThemeData(
-          cursorColor: AppColors.primary,
-          selectionColor: AppColors.primary.withOpacity(0.4),
-          selectionHandleColor: AppColors.primary,
-        )
-      ),
+          textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColors.primary,
+        selectionColor: AppColors.primary.withOpacity(0.4),
+        selectionHandleColor: AppColors.primary,
+      )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,6 +57,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             height: 8.h,
           ),
           TextFormField(
+            onFieldSubmitted: (value) {
+              widget.onFieldSubmitted != null ? widget.onFieldSubmitted!(value) : null;
+            },
             validator: widget.validator,
             controller: widget.textController,
             obscureText: widget.isPassword && !isPasswordVisible,
@@ -65,12 +72,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 borderRadius: BorderRadius.circular(10.r),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.r),
-                borderSide: BorderSide(
-                  color: AppColors.primary,
-                  width: 1.5.w
-                )
-              ),
+                  borderRadius: BorderRadius.circular(10.r),
+                  borderSide:
+                      BorderSide(color: AppColors.primary, width: 1.5.w)),
               alignLabelWithHint: false,
               suffixIcon: widget.isPassword
                   ? IconButton(
