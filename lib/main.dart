@@ -1,24 +1,35 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tracking_apps/presentation/pages/onBoarding/onboarding.dart';
+import 'package:tracking_apps/common/shared_preferance_service.dart';
+import 'package:tracking_apps/configs/route/route_manager.dart';
+import 'package:tracking_apps/presentation/blocs/custom_multi_bloc_provider.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
+  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesService.instance.init();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(const MyApp());
+  String? userRole = await SharedPreferencesService.instance.getData<String>(PreferenceKey.userRole);
+  runApp(
+    CustomMultiBlocProvider(
+      child: MyApp(userRole: userRole,),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String? userRole;
+  const MyApp({super.key, this.userRole});
 
   // This widget is the root of your application.
   @override
@@ -27,8 +38,9 @@ class MyApp extends StatelessWidget {
       designSize: const Size(390, 844),
       minTextAdapt: true,
       splitScreenMode: true,
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Dahana Tracking',
+        routerConfig: RouterManager.router(userRole: userRole),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             scaffoldBackgroundColor: Colors.white, fontFamily: 'Satoshi'),
@@ -40,7 +52,6 @@ class MyApp extends StatelessWidget {
             child: widget!,
           );
         },
-        home: const OnBoardingPage(),
       ),
     );
   }
