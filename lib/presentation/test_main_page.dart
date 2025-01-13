@@ -8,10 +8,10 @@ import 'pages/profile/profile_page.dart';
 import 'pages/upload/upload_page.dart';
 
 class TestMainPage extends StatefulWidget {
-  final int statusCode;
-  final bool isAdmin;
 
-  const TestMainPage({super.key, required this.statusCode, required this.isAdmin});
+  final String role;
+
+  const TestMainPage({super.key, required this.role});
 
   @override
   State<TestMainPage> createState() => _TestMainPageState();
@@ -63,8 +63,7 @@ class _TestMainPageState extends State<TestMainPage> {
   }
 
   List<Widget> _getPageList() {
-    // Return pages based on admin status
-    if (widget.isAdmin) {
+    if (widget.role == 'ADMIN') {
       return const [
         HomePage(),
         UploadPage(),
@@ -81,8 +80,7 @@ class _TestMainPageState extends State<TestMainPage> {
   }
 
   List<BottomNavigationBarItem> _getNavBarItems() {
-    // Return navigation bar items based on admin status
-    if (widget.isAdmin) {
+    if (widget.role == 'ADMIN') {
       return [
         BottomNavigationBarItem(
           activeIcon: Padding(

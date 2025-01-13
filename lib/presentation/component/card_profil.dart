@@ -19,20 +19,20 @@ class CardProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String typeRole;
     final TextStyle fontRoleStyle;
-    if (role == 'admin') {
+    if (role == 'ADMIN') {
       fontRoleStyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
-      typeRole = 'Admin';
-    } else if (role == 'user') {
+      typeRole = 'ADMIN';
+    } else if (role == 'USER') {
       fontRoleStyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
-      typeRole = 'User';
+      typeRole = 'USER';
     } else {
       fontRoleStyle = TextStyle(
         color: Colors.white,
@@ -68,7 +68,7 @@ class CardProfile extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: role == 'admin'
+                    color: role == 'ADMIN'
                         ? const Color(0xFFAF4848)
                         : const Color(0xff308c24),
                     borderRadius: BorderRadius.circular(16.r),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/data/local/shared_pref_helper.dart';
 import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
 
 import 'pages/notification/notification_page.dart';
@@ -9,9 +8,9 @@ import 'pages/profile/profile_page.dart';
 import 'pages/upload/upload_page.dart';
 
 class MainPage extends StatefulWidget {
-  final bool isAdmin;
+  final String role;
 
-  const MainPage({super.key, required this.isAdmin});
+  const MainPage({super.key, required this.role});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -22,13 +21,12 @@ class _MainPageState extends State<MainPage> {
   late final List<Widget> _pages;
   late final List<BottomNavigationBarItem> _navBarItems;
 
-
   @override
   void initState() {
     super.initState();
 
     // Initialize pages and navigation items based on admin status
-    if (widget.isAdmin) {
+    if (widget.role == 'ADMIN') {
       _pages = const [
         HomePage(),
         UploadPage(),

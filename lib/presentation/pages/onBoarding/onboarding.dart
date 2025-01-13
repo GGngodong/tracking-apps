@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
 import 'package:tracking_apps/presentation/component/ink_effect.dart';
 import 'package:tracking_apps/presentation/component/onboarding_content.dart';
 import 'package:tracking_apps/presentation/pages/login/login.dart';
@@ -98,19 +102,7 @@ class _OnboardingState extends State<OnBoardingPage> {
                               borderRadius: BorderRadius.circular(5.r),
                             ),
                             onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                PageRouteBuilder(pageBuilder:
-                                    (context, animation, animationTime) {
-                                  return LoginPage();
-                                }, transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                }),
-                              );
+                              context.go(Routes.login.path);
                             },
                             child: Container(
                               padding: EdgeInsets.only(
@@ -141,22 +133,7 @@ class _OnboardingState extends State<OnBoardingPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageRouteBuilder(
-                                      transitionDuration:
-                                          const Duration(seconds: 1),
-                                      pageBuilder:
-                                          (context, animation, animationTime) {
-                                        return const LoginPage();
-                                      },
-                                      transitionsBuilder: (context, animation,
-                                          secondaryAnimation, child) {
-                                        return FadeTransition(
-                                            opacity: animation, child: child);
-                                      },
-                                    ),
-                                  );
+                                  context.go(Routes.login.path);
                                 },
                                 child: Text(
                                   'Lewati',
