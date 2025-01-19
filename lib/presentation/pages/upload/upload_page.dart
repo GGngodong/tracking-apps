@@ -2,11 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/presentation/blocs/beranda/upload/upload_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_datepicker.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
@@ -32,15 +30,15 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
   }
 
   Future<void> _loadAuthToken() async {
-    final token = await SharedPreferencesService.instance.getData<String>(PreferenceKey.authToken);
+    final token = await SharedPreferencesService.instance
+        .getData<String>(PreferenceKey.authToken);
     setState(() {
       _authToken = token;
     });
   }
+
   @override
-
   Widget build(BuildContext context) {
-
     final UploadBloc _uploadBloc = BlocProvider.of<UploadBloc>(context);
     return BlocListener<UploadBloc, UploadState>(
       listener: (context, state) {
@@ -101,7 +99,6 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                         });
                       },
                     ),
-
                     SizedBox(
                       height: 12.h,
                     ),

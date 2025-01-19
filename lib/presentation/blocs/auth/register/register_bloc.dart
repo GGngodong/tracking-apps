@@ -48,45 +48,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       }
     });
 
-    on<CheckButtonPressed>((event, emit) async {
-      emit(const RegisterState(isLoading: true));
-      try {
-        HttpResponseModel<dynamic> checkResponse =
-            await userService.check(email: event.email);
-        if (checkResponse.data != null) {
-          if (!checkResponse.data) {
-            int? verificationCode =
-                await FirebaseService.sendVerificationCode(toMail: event.email);
-            emit(
-              CheckSuccess(
-                username: event.username,
-                email: event.email,
-                password: event.password,
-                verificationCode: verificationCode,
-                isLoading: false,
-                message: checkResponse.message,
-                data: checkResponse.data,
-              ),
-            );
-          } else {
-            emit(
-              CheckSuccess(
-                username: event.username,
-                email: event.email,
-                password: event.password,
-                isLoading: false,
-                data: checkResponse.data,
-                message: checkResponse.message,
-              ),
-            );
-          }
-        }
-      } catch (error) {
-        emit(CheckFailed(
-            message: error.toString(), isLoading: false, data: null));
-      }
-    });
-
 
     on<ClearRegisterData>((event, emit) async {
       emit(const RegisterState());
