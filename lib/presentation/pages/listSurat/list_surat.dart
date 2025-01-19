@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_expanded.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
+import 'package:tracking_apps/presentation/component/skeleton_card.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
 
 class ListSuratPage extends StatefulWidget {
@@ -13,82 +17,156 @@ class ListSuratPage extends StatefulWidget {
 }
 
 class _ListSuratPageState extends State<ListSuratPage> {
+  String? _authToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAuthToken();
+    _fetchPermitLetters();
+  }
+
+  Future<void> _loadAuthToken() async {
+    final token = await SharedPreferencesService.instance
+        .getData<String>(PreferenceKey.authToken);
+    setState(() {
+      _authToken = token;
+    });
+    if (token != null) {
+      _fetchPermitLetters();
+    }
+  }
+
+  void _fetchPermitLetters() {
+    if (_authToken != null) {
+      context.read<PermitLetterBloc>().add(GetPermitLetter());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.whitePage,
-      // backgroundColor: Colors.amber,
       appBar: _appBar(),
-      body: _body(context),
+      body: BlocListener<PermitLetterBloc, PermitLetterState>(
+        listener: (context, state) {
+          if (state is PermitLetterFailedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Fetching failed: ${state.message}')),
+            );
+          }
+        },
+        child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
+          builder: (context, state) {
+            if (state is PermitLetterLoadingState || state.isLoading) {
+              return _loadingBody();
+            } else if (state is PermitLetterLoadedState) {
+              return _loadedBody(state);
+            } else if (state is PermitLetterFailedState) {
+              return _failedBody(state);
+            } else {
+              return _loadingBody();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      title: Text(
+        'List Surat',
+        style: TextStyle(
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
+      ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(gradient: headerAppBar),
+      ),
+      centerTitle: true,
+      elevation: 0,
+    );
+  }
+
+  Widget _loadingBody() {
+    print('================== IN PERMIT LOADING ==================');
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: SkeletonCard(),
+    );
+  }
+
+  Widget _loadedBody(PermitLetterLoadedState state) {
+    print('================== IN PERMIT LOADED ==================');
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 30.h),
+          CustomSearchBar(
+            hintText: 'Cari Surat Izin',
+            searchType: TypeSearchBar.withDropdownFilter,
+            items: const ['OPS', 'DTM', 'DTU', 'DKK'],
+          ),
+          SizedBox(height: 20.h),
+          ListView.separated(
+            shrinkWrap: true,
+            primary: false,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) {
+              final permit = state.listPermitLetter[index];
+              return CardExpanded(
+                date: permit.date,
+                categorySurat: permit.categoryPermit,
+                namaDokumen: permit.description,
+                namaPerusahaan: permit.companyName,
+                noSurat: permit.noPermit,
+                noSuratIzinMabes:
+                permit.noPermitMabes ?? 'Belum Terbit',
+                fun: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const DetailSuratPage(),
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) => SizedBox(height: 10.h),
+            itemCount: state.listPermitLetter.length,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _failedBody(PermitLetterFailedState state) {
+    print('================== IN PERMIT FAILED ==================');
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Failed to fetch data',
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+          ),
+          SizedBox(height: 10.h),
+          Text(
+            state.message ?? 'Unknown error occurred',
+            style: TextStyle(fontSize: 14.sp, color: Colors.red),
+          ),
+          SizedBox(height: 20.h),
+          ElevatedButton(
+            onPressed: _fetchPermitLetters,
+            child: Text('Retry'),
+          ),
+        ],
+      ),
     );
   }
 }
 
-AppBar _appBar() {
-  return AppBar(
-    title: Text(
-      'List Surat',
-      style: TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
-      ),
-    ),
-    flexibleSpace: Container(
-      decoration: BoxDecoration(gradient: headerAppBar),
-    ),
-    centerTitle: true,
-    elevation: 0,
-  );
-}
-
-Widget _body(BuildContext context) {
-  return SingleChildScrollView(
-    padding: EdgeInsets.symmetric(horizontal: 16.w),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 30.h,
-        ),
-        CustomSearchBar(
-          hintText: 'Cari Surat Izin',
-          searchType: TypeSearchBar.withDropdownFilter,
-          items: const ['OPS', 'DTM', 'DTU', 'DKK'],
-        ),
-        SizedBox(
-          height: 20.h,
-        ),
-        ListView.separated(
-          shrinkWrap: true,
-          primary: false,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemBuilder: (context, index) {
-            return CardExpanded(
-              date: '28 Februari 2023',
-              categorySurat: 'OPS',
-              namaDokumen: 'Angkut Subang Bati',
-              namaPerusahaan: 'PT Dahana',
-              noSurat: 'B/008/I/2023/Korp-Jkt',
-              noSuratIzinMabes: 'SI/1128/I/YAN.2.10./2023',
-              fun: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const DetailSuratPage(),
-                ),
-              ),
-            );
-          },
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              height: 10.h,
-            );
-          },
-          itemCount: 5,
-        ),
-      ],
-    ),
-  );
-}
