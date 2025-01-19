@@ -47,7 +47,7 @@ mixin RegisterMixin on State<RegisterPage> {
     if (state is CheckSuccess) {
       if (state.data != null && !state.data!) {
         if (state.verificationCode != null) {
-          context.go(Routes.verify.path);
+          context.go(Routes.login.path);
         }
       } else {
         AppHelper.alertDialogMessage(context: context, content: LocaleKeys.user_exists_message.tr());
