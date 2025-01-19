@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
@@ -5,14 +6,15 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 class CustomDatePicker extends StatefulWidget {
   final String header;
   final String hintText;
+  final DateTime? initialDateTime;
   final Function(DateTime)? onDateSelected;
 
-  const CustomDatePicker({
-    super.key,
-    required this.header,
-    required this.hintText,
-    this.onDateSelected,
-  });
+  const CustomDatePicker(
+      {super.key,
+      required this.header,
+      required this.hintText,
+      this.onDateSelected,
+      this.initialDateTime});
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -21,8 +23,15 @@ class CustomDatePicker extends StatefulWidget {
 class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime? selectedDate;
 
+  @override
+  void initState() {
+    selectedDate = widget.initialDateTime ?? DateTime.now();
+    super.initState();
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
+      locale: const Locale('id', 'ID'),
       context: context,
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
@@ -44,9 +53,13 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       setState(() {
         selectedDate = picked;
       });
+      final String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+
       if (widget.onDateSelected != null) {
-        widget.onDateSelected!(picked);
+        widget.onDateSelected!(DateTime(picked.year, picked.month, picked.day));
       }
+      print("Selected date: $picked");
+      print("Selected date (formatted): $formattedDate");
     }
   }
 
@@ -91,9 +104,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                     ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
                     : widget.hintText,
                 style: TextStyle(
-                  color: selectedDate != null
-                      ? Colors.black
-                      : AppColors.lightGrey,
+                  color:
+                      selectedDate != null ? Colors.black : AppColors.lightGrey,
                   fontSize: 14.sp,
                 ),
               ),
