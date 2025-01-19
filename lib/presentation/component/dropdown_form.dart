@@ -3,19 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
-class DropdownForm extends StatelessWidget {
+class DropdownForm extends StatefulWidget {
   final String header;
+  final Function onCategoryChanged;
+  final TextEditingController textEditingController;
+
+  DropdownForm(
+      {super.key, required this.header, required this.onCategoryChanged, required this.textEditingController});
+
+  @override
+  State<DropdownForm> createState() => _DropdownFormState();
+}
+
+class _DropdownFormState extends State<DropdownForm> {
   final List<String> statusTahapan = [
-    'Dalam proses',
-    'Terverifikasi',
-    'Tanda Tangan',
-    'Di tolak'
+    'OPS',
+    'DTU',
+    'DTM',
+    'DKK'
   ];
 
   String? selectedValue;
-  final _formKey = GlobalKey<FormState>();
 
-  DropdownForm({super.key, required this.header});
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +33,7 @@ class DropdownForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          header,
+          widget.header,
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
@@ -41,7 +51,7 @@ class DropdownForm extends StatelessWidget {
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
           ),
           hint: Text(
-            'Pilih status',
+            'Kategori surat',
             style: TextStyle(fontSize: 14.sp, color: AppColors.lightGrey),
           ),
           items: statusTahapan
@@ -57,11 +67,20 @@ class DropdownForm extends StatelessWidget {
               .toList(),
           validator: (value) {
             if (value == null) {
-              return 'Pilih Status.';
+              return 'Kategori surat.';
             }
             return null;
           },
-          onChanged: (value) {},
+          onChanged: (String? value) {
+            if (value != null) {
+              widget.textEditingController.text = value;
+              setState(() {
+                selectedValue = value;
+              });
+            } else {
+              widget.textEditingController.clear();
+            }
+          },
           onSaved: (value) {
             selectedValue = value.toString();
           },
@@ -69,16 +88,15 @@ class DropdownForm extends StatelessWidget {
             padding: EdgeInsets.only(right: 8),
           ),
           dropdownStyleData: DropdownStyleData(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.r)
-            ),
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(10.r)),
           ),
           menuItemStyleData: MenuItemStyleData(
-            padding: EdgeInsets.symmetric(horizontal: 16.w)
-          ),
+              padding: EdgeInsets.symmetric(horizontal: 16.w)),
         ),
-        SizedBox(height: 30.h,),
-
+        SizedBox(
+          height: 30.h,
+        ),
       ],
     );
   }
