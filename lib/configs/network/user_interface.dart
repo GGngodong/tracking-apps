@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
 import 'http_response_model.dart';
@@ -9,21 +8,14 @@ abstract class UserInterface {
 
   Future<HttpResponseModel> validate({required String token});
 
+  Future<HttpResponseModel> update({required UserModel userModel});
+
   Future<HttpResponseModel> create(
       {required String username,
       required String email,
       required String password});
 
-  Future<HttpResponseModel> getById({required String id});
-
-  Future<HttpResponseModel> update({required UserModel userModel});
-
-  Future<HttpResponseModel> updatePassword(
-      {required String userId, required String password});
-
   Future<HttpResponseModel> delete({required String id});
-
-  Future<HttpResponseModel> check({required String email});
 
   //////////////////////////////////////// PERMIT MODULE ////////////////////////////////////////
 
@@ -44,5 +36,9 @@ abstract class UserInterface {
     required String categoryPermit,
     required String companyName,
     required String noPermitMabes,
+  });
+
+  Future<HttpResponseModel> getListPermit({
+    required String authToken,
   });
 }

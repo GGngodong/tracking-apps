@@ -7,6 +7,7 @@ import 'package:mime/mime.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/network/user_interface.dart';
+import 'package:tracking_apps/domain/entity/permit_list_response.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
@@ -120,14 +121,17 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> update({required UserModel userModel}) async {
+  Future<HttpResponseModel> validate({required String token}) async {
     try {
-      var url = Uri.parse('$_baseUrl/users/${userModel.id}');
-      var response = await http.put(
+      var url = Uri.parse('$_baseUrl/dev/users/current');
+      var response = await http.get(
         url,
-        body: jsonEncode({
-          'username': userModel.userName,
-        }),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Accept': 'application/json;charset=UTF-8',
+          'Charset': 'utf-8',
+          'Authorization': 'Bearer $token',
+        },
       );
 
       return HttpResponseModel(
@@ -143,17 +147,14 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> validate({required String token}) async {
+  Future<HttpResponseModel> update({required UserModel userModel}) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/users/current');
-      var response = await http.get(
+      var url = Uri.parse('$_baseUrl/users/${userModel.id}');
+      var response = await http.put(
         url,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Accept': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
-          'Authorization': 'Bearer $token',
-        },
+        body: jsonEncode({
+          'username': userModel.userName,
+        }),
       );
 
       return HttpResponseModel(
@@ -182,51 +183,40 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> check({required String email}) async {
+  Future<HttpResponseModel<PermitListResponse>> getListPermit({
+    required String authToken,
+  }) async {
     try {
-      var url = Uri.parse('$_baseUrl/users/check/$email');
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/');
       var response = await http.get(
         url,
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'Accept': 'application/json;charset=UTF-8',
           'Charset': 'utf-8',
+          'Authorization': 'Bearer $authToken',
         },
       );
 
-      return HttpResponseModel(
-        statusCode: response.statusCode,
-        data: jsonDecode(response.body)["data"],
-        message: jsonDecode(response.body)["message"],
-      );
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final permitListResponse =
+        PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: permitListResponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message: jsonDecode(response.body)['message'] ?? 'Error fetching permits',
+          status: 'error',
+        );
+      }
     } catch (e) {
-      return HttpResponseModel(
-        message: 'An error occurred: $e',
-      );
-    }
-  }
-
-  @override
-  Future<HttpResponseModel> updatePassword(
-      {required String userId, required String password}) async {
-    try {
-      var url = Uri.parse('$_baseUrl/users/$userId');
-      var response = await http.put(
-        url,
-        body: jsonEncode({
-          'password': password,
-        }),
-      );
-
-      return HttpResponseModel(
-        statusCode: response.statusCode,
-        data: jsonDecode(response.body)["data"],
-        message: jsonDecode(response.body)["message"],
-      );
-    } catch (e) {
-      return HttpResponseModel(
-        message: 'An error occurred: $e',
-      );
+      return HttpResponseModel(message: 'Error Fetching Data $e');
     }
   }
 
