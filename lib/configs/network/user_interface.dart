@@ -29,11 +29,20 @@ abstract class UserInterface {
 
   Future<HttpResponseModel> createPermit({
     required String description,
-    required String noLetter,
+    required String noPermit,
     required String categoryPermit,
     required String companyName,
-    required DateFormat date,
-    required String productNoMabes,
-    required String document,
+    required String date,
+    required String authToken,
+    String? noPermitMabes,
+    required String documentUrl,
+  });
+
+  Future<HttpResponseModel> updatePermit({
+    required String description,
+    required String noPermit,
+    required String categoryPermit,
+    required String companyName,
+    required String noPermitMabes,
   });
 }

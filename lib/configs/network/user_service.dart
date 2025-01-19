@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/src/intl/date_format.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/network/user_interface.dart';
+import 'package:tracking_apps/domain/entity/permit_model.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
 class UserService extends UserInterface {
@@ -229,14 +231,97 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> createPermit({
+  Future<HttpResponseModel<PermitModel>> createPermit({
     required String description,
-    required String noLetter,
+    required String noPermit,
     required String categoryPermit,
     required String companyName,
-    required DateFormat date,
-    required String productNoMabes,
-    required String document,
+    required String date,
+    required String authToken,
+    String? noPermitMabes,
+    required String documentUrl,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/upload');
+      var request = http.MultipartRequest('POST', url);
+
+      request.fields['uraian'] = description;
+      request.fields['no_surat'] = noPermit;
+      request.fields['kategori_permit_letter'] = categoryPermit;
+      request.fields['nama_pt'] = companyName;
+      request.fields['tanggal'] = date;
+      if (noPermitMabes != null) {
+        request.fields['produk_no_surat_mabes'] = noPermitMabes;
+      }
+      request.headers['Authorization'] = 'Bearer $authToken';
+      final mimeType = lookupMimeType(documentUrl);
+
+      if (documentUrl != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'dokumen',
+          documentUrl,
+          contentType: mimeType != null ? MediaType.parse(mimeType) : null,
+        ));
+      }
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+        print('Response Body: ${response.body}');
+
+        final data = responseBody['data'];
+        if (data != null && data is Map<String, dynamic>) {
+          try {
+            final permitData = PermitModel.fromMap(data);
+            return HttpResponseModel<PermitModel>(
+              statusCode: response.statusCode,
+              data: permitData,
+              status: responseBody['status'] as String?,
+              message: responseBody['message'] as String?,
+            );
+          } catch (e) {
+            print('Error during PermitModel parsing: $e');
+            return HttpResponseModel<PermitModel>(
+              statusCode: response.statusCode,
+              data: null,
+              status: responseBody['status'] as String?,
+              message: 'Error parsing data: $e',
+            );
+          }
+        } else {
+          return HttpResponseModel<PermitModel>(
+            statusCode: response.statusCode,
+            data: null,
+            status: responseBody['status'] as String?,
+            message: 'Invalid or missing data field in response',
+          );
+        }
+      } else {
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+        print('Response Body: ${response.body}');
+        return HttpResponseModel<PermitModel>(
+          statusCode: response.statusCode,
+          data: null,
+          status: responseBody['status'] as String?,
+          message: responseBody['message'] as String? ?? 'Unknown error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(
+        message: 'An error occurred: $e',
+      );
+    }
+  }
+
+  @override
+  Future<HttpResponseModel> updatePermit({
+    required String description,
+    required String noPermit,
+    required String categoryPermit,
+    required String companyName,
+    String? noPermitMabes,
   }) async {
     try {
       var url = Uri.parse('$_baseUrl/dev/permit-letters/upload');
@@ -248,12 +333,10 @@ class UserService extends UserInterface {
         },
         body: jsonEncode({
           'uraian': description,
-          'no_surat': noLetter,
+          'no_surat': noPermit,
           'kategori_permit_letter': categoryPermit,
           'nama_pt': companyName,
-          'tanggal': date,
-          'produk_no_surat_mabes': productNoMabes,
-          'dokumen': document
+          'produk_no_surat_mabes': noPermitMabes,
         }),
       );
       return HttpResponseModel(
