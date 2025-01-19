@@ -44,7 +44,6 @@ final class RouterManager {
         GoRoute(
           path: Routes.uploadData.path,
           builder: (context, state) => UploadPage()
-
         ),
         GoRoute(
             path: Routes.notification.path,

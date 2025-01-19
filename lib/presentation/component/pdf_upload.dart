@@ -5,8 +5,9 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class PdfUpload extends StatefulWidget {
   final String header;
+  final Function onFileSelected;
 
-  const PdfUpload({super.key, required this.header});
+  const PdfUpload({super.key, required this.header, required this.onFileSelected});
 
   @override
   State<PdfUpload> createState() => _PdfUploadState();
@@ -25,6 +26,8 @@ class _PdfUploadState extends State<PdfUpload> {
         _fileName = result.files.single.name;
         _isFileSelected = true;
       });
+
+      widget.onFileSelected(result.files.single.path);
     }
   }
 
@@ -33,6 +36,8 @@ class _PdfUploadState extends State<PdfUpload> {
       _fileName = null;
       _isFileSelected = false;
     });
+
+    widget.onFileSelected(null);
   }
 
   @override

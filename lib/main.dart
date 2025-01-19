@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/route/route_manager.dart';
 import 'package:tracking_apps/presentation/blocs/custom_multi_bloc_provider.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -39,6 +39,15 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp.router(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: [
+          Locale('en', ''),
+          Locale('id', '')
+        ],
         title: 'Dahana Tracking',
         routerConfig: RouterManager.router(userRole: userRole),
         debugShowCheckedModeBanner: false,

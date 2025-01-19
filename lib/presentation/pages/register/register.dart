@@ -90,12 +90,12 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                           text: 'Sign up',
                           onPressed: ()  {
                             _submit(registerBloc);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              )
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const LoginPage(),
+                            //   )
+                            // );
                           },
                           isLogOut: false,
                           isLoading: state.isLoading,
