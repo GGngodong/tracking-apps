@@ -61,6 +61,26 @@ class AppHelper {
     return HttpResponseModel(statusCode: 200);
   }
 
+  static HttpResponseModel checkUploadedData(
+      {required String description,
+      required String noPermit,
+      required companyName}) {
+    if (!Constant.descriptionRegex.hasMatch(description)) {
+      return HttpResponseModel(
+          statusCode: 401, message: 'Enter The Valid Description');
+    }
+    if (!Constant.noPermitRegex.hasMatch(noPermit)) {
+      return HttpResponseModel(
+          statusCode: 401, message: 'Enter The Valid Nomor Permit');
+    }
+    if (!Constant.companyNameRegex.hasMatch(companyName)) {
+      return HttpResponseModel(
+          statusCode: 401, message: 'Enter The Valid Nama PT');
+    } else {
+      return HttpResponseModel(statusCode: 200);
+    }
+  }
+
   static void alertDialogMessage({
     required BuildContext context,
     String? title,
@@ -96,5 +116,22 @@ class AppHelper {
         );
       },
     );
+  }
+
+  static List<int> category = [1, 2, 3, 4];
+
+  static String getCategory(int value) {
+    switch (value) {
+      case 1:
+        return 'OPS';
+      case 2:
+        return 'DTM';
+      case 3:
+        return 'DTU';
+      case 4:
+        return 'DKK';
+      default:
+        return 'No Category';
+    }
   }
 }
