@@ -6,6 +6,7 @@ enum Routes {
   notification('/notification'),
   login('/login'),
   register('/register'),
+  listPermit('/list_permit'),
   verify('/verify'),
   profile('/profile'),
   settings('/settings'),
