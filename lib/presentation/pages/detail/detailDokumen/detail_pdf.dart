@@ -4,7 +4,8 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class DetailPDFPage extends StatefulWidget {
-  const DetailPDFPage({super.key});
+  final String documentUrl;
+  const DetailPDFPage({super.key, required this.documentUrl});
 
   @override
   State<DetailPDFPage> createState() => _DetailPDFPageState();
@@ -18,7 +19,7 @@ class _DetailPDFPageState extends State<DetailPDFPage> {
       appBar: _appBar(),
       body: Container(
         child: SfPdfViewer.network(
-            'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'),
+            widget.documentUrl),
       ),
     );
   }
