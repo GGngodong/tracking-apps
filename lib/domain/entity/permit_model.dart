@@ -36,18 +36,17 @@ class PermitModel {
   factory PermitModel.fromMap(Map<String, dynamic> map) {
     return PermitModel(
       id: map['id'].toString(),
-      description: map['uraian'] ?? '',
-      noPermit: map['no_surat'] ?? '',
-      date: map['tanggal'] ?? '',
-      categoryPermit: map['kategori_permit_letter'] ?? '',
-      companyName: map['nama_pt'] ?? '',
+      description: map['uraian'] ?? 'No Description',
+      noPermit: map['no_surat'] ?? 'No Nomer Permit',
+      date: map['tanggal'] ?? 'No Date',
+      categoryPermit: map['kategori_permit_letter'] ?? 'No Category Permit',
+      companyName: map['nama_pt'] ?? 'No Company Name',
       noPermitMabes: map['produk_no_surat_mabes']?.toString(),
-      documentUrl: map['dokumen_url'] ?? '',
+      documentUrl: map['dokumen_url'] ?? 'No Document Url',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory PermitModel.fromJson(String source) =>
-      PermitModel.fromMap(json.decode(source));
+  factory PermitModel.fromJson(String source) => PermitModel.fromMap(json.decode(source));
 }

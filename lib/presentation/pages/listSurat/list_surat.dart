@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_expanded.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
@@ -126,14 +127,24 @@ class _ListSuratPageState extends State<ListSuratPage> {
                 namaDokumen: permit.description,
                 namaPerusahaan: permit.companyName,
                 noSurat: permit.noPermit,
-                noSuratIzinMabes:
-                permit.noPermitMabes ?? 'Belum Terbit',
-                fun: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => const DetailSuratPage(),
-                  ),
-                ),
+                noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
+                fun: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, profileState) {
+                          print('================= PERMIT ${permit.id} ================= ');
+                          return DetailSuratPage(
+                            role: profileState.user!.role,
+                            id: permit.id,
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
               );
             },
             separatorBuilder: (context, index) => SizedBox(height: 10.h),
@@ -169,4 +180,3 @@ class _ListSuratPageState extends State<ListSuratPage> {
     );
   }
 }
-

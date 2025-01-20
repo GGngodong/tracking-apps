@@ -41,4 +41,8 @@ abstract class UserInterface {
   Future<HttpResponseModel> getListPermit({
     required String authToken,
   });
+
+  Future<HttpResponseModel> getDetailPermit({
+    required String id, required String authToken,
+  });
 }
