@@ -221,6 +221,44 @@ class UserService extends UserInterface {
   }
 
   @override
+  Future<HttpResponseModel<PermitModel>> getDetailPermit({
+    required String authToken, required String id
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/$id');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Accept': 'application/json;charset=UTF-8',
+          'Charset': 'utf-8',
+          'Authorization': 'Bearer $authToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('API Response: ${response.body}');
+        final jsonResponse = jsonDecode(response.body);
+        final permitModel = PermitModel.fromMap(jsonResponse['data']);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: permitModel,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message: jsonDecode(response.body)['message'] ?? 'Error fetching permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
   Future<HttpResponseModel<PermitModel>> createPermit({
     required String description,
     required String noPermit,
