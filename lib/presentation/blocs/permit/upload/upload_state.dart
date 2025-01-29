@@ -40,25 +40,3 @@ class UploadFailed extends UploadState {
   List<Object?> get props => [message, isLoading, statusCode];
 }
 
-
-class UpdateUploadDataSuccess extends UploadState {
-  const UpdateUploadDataSuccess({
-    super.message,
-    super.isLoading,
-    super.statusCode,
-  });
-
-  @override
-  List<Object?> get props => [message, isLoading, statusCode];
-}
-
-class UpdateUploadDataFailed extends UploadState {
-  const UpdateUploadDataFailed({
-    super.message,
-    super.isLoading,
-    super.statusCode,
-  });
-
-  @override
-  List<Object?> get props => [message, isLoading, statusCode];
-}

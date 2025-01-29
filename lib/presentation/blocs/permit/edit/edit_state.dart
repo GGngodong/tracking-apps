@@ -1,11 +1,11 @@
-part of 'get_detail_permit_bloc.dart';
+part of 'edit_bloc.dart';
 
-class DetailPermitLetterState extends Equatable {
+class EditState extends Equatable {
   final String? message;
   final bool isLoading;
   final int? statusCode;
 
-  const DetailPermitLetterState({
+  const EditState({
     this.message,
     this.isLoading = false,
     this.statusCode,
@@ -15,12 +15,12 @@ class DetailPermitLetterState extends Equatable {
   List<Object?> get props => [message, isLoading, statusCode];
 }
 
-class DetailPermitLetterLoadingState extends DetailPermitLetterState {}
+class EditLoadingState extends EditState {}
 
-class DetailPermitLetterLoadedState extends DetailPermitLetterState {
+class EditSuccessState extends EditState {
   final PermitModel permit;
 
-  const DetailPermitLetterLoadedState({
+  const EditSuccessState({
     required this.permit,
     super.message,
     super.isLoading,
@@ -29,14 +29,25 @@ class DetailPermitLetterLoadedState extends DetailPermitLetterState {
 
   @override
   List<Object?> get props => [permit, message, isLoading, statusCode];
+
 }
 
-class DetailPermitLetterFailedState extends DetailPermitLetterState {
-
-  const DetailPermitLetterFailedState({
-    super.statusCode,
+class EditFailedState extends EditState {
+  const EditFailedState({
     super.message,
     super.isLoading,
+    super.statusCode,
+  });
+
+  @override
+  List<Object?> get props => [message, isLoading, statusCode];
+}
+
+class DeleteSuccessState extends EditState {
+  const DeleteSuccessState({
+    super.message,
+    super.isLoading,
+    super.statusCode,
   });
 
   @override

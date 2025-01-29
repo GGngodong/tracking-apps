@@ -10,6 +10,7 @@ class CardExpanded extends StatefulWidget {
   final String namaPerusahaan;
   final String noSurat;
   final String noSuratIzinMabes;
+  final String processStatus;
 
   const CardExpanded(
       {super.key,
@@ -19,6 +20,7 @@ class CardExpanded extends StatefulWidget {
       required this.namaPerusahaan,
       required this.noSurat,
       required this.noSuratIzinMabes,
+      required this.processStatus,
       required this.fun});
 
   @override
@@ -76,7 +78,7 @@ class _CardExpandedState extends State<CardExpanded> {
           SizedBox(
             height: 10.h,
           ),
-          _buildRow('Status', widget.namaDokumen),
+          _buildRow('Status', widget.processStatus),
           SizedBox(
             height: 20.h,
           ),

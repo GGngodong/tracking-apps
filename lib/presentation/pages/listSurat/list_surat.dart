@@ -128,19 +128,16 @@ class _ListSuratPageState extends State<ListSuratPage> {
                 namaPerusahaan: permit.companyName,
                 noSurat: permit.noPermit,
                 noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
+                processStatus: permit.processStatus,
                 fun: () {
+                  final profileState = context.read<ProfileBloc>().state;
+                  final role = profileState.user!.role;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          BlocBuilder<ProfileBloc, ProfileState>(
-                        builder: (context, profileState) {
-                          print('================= PERMIT ${permit.id} ================= ');
-                          return DetailSuratPage(
-                            role: profileState.user!.role,
-                            id: permit.id,
-                          );
-                        },
+                      builder: (BuildContext context) => DetailSuratPage(
+                        id: permit.id.toString(),
+                        role: role,
                       ),
                     ),
                   );

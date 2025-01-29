@@ -201,7 +201,7 @@ class UserService extends UserInterface {
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
         final permitListResponse =
-        PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
         return HttpResponseModel(
           statusCode: response.statusCode,
           data: permitListResponse,
@@ -211,7 +211,8 @@ class UserService extends UserInterface {
       } else {
         return HttpResponseModel(
           statusCode: response.statusCode,
-          message: jsonDecode(response.body)['message'] ?? 'Error fetching permits',
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error fetching permits',
           status: 'error',
         );
       }
@@ -221,9 +222,8 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel<PermitModel>> getDetailPermit({
-    required String authToken, required String id
-  }) async {
+  Future<HttpResponseModel<PermitModel>> getDetailPermit(
+      {required String authToken, required String id}) async {
     try {
       var url = Uri.parse('$_baseUrl/dev/permit-letters/$id');
       var response = await http.get(
@@ -249,7 +249,8 @@ class UserService extends UserInterface {
       } else {
         return HttpResponseModel(
           statusCode: response.statusCode,
-          message: jsonDecode(response.body)['message'] ?? 'Error fetching permits',
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error fetching permits',
           status: 'error',
         );
       }
@@ -268,6 +269,7 @@ class UserService extends UserInterface {
     required String authToken,
     String? noPermitMabes,
     required String documentUrl,
+    String? processStatus,
   }) async {
     try {
       var url = Uri.parse('$_baseUrl/dev/permit-letters/upload');
@@ -278,6 +280,7 @@ class UserService extends UserInterface {
       request.fields['kategori_permit_letter'] = categoryPermit;
       request.fields['nama_pt'] = companyName;
       request.fields['tanggal'] = date;
+      request.fields['status_tahapan'] = processStatus ?? 'Draft Created';
       if (noPermitMabes != null) {
         request.fields['produk_no_surat_mabes'] = noPermitMabes;
       }
@@ -344,29 +347,49 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> updatePermit({
-    required String description,
-    required String noPermit,
-    required String categoryPermit,
-    required String companyName,
-    String? noPermitMabes,
-  }) async {
+  Future<HttpResponseModel> updatePermit(
+      {required String id,
+      required String authToken,
+      String? processStatus}) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/upload');
-      var response = await http.post(
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/edit/$id');
+      var response = await http.patch(
         url,
         headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $authToken',
         },
-        body: jsonEncode({
-          'uraian': description,
-          'no_surat': noPermit,
-          'kategori_permit_letter': categoryPermit,
-          'nama_pt': companyName,
-          'produk_no_surat_mabes': noPermitMabes,
-        }),
+        body: jsonEncode({'status_tahapan': processStatus}),
       );
+      return HttpResponseModel(
+        statusCode: response.statusCode,
+        data: jsonDecode(response.body)["data"],
+        status: jsonDecode(response.body)["status"],
+        message: jsonDecode(response.body)["message"],
+      );
+    } catch (e) {
+      return HttpResponseModel(
+        message: 'An error occurred: $e',
+      );
+    }
+  }
+
+  @override
+  Future<HttpResponseModel> deletePermit({
+    required String id,
+    required String authToken,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/delete/$id');
+      var response = await http.delete(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+      );
+
       return HttpResponseModel(
         statusCode: response.statusCode,
         data: jsonDecode(response.body)["data"],

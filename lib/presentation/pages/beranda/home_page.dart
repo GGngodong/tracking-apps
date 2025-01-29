@@ -48,29 +48,40 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: AppColors.whitePage,
-        body: BlocListener<PermitLetterBloc, PermitLetterState>(
-          listener: (context, state) {
-            if (state is PermitLetterFailedState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Fetching failed: ${state.message}')),
-              );
-            }
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.whitePage,
+      body: BlocListener<PermitLetterBloc, PermitLetterState>(
+        listener: (context, state) {
+          if (state is PermitLetterFailedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Fetching failed: ${state.message}')),
+            );
+          }
+        },
+        child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
+          builder: (context, state) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<PermitLetterBloc>().add(GetPermitLetter());
+              },
+              child: _buildBody(state),
+            );
           },
-          child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
-              builder: (context, state) {
-            if (state is PermitLetterLoadingState || state.isLoading) {
-              return _loadingBody();
-            } else if (state is PermitLetterLoadedState) {
-              return _loadedBody(state);
-            } else if (state is PermitLetterFailedState) {
-              return _failedBody(state);
-            } else {
-              return _loadingBody();
-            }
-          }),
-        ));
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody(PermitLetterState state) {
+    if (state is PermitLetterLoadingState || state.isLoading) {
+      return _loadingBody();
+    } else if (state is PermitLetterLoadedState) {
+      return _loadedBody(state);
+    } else if (state is PermitLetterFailedState) {
+      return _failedBody(state);
+    } else {
+      return _loadingBody();
+    }
   }
 
   Widget _loadingBody() {
@@ -203,6 +214,7 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     final permit = state.listPermitLetter[index];
                     return CardSurat(
+                        processStatus: permit.processStatus,
                         date: permit.date,
                         categorySurat: permit.categoryPermit,
                         namaDokumen: permit.description,
@@ -220,8 +232,8 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   DetailSuratPage(
-                                role: role,
                                 id: permit.id.toString(),
+                                role: role,
                               ),
                             ),
                           );
@@ -230,8 +242,8 @@ class _HomePageState extends State<HomePage> {
                           BlocBuilder<ProfileBloc, ProfileState>(
                             builder: (context, profileState) {
                               return DetailSuratPage(
-                                role: profileState.user!.role,
                                 id: permit.id.toString(),
+                                role: profileState.user!.role,
                               );
                             },
                           );

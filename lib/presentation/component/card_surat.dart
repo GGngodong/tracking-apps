@@ -9,6 +9,7 @@ class CardSurat extends StatelessWidget {
   final String namaPerusahaan;
   final String namaDokumen;
   final String noSuratIzinMabes;
+  final String processStatus;
   final VoidCallback detailSurat;
   final VoidCallback funcRead;
   final VoidCallback funcDownload;
@@ -20,6 +21,7 @@ class CardSurat extends StatelessWidget {
     required this.namaPerusahaan,
     required this.noSurat,
     required this.noSuratIzinMabes,
+    required this.processStatus,
     required this.funcRead,
     required this.funcDownload,
     required this.detailSurat,
@@ -28,6 +30,86 @@ class CardSurat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String typeStatus;
+    final TextStyle fontStatusStyle;
+    if (processStatus == 'Draft Created') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFFD3D3D3),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Draft Created';
+    } else if (processStatus == 'Archiving') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFFA9A9A9),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Archiving';
+    } else if (processStatus == 'Submission') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFF007BFF),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Submission';
+    }
+    else if (processStatus == 'Verification') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFFFFFF00),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Verification';
+    }
+    else if (processStatus == 'Initial Approval') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFF90EE90),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Initial Approval';
+    }
+    else if (processStatus == 'Second Approval') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFF008000),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Second Approval';
+    }
+    else if (processStatus == 'Drafter') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFFFFA500),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Drafter';
+    }
+    else if (processStatus == 'Final Approval') {
+      fontStatusStyle = TextStyle(
+        color: Color(0x006400),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Final Approval';
+    }
+    else if (processStatus == 'Printing') {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFF800080),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'On Printing';
+    }
+    else {
+      fontStatusStyle = TextStyle(
+        color: Color(0xFFAF4848),
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+      );
+      typeStatus = 'No Status';
+    }
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -203,6 +285,13 @@ class CardSurat extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            Text(
+              typeStatus,
+              style: fontStatusStyle,
             ),
             SizedBox(
               height: 20.h,

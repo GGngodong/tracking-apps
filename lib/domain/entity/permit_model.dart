@@ -9,6 +9,7 @@ class PermitModel {
   String companyName;
   String? noPermitMabes;
   String documentUrl;
+  String processStatus;
 
   PermitModel(
       {required this.id,
@@ -18,6 +19,7 @@ class PermitModel {
       required this.categoryPermit,
       required this.companyName,
       this.noPermitMabes,
+      required this.processStatus,
       required this.documentUrl});
 
   Map<String, dynamic> toMap() {
@@ -29,6 +31,7 @@ class PermitModel {
       'kategori_permit_letter': categoryPermit,
       'nama_pt': companyName,
       'produk_no_surat_mabes': noPermitMabes ?? '',
+      'process_status': processStatus,
       'dokumen_url': documentUrl,
     };
   }
@@ -43,6 +46,7 @@ class PermitModel {
       companyName: map['nama_pt'] ?? 'No Company Name',
       noPermitMabes: map['produk_no_surat_mabes']?.toString(),
       documentUrl: map['dokumen_url'] ?? 'No Document Url',
+      processStatus: map['status_tahapan'] ?? 'No Process Status',
     );
   }
 

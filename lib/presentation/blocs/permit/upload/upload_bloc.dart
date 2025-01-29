@@ -40,11 +40,14 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           companyName: event.companyName,
           date: event.date,
           noPermitMabes: event.noPermitMabes,
+          processStatus: 'Draft Created',
           documentUrl: event.documentUrl,
-              authToken: token,
+          authToken: token,
         );
-        if (uploadResponse.statusCode == 200 || uploadResponse.statusCode == 201) {
-          final permit = PermitModel.fromMap(uploadResponse.data as Map<String, dynamic>);
+        if (uploadResponse.statusCode == 200 ||
+            uploadResponse.statusCode == 201) {
+          final permit =
+              PermitModel.fromMap(uploadResponse.data as Map<String, dynamic>);
           emit(UploadSuccess(
               permit: permit,
               message: uploadResponse.message,
@@ -64,31 +67,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       }
     });
 
-    on<UpdateDataButtonPressed>((event, emit) async {
-      emit(const UploadState(isLoading: true));
-      try {
-        HttpResponseModel<dynamic> updateResponse =
-            await userService.updatePermit(
-          description: event.description,
-          noPermit: event.noPermit,
-          categoryPermit: event.categoryPermit,
-          companyName: event.companyName,
-          noPermitMabes: event.noPermitMabes,
-        );
-        if (updateResponse.statusCode == 201) {
-          emit(UpdateUploadDataSuccess(
-              message: updateResponse.message, isLoading: false));
-          print('================== IN UPLOAD UPDATE SUCCESS BLOC ==================');
-        } else {
-          emit(UpdateUploadDataFailed(
-              message: updateResponse.message, isLoading: false));
-          print('================== IN UPLOAD UPDATE FAILED BLOC ==================');
-        }
-      } catch (error) {
-        emit(UpdateUploadDataFailed(
-            message: error.toString(), isLoading: false));
-        print('================== IN UPLOAD UPDATE ERROR BLOC ==================');
-      }
-    });
+
+
   }
 }
