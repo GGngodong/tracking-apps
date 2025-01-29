@@ -1,4 +1,4 @@
-part of 'get_detail_permit.bloc.dart';
+part of 'get_detail_permit_bloc.dart';
 
 class DetailPermitLetterState extends Equatable {
   final String? message;
