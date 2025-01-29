@@ -10,10 +10,11 @@ abstract class UserInterface {
 
   Future<HttpResponseModel> update({required UserModel userModel});
 
-  Future<HttpResponseModel> create(
-      {required String username,
-      required String email,
-      required String password});
+  Future<HttpResponseModel> create({
+    required String username,
+    required String email,
+    required String password,
+  });
 
   Future<HttpResponseModel> delete({required String id});
 
@@ -28,14 +29,13 @@ abstract class UserInterface {
     required String authToken,
     String? noPermitMabes,
     required String documentUrl,
+    String? processStatus,
   });
 
   Future<HttpResponseModel> updatePermit({
-    required String description,
-    required String noPermit,
-    required String categoryPermit,
-    required String companyName,
-    required String noPermitMabes,
+    required String id,
+    String? processStatus,
+    required String authToken,
   });
 
   Future<HttpResponseModel> getListPermit({
@@ -43,6 +43,12 @@ abstract class UserInterface {
   });
 
   Future<HttpResponseModel> getDetailPermit({
-    required String id, required String authToken,
+    required String id,
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> deletePermit({
+    required String id,
+    required String authToken,
   });
 }
