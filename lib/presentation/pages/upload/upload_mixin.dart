@@ -44,16 +44,6 @@ mixin UploadMixin on State<UploadPage> {
         SnackBar(content: Text('Upload failed: ${state.message}')),
       );
       print('Upload failed with error: ${state.message}');
-    } else if (state is UpdateUploadDataSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Update successful: ${state.message}')),
-      );
-      print('Update successful');
-    } else if (state is UpdateUploadDataFailed) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Update failed: ${state.message}')),
-      );
-      print('Update failed: ${state.message}');
     }
   }
 
