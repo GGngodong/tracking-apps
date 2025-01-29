@@ -38,38 +38,6 @@ class UploadButtonPressed extends UploadEvent {
       ];
 }
 
-class UpdateDataButtonPressed extends UploadEvent {
-  final String description;
-  final String noPermit;
-  final String categoryPermit;
-  final String companyName;
-  final String noPermitMabes;
-
-  const UpdateDataButtonPressed({
-    required this.description,
-    required this.noPermit,
-    required this.categoryPermit,
-    required this.companyName,
-    required this.noPermitMabes,
-  });
-
-  @override
-  List<Object?> get props => [
-        description,
-        noPermit,
-        categoryPermit,
-        companyName,
-        noPermitMabes,
-      ];
-}
-
-class DeleteDataButtonPressed extends UploadEvent {
-  const DeleteDataButtonPressed();
-
-  @override
-  List<Object?> get props => [];
-}
-
 class ClearDataUpload extends UploadEvent {
   const ClearDataUpload();
 
