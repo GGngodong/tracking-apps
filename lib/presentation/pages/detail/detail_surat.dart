@@ -3,24 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit.bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_detail.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
 import 'package:tracking_apps/presentation/pages/detail/detailDokumen/detail_pdf.dart';
+import 'package:tracking_apps/presentation/pages/edit/edit_page.dart';
 
 class DetailSuratPage extends StatefulWidget {
-  final String role;
   final String id;
+  final String role;
 
-  const DetailSuratPage({super.key, required this.role, required this.id});
+  const DetailSuratPage({super.key, required this.id, required this.role});
 
   @override
   State<DetailSuratPage> createState() => _DetailSuratPageState();
 }
 
 class _DetailSuratPageState extends State<DetailSuratPage> {
-  bool isEditing = false;
   String? _authToken;
 
   @override
@@ -44,8 +46,8 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
   void _fetchPermitLetters() {
     if (_authToken != null) {
       context.read<DetailPermitLetterBloc>().add(
-        GetDetailPermitLetterEvent(id: widget.id),
-      );
+            GetDetailPermitLetterEvent(id: widget.id),
+          );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Invalid ID or missing authentication token.')),
@@ -53,20 +55,12 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     }
   }
 
-  void _toggleEdit() {
-    setState(() {
-      isEditing = !isEditing;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.role == 'ADMIN' && isEditing
-              ? 'Edit Detail Surat'
-              : 'Detail Surat',
+          'Detail Surat',
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w700,
@@ -140,21 +134,14 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
             height: 10.h,
           ),
           CardDetailSurat(
+            processStatus: state.permit!.processStatus,
+            id: state.permit!.id,
             date: state.permit!.date,
             categorySurat: state.permit!.categoryPermit,
             namaDokumen: state.permit!.description,
             namaPerusahaan: state.permit!.companyName,
             noSurat: state.permit!.noPermit,
             noSuratIzinMabes: state.permit!.noPermitMabes ?? 'Belum Terbit',
-            isEditing: isEditing,
-            onFieldChanged: (field, value) {
-              if (field == 'tanggal') state.permit!.date = value;
-              if (field == 'kategori_permit_letter') state.permit!.categoryPermit = value;
-              if (field == 'no_surat') state.permit!.noPermit = value;
-              if (field == 'nama_pt') state.permit!.companyName = value;
-              if (field == 'uraian') state.permit!.description = value;
-              if (field == 'produk_no_surat_mabes') state.permit!.noPermitMabes = value;
-            },
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -165,7 +152,8 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => DetailPDFPage(documentUrl: state.permit.documentUrl,
+                      builder: (BuildContext context) => DetailPDFPage(
+                        documentUrl: state.permit.documentUrl,
                       ),
                     ),
                   ),
@@ -178,21 +166,52 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                     ),
                   ),
                 ),
-                if (widget.role == 'ADMIN')
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          isEditing ? Color(0xFF39B43B) : Color(0xFFAF4848),
-                    ),
-                    onPressed: _toggleEdit,
-                    child: Text(
-                      isEditing ? 'Save' : 'Edit Field',
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
-                    ),
-                  ),
+                widget.role == 'ADMIN'
+                    ? Row(
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFE02020),
+                          ),
+                          onPressed: () {
+                            _deletePermit(context.read<EditBloc>());
+                          },
+                          child: Text(
+                            'Delete Permit',
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF39B43B),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditPage(
+                                    id: state.permit!.id.toString(),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Edit Field',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                          ),
+                      ],
+                    )
+                    : SizedBox(),
               ],
             ),
           ),
@@ -204,6 +223,9 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     );
   }
 
+  void _deletePermit(EditBloc editBloc) {
+    editBloc.add(DeleteDataButtonPressed(id: widget.id));
+  }
 
   Widget _failedBody(DetailPermitLetterFailedState state) {
     print('================== IN DETAIL PERMIT FAILED ==================');
