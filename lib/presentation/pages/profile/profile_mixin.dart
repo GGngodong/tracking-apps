@@ -66,17 +66,17 @@ mixin ProfileMixin on State<ProfilePage> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return CupertinoAlertDialog(
-          title: const Text(LocaleKeys.logout).tr(),
-          content: const Text(LocaleKeys.ays_logout).tr(),
+          title: const Text('Logout').tr(),
+          content: const Text('Are you sure want to Logout?').tr(),
           actions: <Widget>[
             CupertinoDialogAction(
-              child: const Text(LocaleKeys.no).tr(),
+              child: const Text('No').tr(),
               onPressed: () {
                 if (context.canPop()) context.pop();
               },
             ),
             CupertinoDialogAction(
-              child: const Text(LocaleKeys.yes).tr(),
+              child: const Text('Yes').tr(),
               onPressed: () {
                 loginBloc.add(const LogoutButtonPressed());
                 context.go(Routes.login.path);

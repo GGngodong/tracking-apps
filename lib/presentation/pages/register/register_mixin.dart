@@ -31,6 +31,7 @@ mixin RegisterMixin on State<RegisterPage> {
       password: _passwordTextEditingController.text.trim(),
     );
     if (httpResponseModel.statusCode == 200) {
+      AppHelper.alertDialogMessage(context: context, content: 'Register Success!');
       registerBloc.add(
         RegisterButtonPressed(
           username: _usernameTextEditingController.text.trim(),
@@ -39,7 +40,7 @@ mixin RegisterMixin on State<RegisterPage> {
         ),
       );
     } else {
-      AppHelper.alertDialogMessage(context: context, content: httpResponseModel.message);
+      AppHelper.alertDialogMessage(context: context, content: 'Invalid ${httpResponseModel.message}');
     }
   }
 
@@ -47,14 +48,15 @@ mixin RegisterMixin on State<RegisterPage> {
     if (state is CheckSuccess) {
       if (state.data != null && !state.data!) {
         if (state.verificationCode != null) {
+          AppHelper.alertDialogMessage(context: context, content: 'Verification code has been sent to your email');
           context.go(Routes.login.path);
         }
       } else {
-        AppHelper.alertDialogMessage(context: context, content: LocaleKeys.user_exists_message.tr());
+        AppHelper.alertDialogMessage(context: context, content: 'Email already exists');
         print('================== CURRENT STATE : $state ==================');
       }
     } else if (state is CheckFailed) {
-      AppHelper.alertDialogMessage(context: context, content: LocaleKeys.something_went_wrong.tr());
+      AppHelper.alertDialogMessage(context: context, content: 'Something went wrong!');
       print('================== CURRENT STATE : $state ==================');
     }
   }

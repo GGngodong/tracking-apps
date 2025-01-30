@@ -49,9 +49,9 @@ mixin LoginMixin on State<LoginPage> {
       print('================== CURRENT STATE  : $state ==================');
 
       if (state.statusCode == 401) {
-        AppHelper.alertDialogMessage(context: context, content: LocaleKeys.check_your_information.tr());
+        AppHelper.alertDialogMessage(context: context, content: 'Invalid Email or Password');
       } else {
-        AppHelper.alertDialogMessage(context: context, content: LocaleKeys.something_went_wrong.tr());
+        AppHelper.alertDialogMessage(context: context, content: 'Something went wrong!');
       }
     }
   }
@@ -69,8 +69,9 @@ mixin LoginMixin on State<LoginPage> {
           password: _passwordTextEditingController.text.trim(),
         ),
       );
+      AppHelper.alertDialogMessage(context: context, content: 'Login Success!');
     } else {
-      AppHelper.alertDialogMessage(context: context, content: httpResponseModel.message);
+      AppHelper.alertDialogMessage(context: context, content: 'Login Failed! Invalid ${httpResponseModel.message}');
     }
   }
 }

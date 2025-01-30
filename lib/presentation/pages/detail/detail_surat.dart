@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
@@ -109,6 +110,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
   }
 
   Widget _loadedBody(DetailPermitLetterLoadedState state) {
+    final editBloc = BlocProvider.of<EditBloc>(context);
     print('Permit Details in UI: ${state.permit!.toJson()}');
     print('================== IN DETAIL PERMIT LOADED ==================');
     return SingleChildScrollView(
@@ -174,7 +176,10 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                             backgroundColor: Color(0xFFE02020),
                           ),
                           onPressed: () {
-                            _deletePermit(context.read<EditBloc>());
+                            AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to delete this document?', onPressed: () async {
+                              editBloc.add(DeleteDataButtonPressed(id: widget.id));
+                              Navigator.pop(context);
+                            });
                           },
                           child: Text(
                             'Delete Permit',
@@ -224,7 +229,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
   }
 
   void _deletePermit(EditBloc editBloc) {
-    editBloc.add(DeleteDataButtonPressed(id: widget.id));
+
   }
 
   Widget _failedBody(DetailPermitLetterFailedState state) {
@@ -234,16 +239,35 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Failed to fetch data',
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+          SizedBox(height: 50.h),
+          Image.asset(
+            'assets/icons/cards_empty.png',
+            height: 120.h,
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Center(
+            child: Text(
+              'Failed to fetch data',
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          Center(
+            child: Text(
+              state.message ?? 'Unknown error occurred',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
           ),
           SizedBox(height: 10.h),
-          Text(
-            state.message ?? 'Unknown error occurred',
-            style: TextStyle(fontSize: 14.sp, color: Colors.red),
-          ),
-          SizedBox(height: 20.h),
           ElevatedButton(
             onPressed: _fetchPermitLetters,
             child: Text('Retry'),

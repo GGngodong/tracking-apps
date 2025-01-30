@@ -7,7 +7,7 @@ import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bl
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_expanded.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
-import 'package:tracking_apps/presentation/component/skeleton_card.dart';
+import 'package:tracking_apps/presentation/component/skeleton_list.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
 
 class ListSuratPage extends StatefulWidget {
@@ -59,19 +59,28 @@ class _ListSuratPageState extends State<ListSuratPage> {
         },
         child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
           builder: (context, state) {
-            if (state is PermitLetterLoadingState || state.isLoading) {
-              return _loadingBody();
-            } else if (state is PermitLetterLoadedState) {
-              return _loadedBody(state);
-            } else if (state is PermitLetterFailedState) {
-              return _failedBody(state);
-            } else {
-              return _loadingBody();
-            }
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<PermitLetterBloc>().add(GetPermitLetter());
+              },
+              child: _buildBody(state),
+            );
           },
         ),
       ),
     );
+  }
+
+  Widget _buildBody(PermitLetterState state) {
+    if (state is PermitLetterLoadingState || state.isLoading) {
+      return _loadingBody();
+    } else if (state is PermitLetterLoadedState) {
+      return _loadedBody(state);
+    } else if (state is PermitLetterFailedState) {
+      return _failedBody(state);
+    } else {
+      return _loadingBody();
+    }
   }
 
   AppBar _appBar() {
@@ -95,8 +104,21 @@ class _ListSuratPageState extends State<ListSuratPage> {
   Widget _loadingBody() {
     print('================== IN PERMIT LOADING ==================');
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: SkeletonCard(),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+      child: ListView.separated(
+        shrinkWrap: true,
+        primary: false,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return SkeletonList();
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            height: 8.h,
+          );
+        },
+        itemCount: 5,
+      ),
     );
   }
 
@@ -114,39 +136,72 @@ class _ListSuratPageState extends State<ListSuratPage> {
             items: const ['OPS', 'DTM', 'DTU', 'DKK'],
           ),
           SizedBox(height: 20.h),
-          ListView.separated(
-            shrinkWrap: true,
-            primary: false,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            itemBuilder: (context, index) {
-              final permit = state.listPermitLetter[index];
-              return CardExpanded(
-                date: permit.date,
-                categorySurat: permit.categoryPermit,
-                namaDokumen: permit.description,
-                namaPerusahaan: permit.companyName,
-                noSurat: permit.noPermit,
-                noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
-                processStatus: permit.processStatus,
-                fun: () {
-                  final profileState = context.read<ProfileBloc>().state;
-                  final role = profileState.user!.role;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => DetailSuratPage(
-                        id: permit.id.toString(),
-                        role: role,
+          state.listPermitLetter.isEmpty
+              ? Column(
+                  children: [
+                    SizedBox(height: 50.h),
+                    Image.asset(
+                      'assets/icons/document_empty.png',
+                      height: 120.h,
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Center(
+                      child: Text(
+                        'Tidak ada surat izin',
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                  );
-                },
-              );
-            },
-            separatorBuilder: (context, index) => SizedBox(height: 10.h),
-            itemCount: state.listPermitLetter.length,
-          ),
+                    Center(
+                      child: Text(
+                        'Silahkan cek kembali nanti',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : ListView.separated(
+                  shrinkWrap: true,
+                  primary: false,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemBuilder: (context, index) {
+                    final permit = state.listPermitLetter[index];
+                    return CardExpanded(
+                      date: permit.date,
+                      categorySurat: permit.categoryPermit,
+                      namaDokumen: permit.description,
+                      namaPerusahaan: permit.companyName,
+                      noSurat: permit.noPermit,
+                      noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
+                      processStatus: permit.processStatus,
+                      fun: () {
+                        final profileState = context.read<ProfileBloc>().state;
+                        final role = profileState.user!.role;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => DetailSuratPage(
+                              id: permit.id.toString(),
+                              role: role,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) => SizedBox(height: 10.h),
+                  itemCount: state.listPermitLetter.length,
+                ),
         ],
       ),
     );
@@ -158,16 +213,35 @@ class _ListSuratPageState extends State<ListSuratPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Failed to fetch data',
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+          SizedBox(height: 50.h),
+          Image.asset(
+            'assets/icons/cards_empty.png',
+            height: 120.h,
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Center(
+            child: Text(
+              'Failed to fetch data',
+              style: TextStyle(
+                color: Colors.grey[700],
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          Center(
+            child: Text(
+              state.message ?? 'Unknown error occurred',
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
           ),
           SizedBox(height: 10.h),
-          Text(
-            state.message ?? 'Unknown error occurred',
-            style: TextStyle(fontSize: 14.sp, color: Colors.red),
-          ),
-          SizedBox(height: 20.h),
           ElevatedButton(
             onPressed: _fetchPermitLetters,
             child: Text('Retry'),
