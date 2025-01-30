@@ -34,21 +34,21 @@ class CardSurat extends StatelessWidget {
     final TextStyle fontStatusStyle;
     if (processStatus == 'Draft Created') {
       fontStatusStyle = TextStyle(
-        color: Color(0xFFD3D3D3),
+        color: Color(0xFFBDBDBD),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
       typeStatus = 'On Draft Created';
     } else if (processStatus == 'Archiving') {
       fontStatusStyle = TextStyle(
-        color: Color(0xFFA9A9A9),
+        color: Color(0xFFA0A0A0),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
       typeStatus = 'On Archiving';
     } else if (processStatus == 'Submission') {
       fontStatusStyle = TextStyle(
-        color: Color(0xFF007BFF),
+        color: Color(0xFF64B5F6),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
@@ -56,7 +56,7 @@ class CardSurat extends StatelessWidget {
     }
     else if (processStatus == 'Verification') {
       fontStatusStyle = TextStyle(
-        color: Color(0xFFFFFF00),
+        color: Color(0xFFFFF59D),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
@@ -64,7 +64,7 @@ class CardSurat extends StatelessWidget {
     }
     else if (processStatus == 'Initial Approval') {
       fontStatusStyle = TextStyle(
-        color: Color(0xFF90EE90),
+        color: Color(0xFF81C784),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
@@ -72,7 +72,7 @@ class CardSurat extends StatelessWidget {
     }
     else if (processStatus == 'Second Approval') {
       fontStatusStyle = TextStyle(
-        color: Color(0xFF008000),
+        color: Color(0xFF689F38),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
@@ -88,7 +88,7 @@ class CardSurat extends StatelessWidget {
     }
     else if (processStatus == 'Final Approval') {
       fontStatusStyle = TextStyle(
-        color: Color(0x006400),
+        color: Color(0xFF00FF00),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
@@ -96,7 +96,7 @@ class CardSurat extends StatelessWidget {
     }
     else if (processStatus == 'Printing') {
       fontStatusStyle = TextStyle(
-        color: Color(0xFF800080),
+        color: Color(0xFFCE93D8),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );
