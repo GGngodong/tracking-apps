@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
@@ -143,7 +144,10 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     CustomButton(
                       text: 'Unggah Surat',
                       onPressed: () {
-                        _submit(_uploadBloc);
+                        AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to upload this document?', onPressed: () {
+                          _submit(_uploadBloc);
+                          Navigator.pop(context);
+                        });
                       },
                       isLogOut: false,
                       isLoading: state.isLoading,

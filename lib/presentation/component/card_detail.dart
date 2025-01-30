@@ -87,7 +87,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
       typeStatus = 'On Drafter';
     } else if (widget.processStatus == 'Final Approval') {
       fontStatusStyle = TextStyle(
-        color: Color(0x006400),
+        color: Color(0xFF00FF00),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
       );

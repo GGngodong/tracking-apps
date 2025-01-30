@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/presentation/component/card_expanded.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
+import 'package:tracking_apps/presentation/component/skeleton_list.dart';
 import 'package:tracking_apps/presentation/pages/detail/detailDokumen/detail_pdf.dart';
 
 class TestPage extends StatelessWidget {
@@ -18,7 +19,7 @@ class TestPage extends StatelessWidget {
             primary: false,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return SkeletonCard();
+              return SkeletonList();
             },
             separatorBuilder: (context, index) {
               return SizedBox(
