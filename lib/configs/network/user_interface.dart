@@ -51,4 +51,12 @@ abstract class UserInterface {
     required String id,
     required String authToken,
   });
+
+  Future<HttpResponseModel> searchPermit({
+    required String authToken,
+    String? searchQuery,
+    String? searchParam,
+    String? categoryPermitSearchParam,
+
+  });
 }
