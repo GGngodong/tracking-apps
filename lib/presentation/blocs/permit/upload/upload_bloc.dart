@@ -46,8 +46,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
         );
         if (uploadResponse.statusCode == 200 ||
             uploadResponse.statusCode == 201) {
-          final permit =
-              PermitModel.fromMap(uploadResponse.data as Map<String, dynamic>);
+          final permit = uploadResponse.data as PermitModel;
           emit(UploadSuccess(
               permit: permit,
               message: uploadResponse.message,

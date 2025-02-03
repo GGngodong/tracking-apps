@@ -36,7 +36,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         );
         if (updateResponse.statusCode == 200) {
           final permit =
-              PermitModel.fromMap(updateResponse.data as Map<String, dynamic>);
+          updateResponse.data as PermitModel;
           emit(EditSuccessState(
               permit: permit,
               message: updateResponse.message,
