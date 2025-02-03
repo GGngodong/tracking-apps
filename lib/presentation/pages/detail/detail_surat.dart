@@ -56,6 +56,11 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     }
   }
 
+  Future<void> _refresh() async {
+    _fetchPermitLetters();
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,117 +118,121 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     final editBloc = BlocProvider.of<EditBloc>(context);
     print('Permit Details in UI: ${state.permit!.toJson()}');
     print('================== IN DETAIL PERMIT LOADED ==================');
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 16.h,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(
-              'Detail Surat',
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 16.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Text(
+                'Detail Surat',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          CardDetailSurat(
-            processStatus: state.permit!.processStatus,
-            id: state.permit!.id,
-            date: state.permit!.date,
-            categorySurat: state.permit!.categoryPermit,
-            namaDokumen: state.permit!.description,
-            namaPerusahaan: state.permit!.companyName,
-            noSurat: state.permit!.noPermit,
-            noSuratIzinMabes: state.permit!.noPermitMabes ?? 'Belum Terbit',
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => DetailPDFPage(
-                        documentUrl: state.permit.documentUrl,
+            SizedBox(
+              height: 10.h,
+            ),
+            CardDetailSurat(
+              processStatus: state.permit!.processStatus,
+              id: state.permit!.id,
+              date: state.permit!.date,
+              categorySurat: state.permit!.categoryPermit,
+              namaDokumen: state.permit!.description,
+              namaPerusahaan: state.permit!.companyName,
+              noSurat: state.permit!.noPermit,
+              noSuratIzinMabes: state.permit!.noPermitMabes ?? 'Belum Terbit',
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => DetailPDFPage(
+                          documentUrl: state.permit.documentUrl,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'Lihat Dokumen',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
                       ),
                     ),
                   ),
-                  child: Text(
-                    'Lihat Dokumen',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-                widget.role == 'ADMIN'
-                    ? Row(
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFE02020),
-                          ),
-                          onPressed: () {
-                            AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to delete this document?', onPressed: () async {
-                              editBloc.add(DeleteDataButtonPressed(id: widget.id));
-                              Navigator.pop(context);
-                            });
-                          },
-                          child: Text(
-                            'Delete Permit',
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        ElevatedButton(
+                  widget.role == 'ADMIN'
+                      ? Row(
+                        children: [
+                          ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF39B43B),
+                              backgroundColor: Color(0xFFE02020),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditPage(
-                                    id: state.permit!.id.toString(),
-                                  ),
-                                ),
-                              );
+                              AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to delete this document?', onPressed: () async {
+                                editBloc.add(DeleteDataButtonPressed(id: widget.id));
+                                Navigator.pop(context);
+                              });
                             },
                             child: Text(
-                              'Edit Field',
+                              'Delete Permit',
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
                             ),
                           ),
-                      ],
-                    )
-                    : SizedBox(),
-              ],
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF39B43B),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditPage(
+                                      id: state.permit!.id.toString(),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Edit Field',
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                            ),
+                        ],
+                      )
+                      : SizedBox(),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 20.h,
-          )
-        ],
+            SizedBox(
+              height: 20.h,
+            )
+          ],
+        ),
       ),
     );
   }
