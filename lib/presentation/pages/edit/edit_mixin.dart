@@ -44,8 +44,9 @@ mixin EditMixin on State<EditPage> {
   void _listener(EditState state) {
     if (state is EditSuccessState) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Update successful: ${state.message}')),
+        SnackBar(content: Text('Update Successful!')),
       );
+      Navigator.pop(context);
       print('Update successful: ${state.permit}');
     } else if (state is EditFailedState) {
       ScaffoldMessenger.of(context).showSnackBar(
