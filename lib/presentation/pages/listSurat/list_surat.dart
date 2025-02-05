@@ -137,38 +137,43 @@ class _ListSuratPageState extends State<ListSuratPage> {
           ),
           SizedBox(height: 20.h),
           state.listPermitLetter.isEmpty
-              ? Column(
-                  children: [
-                    SizedBox(height: 50.h),
-                    Image.asset(
-                      'assets/icons/document_empty.png',
-                      height: 120.h,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Center(
-                      child: Text(
-                        'Tidak ada surat izin',
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
+              ? RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<PermitLetterBloc>().add(GetPermitLetter());
+                  },
+                child: Column(
+                    children: [
+                      SizedBox(height: 50.h),
+                      Image.asset(
+                        'assets/icons/document_empty.png',
+                        height: 120.h,
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Center(
+                        child: Text(
+                          'Tidak ada surat izin',
+                          style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Silahkan cek kembali nanti',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w300,
+                      Center(
+                        child: Text(
+                          'Silahkan cek kembali nanti',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
+                    ],
+                  ),
+              )
               : ListView.separated(
                   shrinkWrap: true,
                   primary: false,

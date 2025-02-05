@@ -4,6 +4,7 @@ import 'package:tracking_apps/configs/network/user_service.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/search/search_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 
@@ -32,7 +33,8 @@ class CustomMultiBlocProvider extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 DetailPermitLetterBloc(userService: UserService())),
-        BlocProvider(create: (context) => EditBloc(userService: UserService()))
+        BlocProvider(create: (context) => EditBloc(userService: UserService())),
+        BlocProvider(create: (context) => SearchBloc(userService: UserService())),
       ],
       child: child,
     );

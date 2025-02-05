@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
+import 'package:tracking_apps/presentation/pages/search/search_page.dart';
 
 import 'pages/notification/notification_page.dart';
 import 'pages/profile/profile_page.dart';
@@ -30,23 +31,27 @@ class _MainPageState extends State<MainPage> {
       _pages = const [
         HomePage(),
         UploadPage(),
+        SearchPage(),
         NotificationPage(),
         ProfilePage(),
       ];
       _navBarItems = [
         _buildNavBarItem('home'),
         _buildNavBarItem('upload'),
+        _buildNavBarItem('search'),
         _buildNavBarItem('notification'),
         _buildNavBarItem('user'),
       ];
     } else {
       _pages = const [
         HomePage(),
+        SearchPage(),
         NotificationPage(),
         ProfilePage(),
       ];
       _navBarItems = [
         _buildNavBarItem('home'),
+        _buildNavBarItem('search'),
         _buildNavBarItem('notification'),
         _buildNavBarItem('user'),
       ];

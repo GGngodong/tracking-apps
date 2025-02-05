@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
@@ -254,7 +256,38 @@ class _HomePageState extends State<HomePage> {
                               noSurat: permit.noPermit,
                               noSuratIzinMabes:
                                   permit.noPermitMabes ?? 'Belum Terbit',
-                              funcDownload: () {},
+                              funcDownload: () async {
+                                final url = permit.documentUrl;
+                                final externalDir =
+                                    await getExternalStorageDirectory();
+                                if (externalDir != null) {
+                                  try {
+                                    final taskId =
+                                        await FlutterDownloader.enqueue(
+                                      url: url,
+                                      savedDir: externalDir.path,
+                                      fileName: 'permit_${permit.id}.pdf',
+                                      showNotification: true,
+                                      openFileFromNotification:
+                                          true,
+                                    );
+                                    debugPrint(
+                                        'Download task enqueued with taskId: $taskId');
+                                  } catch (e) {
+                                    print(e);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text("Download failed: $e")),
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Unable to access storage directory")),
+                                  );
+                                }
+                              },
                               funcRead: () {
                                 final profileState =
                                     context.read<ProfileBloc>().state;

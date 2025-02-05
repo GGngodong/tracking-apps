@@ -402,4 +402,52 @@ class UserService extends UserInterface {
       );
     }
   }
+
+  @override
+  Future<HttpResponseModel> searchPermit({
+    String? searchParam,
+    String? searchQuery,
+    String? categoryPermitSearchQuery,
+    String? categoryPermitSearchParam,
+    required String authToken,
+  }) async {
+    try {
+      var url = Uri.parse(
+          '$_baseUrl/dev/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final permitListResponse =
+            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: permitListResponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else if (response.statusCode == 404) {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message: jsonDecode(response.body)['message'],
+          status: 'error',
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error fetching permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
 }

@@ -2,11 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/route/route_manager.dart';
 import 'package:tracking_apps/presentation/blocs/custom_multi_bloc_provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,16 +21,25 @@ void main() async {
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  String? userRole = await SharedPreferencesService.instance.getData<String>(PreferenceKey.userRole);
+  await FlutterDownloader.initialize(
+    debug: true,
+    ignoreSsl: true,
+  );
+
+  String? userRole = await SharedPreferencesService.instance
+      .getData<String>(PreferenceKey.userRole);
   runApp(
     CustomMultiBlocProvider(
-      child: MyApp(userRole: userRole,),
+      child: MyApp(
+        userRole: userRole,
+      ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
   final String? userRole;
+
   const MyApp({super.key, this.userRole});
 
   // This widget is the root of your application.
@@ -44,10 +55,7 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
-        supportedLocales: [
-          Locale('en', ''),
-          Locale('id', '')
-        ],
+        supportedLocales: [Locale('en', ''), Locale('id', '')],
         title: 'Dahana Tracking',
         routerConfig: RouterManager.router(userRole: userRole),
         debugShowCheckedModeBanner: false,

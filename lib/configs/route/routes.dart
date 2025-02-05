@@ -2,6 +2,7 @@ enum Routes {
   initial('/'),
   navigation('/navigation'),
   homePage('/home'),
+  search('/search'),
   uploadData('/upload'),
   notification('/notification'),
   login('/login'),

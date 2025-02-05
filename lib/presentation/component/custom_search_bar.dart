@@ -119,78 +119,98 @@ class _SearchBarState extends State<CustomSearchBar> {
 
       case TypeSearchBar.withDropdownFilter:
         return Container(
-            margin: EdgeInsets.only(right: 10.w),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton2(
-                isExpanded: true,
-                hint: Row(
-                  children: [
-                    const VerticalDivider(
-                      thickness: 1,
-                    ),
-                    SizedBox(
-                      width: 14.w,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Kategori',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: const Color.fromRGBO(31, 41, 55, 1),
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                items: widget.items
-                    .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Text(
-                            item,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: const Color.fromRGBO(16, 24, 40, 1),
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ))
-                    .toList(),
-                value: selectedValue,
-                onChanged: (value) {
-                  setState(
-                    () {
-                      selectedValue = value as String;
-                    },
-                  );
-                },
-                buttonStyleData: ButtonStyleData(
-                  height: 41.h,
-                  width: 150.w,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
-                ),
-                iconStyleData: const IconStyleData(
-                  icon: Icon(
-                    Icons.expand_more_rounded,
+          margin: EdgeInsets.only(right: 10.w),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton2(
+              isExpanded: true,
+              value: selectedValue,
+              hint: Row(
+                children: [
+                  const VerticalDivider(
+                    thickness: 1,
+                    color: Colors.grey,
                   ),
-                  iconSize: 20,
-                  iconEnabledColor: Color.fromRGBO(102, 112, 133, 1),
-                  iconDisabledColor: AppColors.lightGrey,
-                  openMenuIcon: Icon(Icons.expand_less_rounded),
-                ),
-                dropdownStyleData: DropdownStyleData(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(
-                      color: const Color.fromRGBO(208, 213, 221, 1),
+                  SizedBox(width: 14.w),
+                  Expanded(
+                    child: Text(
+                      'Kategori',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color.fromRGBO(31, 41, 55, 1),
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
+                  ),
+                ],
+              ),
+              buttonStyleData: ButtonStyleData(
+                height: 41.h,
+                width: 150.w,
+                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
+              ),
+              iconStyleData: const IconStyleData(
+                icon: Icon(Icons.expand_more_rounded),
+                iconSize: 20,
+                iconEnabledColor: Color.fromRGBO(102, 112, 133, 1),
+                iconDisabledColor: AppColors.lightGrey,
+                openMenuIcon: Icon(Icons.expand_less_rounded),
+              ),
+              dropdownStyleData: DropdownStyleData(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    color: const Color.fromRGBO(208, 213, 221, 1),
                   ),
                 ),
               ),
-            ));
+              items: widget.items
+                  .map((item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: const Color.fromRGBO(16, 24, 40, 1),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedValue = value as String;
+                });
+              },
+              selectedItemBuilder: (BuildContext context) {
+                return widget.items.map<Widget>((item) {
+                  return Row(
+                    children: [
+                      const VerticalDivider(
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(width: 14.w),
+                      Expanded(
+                        child: Text(
+                          item,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromRGBO(16, 24, 40, 1),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList();
+              },
+            ),
+          ),
+        );
+
       default:
         return const SizedBox();
     }
