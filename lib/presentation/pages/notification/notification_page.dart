@@ -60,21 +60,21 @@ class _NotificationPageState extends State<NotificationPage> {
           SizedBox(
             height: 30.h,
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            primary: false,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            itemBuilder: (context, index) {
-              return const CardNotification(notifikasi: 'Surat berhasil di upload');
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(
-                height: 10.h,
-              );
-            },
-            itemCount: 5,
-          )
+          // ListView.separated(
+          //   shrinkWrap: true,
+          //   primary: false,
+          //   physics: const NeverScrollableScrollPhysics(),
+          //   padding: EdgeInsets.zero,
+          //   itemBuilder: (context, index) {
+          //     return const CardNotification(notifikasi: 'Surat berhasil di upload');
+          //   },
+          //   separatorBuilder: (context, index) {
+          //     return SizedBox(
+          //       height: 10.h,
+          //     );
+          //   },
+          //   itemCount: 5,
+          // )
         ],
       ),
     );

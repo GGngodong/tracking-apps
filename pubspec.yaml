@@ -53,6 +53,7 @@ dependencies:
   flutter_localization: ^0.3.1
   get: ^4.6.6
   flutter_downloader: ^1.11.8
+  firebase_messaging: ^15.2.1
  
 
 dev_dependencies:
