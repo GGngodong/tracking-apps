@@ -12,13 +12,14 @@ class SearchPermitLetter extends SearchEvent {
   final String? searchParam;
   final String? categoryPermitSearchQuery;
   final String? categoryPermitSearchParam;
+  final String? subCategoryPermitSearchQuery;
+  final String? subCategoryPermitSearchParam;
 
-  const SearchPermitLetter(
-      this.searchQuery,
-      this.searchParam, {
-        required this.categoryPermitSearchQuery,
-        required this.categoryPermitSearchParam,
-      });
+  const SearchPermitLetter(this.searchQuery, this.searchParam,
+      {required this.categoryPermitSearchQuery,
+      required this.categoryPermitSearchParam,
+      required this.subCategoryPermitSearchQuery,
+      required this.subCategoryPermitSearchParam});
 
   @override
   List<Object?> get props => [
@@ -26,6 +27,8 @@ class SearchPermitLetter extends SearchEvent {
         searchParam,
         categoryPermitSearchQuery,
         categoryPermitSearchParam,
+        subCategoryPermitSearchQuery,
+        subCategoryPermitSearchParam
       ];
 }
 
