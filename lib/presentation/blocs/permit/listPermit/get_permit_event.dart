@@ -7,4 +7,5 @@ abstract class PermitLetterEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GetPermitLetter extends PermitLetterEvent {}
+class GetListPermitLetter extends PermitLetterEvent {}
+
