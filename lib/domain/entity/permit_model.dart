@@ -7,9 +7,10 @@ class PermitModel {
   String date;
   String categoryPermit;
   String companyName;
-  String? noPermitMabes;
   String documentUrl;
   String processStatus;
+  String? noPermitMabes;
+  String? uploadStatus;
 
   PermitModel(
       {required this.id,
@@ -19,6 +20,7 @@ class PermitModel {
       required this.categoryPermit,
       required this.companyName,
       this.noPermitMabes,
+      this.uploadStatus,
       required this.processStatus,
       required this.documentUrl});
 
@@ -32,6 +34,7 @@ class PermitModel {
       'nama_pt': companyName,
       'produk_no_surat_mabes': noPermitMabes ?? '',
       'process_status': processStatus,
+      'upload_status' : uploadStatus ?? '',
       'dokumen_url': documentUrl,
     };
   }
@@ -47,10 +50,12 @@ class PermitModel {
       noPermitMabes: map['produk_no_surat_mabes']?.toString(),
       documentUrl: map['dokumen_url'] ?? 'No Document Url',
       processStatus: map['status_tahapan'] ?? 'No Process Status',
+      uploadStatus: map['upload_status'] ?? 'No Upload Status',
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory PermitModel.fromJson(String source) => PermitModel.fromMap(json.decode(source));
+  factory PermitModel.fromJson(String source) =>
+      PermitModel.fromMap(json.decode(source));
 }
