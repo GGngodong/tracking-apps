@@ -23,6 +23,7 @@ class CardProfile extends StatelessWidget {
       fontRoleStyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
+        fontFamily: 'Satoshi',
         fontSize: 12.sp,
       );
       typeRole = 'ADMIN';
@@ -30,6 +31,7 @@ class CardProfile extends StatelessWidget {
       fontRoleStyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
+        fontFamily: 'Satoshi',
         fontSize: 12.sp,
       );
       typeRole = 'USER';
@@ -37,6 +39,7 @@ class CardProfile extends StatelessWidget {
       fontRoleStyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
+        fontFamily: 'Satoshi',
         fontSize: 12.sp,
       );
       typeRole = 'No Role';
@@ -97,6 +100,7 @@ class CardProfile extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
+                    fontFamily: 'Satoshi',
                     color: AppColors.primary,
                   ),
                 ),
@@ -105,6 +109,7 @@ class CardProfile extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
+                    fontFamily: 'Satoshi',
                     color: AppColors.primary,
                   ),
                 ),

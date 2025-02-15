@@ -37,6 +37,7 @@ class CardSurat extends StatelessWidget {
         color: Color(0xFFBDBDBD),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Draft Created';
     } else if (processStatus == 'Archiving') {
@@ -44,6 +45,7 @@ class CardSurat extends StatelessWidget {
         color: Color(0xFFA0A0A0),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Archiving';
     } else if (processStatus == 'Submission') {
@@ -51,62 +53,63 @@ class CardSurat extends StatelessWidget {
         color: Color(0xFF64B5F6),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Submission';
-    }
-    else if (processStatus == 'Verification') {
+    } else if (processStatus == 'Verification') {
       fontStatusStyle = TextStyle(
         color: Color(0xFFFFF59D),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Verification';
-    }
-    else if (processStatus == 'Initial Approval') {
+    } else if (processStatus == 'Initial Approval') {
       fontStatusStyle = TextStyle(
         color: Color(0xFF81C784),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Initial Approval';
-    }
-    else if (processStatus == 'Second Approval') {
+    } else if (processStatus == 'Second Approval') {
       fontStatusStyle = TextStyle(
         color: Color(0xFF689F38),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Second Approval';
-    }
-    else if (processStatus == 'Drafter') {
+    } else if (processStatus == 'Drafter') {
       fontStatusStyle = TextStyle(
         color: Color(0xFFFFA500),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Drafter';
-    }
-    else if (processStatus == 'Final Approval') {
+    } else if (processStatus == 'Final Approval') {
       fontStatusStyle = TextStyle(
         color: Color(0xFF00FF00),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Final Approval';
-    }
-    else if (processStatus == 'Printing') {
+    } else if (processStatus == 'Printing') {
       fontStatusStyle = TextStyle(
         color: Color(0xFFCE93D8),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Printing';
-    }
-    else {
+    } else {
       fontStatusStyle = TextStyle(
         color: Color(0xFFAF4848),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'No Status';
     }
@@ -181,9 +184,11 @@ class CardSurat extends StatelessWidget {
                     child: Text(
                       noSurat,
                       style: TextStyle(
-                          color: const Color.fromRGBO(37, 42, 49, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp),
+                        color: const Color.fromRGBO(37, 42, 49, 1),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Satoshi',
+                        fontSize: 12.sp,
+                      ),
                     ),
                   ),
                 )
@@ -212,9 +217,11 @@ class CardSurat extends StatelessWidget {
                     child: Text(
                       namaPerusahaan,
                       style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500),
+                        color: AppColors.primary,
+                        fontSize: 12.sp,
+                        fontFamily: 'Satoshi',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
@@ -239,9 +246,11 @@ class CardSurat extends StatelessWidget {
                     child: Text(
                       noSuratIzinMabes,
                       style: TextStyle(
-                          color: const Color.fromRGBO(37, 42, 49, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp),
+                        color: const Color.fromRGBO(37, 42, 49, 1),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Satoshi',
+                        fontSize: 12.sp,
+                      ),
                     ),
                   ),
                 )
@@ -257,6 +266,7 @@ class CardSurat extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w700,
+                  fontFamily: 'Satoshi',
                   fontSize: 18.sp,
                 ),
               ),
@@ -281,6 +291,7 @@ class CardSurat extends StatelessWidget {
                   style: TextStyle(
                     color: AppColors.lightGrey,
                     fontWeight: FontWeight.w500,
+                    fontFamily: 'Satoshi',
                     fontSize: 12.sp,
                   ),
                 ),
@@ -301,6 +312,7 @@ class CardSurat extends StatelessWidget {
               style: TextStyle(
                 color: AppColors.lightGrey,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'Satoshi',
                 fontSize: 12.sp,
               ),
             ),
@@ -325,6 +337,7 @@ class CardSurat extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12.sp,
+                      fontFamily: 'Satoshi',
                       color: AppColors.lightGrey,
                     ),
                   ),
@@ -367,6 +380,7 @@ class CardSurat extends StatelessWidget {
                             style: TextStyle(
                               color: AppColors.tertiary,
                               fontWeight: FontWeight.w600,
+                              fontFamily: 'Satoshi',
                               fontSize: 16.sp,
                             ),
                           ),
@@ -406,6 +420,7 @@ class CardSurat extends StatelessWidget {
                             style: TextStyle(
                               color: AppColors.tertiary,
                               fontWeight: FontWeight.w600,
+                              fontFamily: 'Satoshi',
                               fontSize: 16.sp,
                             ),
                           ),

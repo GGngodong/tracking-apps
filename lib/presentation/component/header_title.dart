@@ -5,6 +5,7 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 class HeaderTitle extends StatelessWidget {
   final String title;
   final String subTitle;
+
   const HeaderTitle({super.key, required this.title, required this.subTitle});
 
   @override
@@ -17,7 +18,8 @@ class HeaderTitle extends StatelessWidget {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w700,
-            color: AppColors.primary
+            fontFamily: 'Satoshi',
+            color: AppColors.primary,
           ),
         ),
         SizedBox(
@@ -28,7 +30,8 @@ class HeaderTitle extends StatelessWidget {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w400,
-            color: AppColors.lightGrey
+            fontFamily: 'Satoshi',
+            color: AppColors.lightGrey,
           ),
         )
       ],

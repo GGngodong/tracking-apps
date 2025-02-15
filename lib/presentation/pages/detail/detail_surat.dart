@@ -70,6 +70,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w700,
+            fontFamily: 'Satoshi',
             color: Colors.white,
           ),
         ),
@@ -136,6 +137,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
+                  fontFamily: 'Satoshi',
                   color: AppColors.primary,
                 ),
               ),
@@ -172,6 +174,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
                         color: AppColors.primary,
                       ),
                     ),
@@ -194,6 +197,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                               style: TextStyle(
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500,
+                                  fontFamily: 'Satoshi',
                                   color: Colors.white),
                             ),
                           ),
@@ -219,6 +223,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w500,
+                                    fontFamily: 'Satoshi',
                                     color: Colors.white),
                               ),
                             ),

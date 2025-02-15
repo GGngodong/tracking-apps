@@ -39,6 +39,7 @@ class _DropdownFormStatusTahapanState extends State<DropdownFormStatusTahapan> {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
+            fontFamily: 'Satoshi',
             color: AppColors.primary,
           ),
         ),

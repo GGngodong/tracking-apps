@@ -81,6 +81,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -107,6 +108,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                   color:
                       selectedDate != null ? Colors.black : AppColors.lightGrey,
                   fontSize: 14.sp,
+                  fontFamily: 'Satoshi',
                 ),
               ),
             ),

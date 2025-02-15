@@ -50,6 +50,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -58,7 +59,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
           TextFormField(
             onFieldSubmitted: (value) {
-              widget.onFieldSubmitted != null ? widget.onFieldSubmitted!(value) : null;
+              widget.onFieldSubmitted != null
+                  ? widget.onFieldSubmitted!(value)
+                  : null;
             },
             validator: widget.validator,
             controller: widget.textController,
@@ -67,7 +70,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             selectionControls: materialTextSelectionControls,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: const TextStyle(color: AppColors.lightGrey),
+              hintStyle: const TextStyle(
+                color: AppColors.lightGrey,
+                fontFamily: 'Satoshi',
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
               ),

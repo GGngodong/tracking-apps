@@ -8,20 +8,18 @@ class DropdownForm extends StatefulWidget {
   final Function onCategoryChanged;
   final TextEditingController textEditingController;
 
-  DropdownForm(
-      {super.key, required this.header, required this.onCategoryChanged, required this.textEditingController});
+  const DropdownForm(
+      {super.key,
+      required this.header,
+      required this.onCategoryChanged,
+      required this.textEditingController});
 
   @override
   State<DropdownForm> createState() => _DropdownFormState();
 }
 
 class _DropdownFormState extends State<DropdownForm> {
-  final List<String> statusTahapan = [
-    'OPS',
-    'DTU',
-    'DTM',
-    'DKK'
-  ];
+  final List<String> statusTahapan = ['OPS', 'DTU', 'DTM', 'DKK'];
 
   String? selectedValue;
 
@@ -37,6 +35,7 @@ class _DropdownFormState extends State<DropdownForm> {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
+            fontFamily: 'Satoshi',
             color: AppColors.primary,
           ),
         ),
@@ -52,7 +51,11 @@ class _DropdownFormState extends State<DropdownForm> {
           ),
           hint: Text(
             'Kategori surat',
-            style: TextStyle(fontSize: 14.sp, color: AppColors.lightGrey),
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: AppColors.lightGrey,
+              fontFamily: 'Satoshi',
+            ),
           ),
           items: statusTahapan
               .map(
@@ -60,7 +63,10 @@ class _DropdownFormState extends State<DropdownForm> {
                   value: item,
                   child: Text(
                     item,
-                    style: TextStyle(fontSize: 14.sp),
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontFamily: 'Satoshi',
+                    ),
                   ),
                 ),
               )

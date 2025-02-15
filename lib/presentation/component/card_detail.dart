@@ -41,6 +41,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFFD3D3D3),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Draft Created';
     } else if (widget.processStatus == 'Archiving') {
@@ -48,6 +49,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFFA9A9A9),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Archiving';
     } else if (widget.processStatus == 'Submission') {
@@ -55,6 +57,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFF007BFF),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Submission';
     } else if (widget.processStatus == 'Verification') {
@@ -62,6 +65,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFFFFFF00),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Verification';
     } else if (widget.processStatus == 'Initial Approval') {
@@ -69,6 +73,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFF90EE90),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Initial Approval';
     } else if (widget.processStatus == 'Second Approval') {
@@ -76,6 +81,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFF008000),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Second Approval';
     } else if (widget.processStatus == 'Drafter') {
@@ -83,6 +89,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFFFFA500),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Drafter';
     } else if (widget.processStatus == 'Final Approval') {
@@ -90,6 +97,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFF00FF00),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Final Approval';
     } else if (widget.processStatus == 'Printing') {
@@ -97,6 +105,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFF800080),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'On Printing';
     } else {
@@ -104,6 +113,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
         color: Color(0xFFAF4848),
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
       typeStatus = 'No Status';
     }
@@ -120,6 +130,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -129,6 +140,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
           ),
@@ -138,6 +150,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -147,6 +160,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
           ),
@@ -156,6 +170,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -165,6 +180,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
           ),
@@ -174,6 +190,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -183,6 +200,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
           ),
@@ -192,6 +210,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -201,6 +220,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
           ),
@@ -210,6 +230,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -219,6 +240,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
           ),

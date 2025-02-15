@@ -62,6 +62,7 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
                         color: AppColors.primary,
                       ),
                     ),
@@ -144,10 +145,14 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     CustomButton(
                       text: 'Unggah Surat',
                       onPressed: () {
-                        AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to upload this document?', onPressed: () {
-                          _submit(_uploadBloc);
-                          Navigator.pop(context);
-                        });
+                        AppHelper.alertDialogMessage(
+                            context: context,
+                            content:
+                                'Are you sure you want to upload this document?',
+                            onPressed: () {
+                              _submit(_uploadBloc);
+                              Navigator.pop(context);
+                            });
                       },
                       isLogOut: false,
                       isLoading: state.isLoading,
@@ -168,6 +173,7 @@ AppBar _appBar() {
       style: TextStyle(
         fontSize: 20.sp,
         fontWeight: FontWeight.w700,
+        fontFamily: 'Satoshi',
         color: Colors.white,
       ),
     ),
