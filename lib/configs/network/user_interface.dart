@@ -27,15 +27,17 @@ abstract class UserInterface {
     required String companyName,
     required String date,
     required String authToken,
-    String? noPermitMabes,
     required String documentUrl,
+    String? noPermitMabes,
     String? processStatus,
+    String uploadStatus,
   });
 
   Future<HttpResponseModel> updatePermit({
     required String id,
-    String? processStatus,
     required String authToken,
+    String? processStatus,
+    String? uploadStatus,
   });
 
   Future<HttpResponseModel> getListPermit({
@@ -57,6 +59,24 @@ abstract class UserInterface {
     String? searchQuery,
     String? searchParam,
     String? categoryPermitSearchParam,
+    String? categoryPermitSearchQuery,
+    String? subCategoryPermitSearchParam,
+    String? subCategoryPermitSearchQuery,
+  });
 
+  Future<HttpResponseModel> getLatestPermit({
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> getApprovedPermit({
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> getRejectedPermit({
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> getPendingPermit({
+    required String authToken,
   });
 }

@@ -267,9 +267,10 @@ class UserService extends UserInterface {
     required String companyName,
     required String date,
     required String authToken,
-    String? noPermitMabes,
     required String documentUrl,
+    String? noPermitMabes,
     String? processStatus,
+    String? uploadStatus,
   }) async {
     try {
       var url = Uri.parse('$_baseUrl/dev/permit-letters/upload');
@@ -350,7 +351,9 @@ class UserService extends UserInterface {
   Future<HttpResponseModel> updatePermit(
       {required String id,
       required String authToken,
-      String? processStatus}) async {
+      String? noProdukMabes,
+      String? processStatus,
+      String? uploadStatus}) async {
     try {
       var url = Uri.parse('$_baseUrl/dev/permit-letters/edit/$id');
       var response = await http.patch(
@@ -360,7 +363,11 @@ class UserService extends UserInterface {
           'Accept': 'application/json',
           'Authorization': 'Bearer $authToken',
         },
-        body: jsonEncode({'status_tahapan': processStatus}),
+        body: jsonEncode({
+          'status_tahapan': processStatus,
+          'upload_status': uploadStatus,
+          'produk_no_surat_mabes': noProdukMabes,
+        }),
       );
       return HttpResponseModel(
         statusCode: response.statusCode,
@@ -409,11 +416,13 @@ class UserService extends UserInterface {
     String? searchQuery,
     String? categoryPermitSearchQuery,
     String? categoryPermitSearchParam,
+    String? subCategoryPermitSearchQuery,
+    String? subCategoryPermitSearchParam,
     required String authToken,
   }) async {
     try {
       var url = Uri.parse(
-          '$_baseUrl/dev/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery');
+          '$_baseUrl/dev/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery&$subCategoryPermitSearchParam=$subCategoryPermitSearchQuery');
       var response = await http.get(
         url,
         headers: {
@@ -450,4 +459,147 @@ class UserService extends UserInterface {
     }
   }
 
+  @override
+  Future<HttpResponseModel<PermitListResponse>> getApprovedPermit({
+    required String authToken,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/approved');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Accept': 'application/json;charset=UTF-8',
+        'Charset': 'utf-8',
+        'Authorization': 'Bearer $authToken',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final approvedListResponse =
+            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: approvedListResponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error Fetching Permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
+  Future<HttpResponseModel<PermitListResponse>> getRejectedPermit({
+    required String authToken,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/rejected');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Accept': 'application/json;charset=UTF-8',
+        'Charset': 'utf-8',
+        'Authorization': 'Bearer $authToken',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final rejectedListResponse =
+            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: rejectedListResponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error Fetching Permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
+  Future<HttpResponseModel<PermitListResponse>> getLatestPermit({
+    required String authToken,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/latest');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Accept': 'application/json;charset=UTF-8',
+        'Charset': 'utf-8',
+        'Authorization': 'Bearer $authToken',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final approvedListReponse =
+            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: approvedListReponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error Fetching Permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
+  Future<HttpResponseModel<PermitListResponse>> getPendingPermit({
+    required String authToken,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/permit-letters/pending');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Accept': 'application/json;charset=UTF-8',
+        'Charset': 'utf-8',
+        'Authorization': 'Bearer $authToken',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final pendingListResponse =
+            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: pendingListResponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error Fetching Permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
 }
