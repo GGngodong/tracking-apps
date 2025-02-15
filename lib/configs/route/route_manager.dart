@@ -4,7 +4,8 @@ import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/main_page.dart';
 import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
-import 'package:tracking_apps/presentation/pages/listSurat/list_surat.dart';
+import 'package:tracking_apps/presentation/pages/list/permit/list_surat.dart';
+import 'package:tracking_apps/presentation/pages/list/status/status_page.dart';
 import 'package:tracking_apps/presentation/pages/login/login.dart';
 import 'package:tracking_apps/presentation/pages/notification/notification_page.dart';
 import 'package:tracking_apps/presentation/pages/profile/profile_page.dart';
@@ -23,6 +24,9 @@ final class RouterManager {
           path: Routes.initial.path,
           builder: (context, state) => const SplashScreen(),
         ),
+        GoRoute(
+            path: Routes.statusPage.path,
+            builder: (context, state) => const StatusPage()),
         GoRoute(
             path: Routes.navigation.path,
             builder: (context, state) {
