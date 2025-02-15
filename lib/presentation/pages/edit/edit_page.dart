@@ -7,7 +7,6 @@ import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
-import 'package:tracking_apps/presentation/component/skeleton_card.dart';
 
 part 'edit_mixin.dart';
 
@@ -43,6 +42,7 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w700,
+                      fontFamily: 'Satoshi',
                       color: AppColors.primary,
                     ),
                   ),
@@ -60,9 +60,20 @@ class _EditPageState extends State<EditPage> with EditMixin {
                   SizedBox(
                     height: 12.h,
                   ),
+                  DropdownFormStatusTahapan(
+                    header: 'Produk Mabes',
+                    onCategoryChanged: (value) {
+                      _submit(_editBloc);
+
+                    },
+                    textEditingController: _noPermitMabesTextEditingController,
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
 
                   CustomButton(
-                    text: 'Edit Proses',
+                    text: 'Edit Dokumen',
                     onPressed: () {
                       _submit(_editBloc);
                     },

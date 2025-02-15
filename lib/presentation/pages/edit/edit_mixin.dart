@@ -1,6 +1,7 @@
 part of 'edit_page.dart';
 
 mixin EditMixin on State<EditPage> {
+  late TextEditingController _noPermitMabesTextEditingController;
   late TextEditingController _statusProcessTextEditingController;
   late String? _authToken;
 
@@ -61,7 +62,11 @@ mixin EditMixin on State<EditPage> {
     print('Status Tahapan: ${_statusProcessTextEditingController.text}');
     print('================== CURRENT : $editBloc ==================');
     editBloc.add(
-      UpdateDataButtonPressed(id: widget.id, processStatus: _statusProcessTextEditingController.text.trim()),
+      UpdateDataButtonPressed(
+        id: widget.id,
+        noProdukMabes: _noPermitMabesTextEditingController.text.trim(),
+        processStatus: _statusProcessTextEditingController.text.trim(),
+      ),
     );
   }
 }

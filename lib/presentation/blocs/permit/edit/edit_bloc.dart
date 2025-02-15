@@ -32,6 +32,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
             await userService.updatePermit(
           id: event.id,
           processStatus: event.processStatus,
+          noProdukMabes: event.noProdukMabes,
           authToken: token,
         );
         if (updateResponse.statusCode == 200) {

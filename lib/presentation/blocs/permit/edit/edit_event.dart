@@ -9,12 +9,19 @@ abstract class EditEvent extends Equatable {
 
 class UpdateDataButtonPressed extends EditEvent {
   String? processStatus;
+  String? uploadStatus;
+  String? noProdukMabes;
   final String id;
 
-  UpdateDataButtonPressed({this.processStatus, required this.id});
+  UpdateDataButtonPressed({
+    this.noProdukMabes,
+    this.processStatus,
+    this.uploadStatus,
+    required this.id,
+  });
 
   @override
-  List<Object?> get props => [processStatus, id];
+  List<Object?> get props => [noProdukMabes, processStatus, uploadStatus, id];
 }
 
 class DeleteDataButtonPressed extends EditEvent {
