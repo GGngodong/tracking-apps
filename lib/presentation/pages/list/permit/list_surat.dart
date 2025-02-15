@@ -40,7 +40,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
-      context.read<PermitLetterBloc>().add(GetPermitLetter());
+      context.read<PermitLetterBloc>().add(GetListPermitLetter());
     }
   }
 
@@ -61,7 +61,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
           builder: (context, state) {
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<PermitLetterBloc>().add(GetPermitLetter());
+                context.read<PermitLetterBloc>().add(GetListPermitLetter());
               },
               child: _buildBody(state),
             );
@@ -91,6 +91,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
           fontSize: 20.sp,
           fontWeight: FontWeight.w700,
           color: Colors.white,
+          fontFamily: 'Satoshi',
         ),
       ),
       flexibleSpace: Container(
@@ -139,7 +140,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
           state.listPermitLetter.isEmpty
               ? RefreshIndicator(
                   onRefresh: () async {
-                    context.read<PermitLetterBloc>().add(GetPermitLetter());
+                    context.read<PermitLetterBloc>().add(GetListPermitLetter());
                   },
                 child: Column(
                     children: [
@@ -158,6 +159,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                             color: Colors.grey[700],
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'Satoshi',
                           ),
                         ),
                       ),
@@ -168,6 +170,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                             color: Colors.grey[600],
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w300,
+                            fontFamily: 'Satoshi',
                           ),
                         ),
                       ),
@@ -233,6 +236,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                 color: Colors.grey[700],
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'Satoshi',
               ),
             ),
           ),
@@ -243,6 +247,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                 color: Colors.grey[600],
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
+                fontFamily: 'Satoshi',
               ),
             ),
           ),

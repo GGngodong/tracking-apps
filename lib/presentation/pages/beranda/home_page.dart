@@ -11,7 +11,7 @@ import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/header.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
-import 'package:tracking_apps/presentation/pages/listSurat/list_surat.dart';
+import 'package:tracking_apps/presentation/pages/list/permit/list_surat.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
-      context.read<PermitLetterBloc>().add(GetPermitLetter());
+      context.read<PermitLetterBloc>().add(GetListPermitLetter());
     }
   }
 
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<PermitLetterBloc>().add(GetPermitLetter());
+                context.read<PermitLetterBloc>().add(GetListPermitLetter());
               },
               child: _buildBody(state),
             );
@@ -341,6 +341,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
                         color: AppColors.primary,
                       ),
                     ),
@@ -375,6 +376,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.grey[700],
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'Satoshi',
               ),
             ),
           ),
@@ -385,6 +387,7 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.grey[600],
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
+                fontFamily: 'Satoshi',
               ),
             ),
           ),
