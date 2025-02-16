@@ -6,12 +6,14 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
+import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
 
 part 'edit_mixin.dart';
 
 class EditPage extends StatefulWidget {
   final String id;
+
   const EditPage({super.key, required this.id});
 
   @override
@@ -21,7 +23,7 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> with EditMixin {
   @override
   Widget build(BuildContext context) {
-    final EditBloc _editBloc = BlocProvider.of<EditBloc>(context);
+    final EditBloc editBloc = BlocProvider.of<EditBloc>(context);
     return BlocListener<EditBloc, EditState>(
       listener: (context, state) {
         _listener(state);
@@ -50,32 +52,50 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     height: 12.h,
                   ),
                   DropdownFormStatusTahapan(
-                    header: 'Status Tahapan',
+                    hintText: 'Status Tahapan',
+                    header: 'Proses Tahapan',
                     onCategoryChanged: (value) {
-                      _submit(_editBloc);
-
+                      _submit(editBloc);
                     },
                     textEditingController: _statusProcessTextEditingController,
-                  ),
-                  SizedBox(
-                    height: 12.h,
+                    listDropdown: [
+                      'Draft Created',
+                      'Archiving',
+                      'Verification',
+                      'Initial Approval',
+                      'Second Approval',
+                      'Drafter',
+                      'Final Approval',
+                      'Printing'
+                    ],
                   ),
                   DropdownFormStatusTahapan(
-                    header: 'Produk Mabes',
+                    hintText: 'Kategori Surat',
+                    header: 'Upload Status',
                     onCategoryChanged: (value) {
-                      _submit(_editBloc);
-
+                      _submit(editBloc);
                     },
-                    textEditingController: _noPermitMabesTextEditingController,
+                    textEditingController: _uploadStatusTextEditingController,
+                    listDropdown: ['PENDING', 'REJECTED', 'ACCEPTED'],
                   ),
                   SizedBox(
                     height: 12.h,
                   ),
-
+                  CustomTextField(
+                    hintText: 'No. Produk Mabes',
+                    header: 'Produk Mabes',
+                    textController: _noPermitMabesTextEditingController,
+                    onFieldSubmitted: (value) {
+                      _submit(editBloc);
+                    },
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
                   CustomButton(
                     text: 'Edit Dokumen',
                     onPressed: () {
-                      _submit(_editBloc);
+                      _submit(editBloc);
                     },
                     isLogOut: false,
                     isLoading: state.isLoading,
