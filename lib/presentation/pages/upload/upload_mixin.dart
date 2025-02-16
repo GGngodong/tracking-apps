@@ -9,11 +9,13 @@ mixin UploadMixin on State<UploadPage> {
   late TextEditingController _categoryPermitTextEditingController;
   late TextEditingController _companyNameTextEditingController;
   late TextEditingController _noPermitMabesEditingController;
+  late TextEditingController _categoryAdministrationTextEditingController;
   String? _documentUrl;
 
 
   @override
   void initState() {
+    _categoryAdministrationTextEditingController = TextEditingController();
     _descriptionTextEditingController = TextEditingController();
     _noPermitTextEditingController = TextEditingController();
     _categoryPermitTextEditingController = TextEditingController();
@@ -25,6 +27,7 @@ mixin UploadMixin on State<UploadPage> {
 
   @override
   void dispose() {
+    _categoryAdministrationTextEditingController.dispose();
     _descriptionTextEditingController.dispose();
     _noPermitTextEditingController.dispose();
     _categoryPermitTextEditingController.dispose();
@@ -76,6 +79,7 @@ mixin UploadMixin on State<UploadPage> {
           companyName: companyName.isEmpty ? "" : companyName,
           noPermitMabes: noPermitMabes.isEmpty ? null  : noPermitMabes,
           documentUrl: _documentUrl!,
+            categoryAdministration : _categoryAdministrationTextEditingController.text.trim()
         ),
       );
   }
