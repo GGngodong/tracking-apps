@@ -5,6 +5,7 @@ import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/approved/get_approved_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/listPermit/latest/get_latest_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/pending/get_pending_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/reject/get_reject_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/search/search_bloc.dart';
@@ -37,7 +38,8 @@ class CustomMultiBlocProvider extends StatelessWidget {
             create: (context) =>
                 DetailPermitLetterBloc(userService: UserService())),
         BlocProvider(create: (context) => EditBloc(userService: UserService())),
-        BlocProvider(create: (context) => SearchBloc(userService: UserService())),
+        BlocProvider(
+            create: (context) => SearchBloc(userService: UserService())),
         BlocProvider(
             create: (context) =>
                 PermitLetterApprovedBloc(userService: UserService())),
@@ -47,6 +49,10 @@ class CustomMultiBlocProvider extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 PermitLetterPendingBloc(userService: UserService())),
+        BlocProvider(
+          create: (context) =>
+              PermitLetterLatestBloc(userService: UserService()),
+        )
       ],
       child: child,
     );
