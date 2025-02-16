@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/presentation/component/custom_button.dart';
 
 class CustomBottomSheetFilter extends StatefulWidget {
-  const CustomBottomSheetFilter({super.key});
+  final String initialCategory;
+  final String initialSubCategory;
+
+  const CustomBottomSheetFilter({
+    Key? key,
+    this.initialCategory = '',
+    this.initialSubCategory = '',
+  }) : super(key: key);
 
   @override
   State<CustomBottomSheetFilter> createState() =>
@@ -10,11 +19,11 @@ class CustomBottomSheetFilter extends StatefulWidget {
 }
 
 class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
-  String? _selectedCategory;
-  String? _selectedSubCategory;
+  late String selectedCategory;
+  late String selectedSubCategory;
 
-  final List<String> _categories = ['OPS', 'DTU', 'DTM', 'DKK'];
-  final List<String> _subCategories = [
+  final List<String> categories = ['OPS', 'DTU', 'DTM', 'DKK'];
+  final List<String> subCategories = [
     '2P BARU',
     '3P BARU',
     'PENGGUNAAN SISA',
@@ -40,6 +49,13 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
     'PERPANJANGAN',
     'ANGKUT SENPI DAN AMUNISI',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCategory = widget.initialCategory;
+    selectedSubCategory = widget.initialSubCategory;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,13 +89,35 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
                         ),
                       ),
                       SizedBox(height: 8.h),
-                      Text(
-                        'Filter',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Urut Berdasarkan',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Satoshi'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedCategory = '';
+                                selectedSubCategory = '';
+                              });
+                            },
+                            child: Text(
+                              'Reset',
+                              style: TextStyle(
+                                color: AppColors.tertiary,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Satoshi',
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -90,27 +128,32 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     children: [
                       Text(
-                        'Urut Berdasarkan',
+                        'Kategori',
                         style: TextStyle(
-                          color: Colors.black,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
+                          color: Colors.black,
                         ),
                       ),
                       SizedBox(height: 16.h),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 8.0,
-                        children: _categories.map((category) {
+                        children: categories.map((category) {
                           return ChoiceChip(
                             label: Text(category),
-                            selected: _selectedCategory == category,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
+                            selected: selectedCategory == category,
+                            selectedColor: AppColors.tertiary,
+                            backgroundColor: Colors.white,
+                            showCheckmark: true,
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                             onSelected: (bool selected) {
                               setState(() {
-                                _selectedCategory = selected ? category : null;
+                                selectedCategory = selected ? category : '';
                               });
                             },
                           );
@@ -120,46 +163,48 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
                       Text(
                         'Subkategori',
                         style: TextStyle(
-                          color: Colors.black,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
+                          color: Colors.black,
                         ),
                       ),
                       SizedBox(height: 16.h),
                       Wrap(
                         spacing: 8.0,
                         runSpacing: 8.0,
-                        children: _subCategories.map((subCategory) {
+                        children: subCategories.map((subCategory) {
                           return ChoiceChip(
                             label: Text(subCategory),
-                            selected: _selectedSubCategory == subCategory,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
+                            selected: selectedSubCategory == subCategory,
+                            selectedColor: AppColors.tertiary,
+                            backgroundColor: Colors.white,
+                            showCheckmark: true,
+                            labelStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
                             ),
                             onSelected: (bool selected) {
                               setState(() {
-                                _selectedSubCategory =
-                                    selected ? subCategory : null;
+                                selectedSubCategory =
+                                    selected ? subCategory : '';
                               });
                             },
                           );
                         }).toList(),
                       ),
-                      // Add extra bottom spacing if needed
-                      SizedBox(height: 20.h),
-                      ElevatedButton(
+                      SizedBox(height: 10.h),
+                      CustomButton(
+                        text: 'Cari Permohonan',
                         onPressed: () {
                           Navigator.pop(context, {
-                            'category': _selectedCategory ?? '',
-                            'subCategory': _selectedSubCategory ?? '',
+                            'category': selectedCategory,
+                            'subCategory': selectedSubCategory,
                           });
                         },
-                        child: Text(
-                          'Apply Filter',
-                          style: TextStyle(fontSize: 16.sp),
-                        ),
+                        isLogOut: false,
                       ),
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 20.h)
                     ],
                   ),
                 ),
