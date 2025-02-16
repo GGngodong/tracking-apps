@@ -24,27 +24,27 @@ class PermitLetterLatestBloc extends Bloc<PermitLetterLatestEvent, PermitLetterL
               statusCode: 401));
           return;
         }
-        final response = await userService.getPendingPermit(authToken: token);
+        final response = await userService.getLatestPermit(authToken: token);
         if (response.statusCode == 200) {
           emit(PermitLetterLoadedState(
             listPermitLetter: response.data!.data,
             message: response.message,
             isLoading: false,
           ));
-          print('================== GET PENDING PERMIT SUCCESS ==================');
+          print('================== GET LATEST PERMIT SUCCESS ==================');
         } else {
           emit(PermitLetterFailedState(
             message: response.message ?? 'Failed to load permits',
             isLoading: false,
             statusCode: response.statusCode,
           ));
-          print('================== GET PENDING PERMIT FAILED ==================');
+          print('================== GET LATEST PERMIT FAILED ==================');
         }
       } catch (e) {
         emit(PermitLetterFailedState(
             message: e.toString(), isLoading: false, statusCode: 500));
         print(
-            '================== IN GET PENDING PERMIT FAILED BLOC $e ==================');
+            '================== IN GET LATEST PERMIT FAILED BLOC $e ==================');
       }
     });
   }
