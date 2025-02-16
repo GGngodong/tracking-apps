@@ -33,6 +33,7 @@ class _MainPageState extends State<MainPage> {
         HomePage(),
         StatusPage(),
         SearchPage(),
+        NotificationPage(),
         ProfilePage(),
       ];
       _navBarItems = [
