@@ -10,6 +10,7 @@ import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_datepicker.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form.dart';
+import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
 import 'package:tracking_apps/presentation/component/pdf_upload.dart';
 
 part 'upload_mixin.dart';
@@ -22,7 +23,15 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> with UploadMixin {
-  late String? _authToken;
+  String? _authToken;
+  late final ScaffoldMessengerState _scaffoldMessenger; // Save a reference here
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Save the scaffold messenger reference
+    _scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
 
   @override
   void initState() {
@@ -33,9 +42,11 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
   Future<void> _loadAuthToken() async {
     final token = await SharedPreferencesService.instance
         .getData<String>(PreferenceKey.authToken);
-    setState(() {
-      _authToken = token;
-    });
+    if (mounted) {
+      setState(() {
+        _authToken = token;
+      });
+    }
   }
 
   @override
@@ -126,17 +137,48 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     SizedBox(
                       height: 12.h,
                     ),
-                    DropdownForm(
-                      header: 'Kategori',
+                    DropdownFormStatusTahapan(
+                      hintText: 'Kategori Surat',
+                      header: 'Upload Status',
                       onCategoryChanged: (value) {
                         _submit(_uploadBloc);
-                        print('============= INI NULL =============');
                       },
-                      textEditingController:
-                          _categoryPermitTextEditingController,
+                      textEditingController: _categoryPermitTextEditingController,
+                      listDropdown: ['OPS', 'DTU', 'DTM', 'DKK'],
                     ),
-                    SizedBox(
-                      height: 12.h,
+                    DropdownFormStatusTahapan(
+                      hintText: 'Administrasi',
+                      header: 'Kategori Administrasi',
+                      onCategoryChanged: (value) {
+                        _submit(_uploadBloc);
+                      },
+                      textEditingController: _categoryAdministrationTextEditingController,
+                      listDropdown: [
+                        '2P BARU',
+                        '3P BARU',
+                        'PENGGUNAAN SISA',
+                        'AHLI GUNA',
+                        'PEMUSNAHAN',
+                        '3P PERPANJANG',
+                        'PENGANGKUTAN ANTAR POLDA',
+                        '2P PERPANJANGAN',
+                        '3P PERPANJANGAN',
+                        'AHLI GUNA/HIBAH',
+                        'GUDANG',
+                        'GUDANG PERPANJANG',
+                        'RE-EKSPOR',
+                        'PENGGUNAAN/PROD. DI WIL PENGGUNA AKHIR',
+                        'IMPOR',
+                        'EKSPOR',
+                        'PEMBUATAN/PROD. HANDAK',
+                        'UJI COBA',
+                        'PEMBELIAN DAN PENGGUNAAN',
+                        'PENGGUNAAN',
+                        '3P',
+                        'BARU',
+                        'PERPANJANGAN',
+                        'ANGKUT SENPI DAN AMUNISI',
+                      ],
                     ),
                     buildPdfPicker(),
                     SizedBox(
@@ -148,7 +190,7 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                         AppHelper.alertDialogMessage(
                             context: context,
                             content:
-                                'Are you sure you want to upload this document?',
+                            'Are you sure you want to upload this document?',
                             onPressed: () {
                               _submit(_uploadBloc);
                               Navigator.pop(context);
