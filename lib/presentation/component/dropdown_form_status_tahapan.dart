@@ -6,27 +6,25 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 class DropdownFormStatusTahapan extends StatefulWidget {
   final String header;
   final Function onCategoryChanged;
+  final String hintText;
+  final List<String> listDropdown;
   final TextEditingController textEditingController;
 
-  DropdownFormStatusTahapan(
-      {super.key, required this.header, required this.onCategoryChanged, required this.textEditingController});
+  DropdownFormStatusTahapan({
+    super.key,
+    required this.header,
+    required this.onCategoryChanged,
+    required this.textEditingController,
+    required this.listDropdown,
+    required this.hintText,
+  });
 
   @override
-  State<DropdownFormStatusTahapan> createState() => _DropdownFormStatusTahapanState();
+  State<DropdownFormStatusTahapan> createState() =>
+      _DropdownFormStatusTahapanState();
 }
 
 class _DropdownFormStatusTahapanState extends State<DropdownFormStatusTahapan> {
-  final List<String> statusTahapan = [
-    'Draft Created',
-    'Archiving',
-    'Verification',
-    'Initial Approval',
-    'Second Approval',
-    'Drafter',
-    'Final Approval',
-    'Printing'
-  ];
-
   String? selectedValue;
 
   @override
@@ -54,10 +52,10 @@ class _DropdownFormStatusTahapanState extends State<DropdownFormStatusTahapan> {
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
           ),
           hint: Text(
-            'Kategori surat',
+            widget.hintText,
             style: TextStyle(fontSize: 14.sp, color: AppColors.lightGrey),
           ),
-          items: statusTahapan
+          items: widget.listDropdown
               .map(
                 (item) => DropdownMenuItem(
                   value: item,
