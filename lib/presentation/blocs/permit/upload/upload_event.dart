@@ -13,10 +13,12 @@ class UploadButtonPressed extends UploadEvent {
   final String date;
   final String categoryPermit;
   final String companyName;
+  final String categoryAdministration;
   final String? noPermitMabes;
   final String documentUrl;
 
   const UploadButtonPressed({
+    required this.categoryAdministration,
     required this.description,
     required this.noPermit,
     required this.date,
@@ -29,6 +31,7 @@ class UploadButtonPressed extends UploadEvent {
   @override
   List<Object?> get props => [
         description,
+        categoryAdministration,
         noPermit,
         date,
         categoryPermit,

@@ -42,6 +42,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           noPermitMabes: event.noPermitMabes,
           processStatus: 'Draft Created',
           documentUrl: event.documentUrl,
+              categoryAdministration : event.categoryAdministration,
           authToken: token,
         );
         if (uploadResponse.statusCode == 200 ||
