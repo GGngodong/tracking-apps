@@ -256,6 +256,7 @@ class _HomePageState extends State<HomePage> {
                               noSurat: permit.noPermit,
                               noSuratIzinMabes:
                                   permit.noPermitMabes ?? 'Belum Terbit',
+                              uploadStatus: permit.uploadStatus ?? 'PENDING',
                               funcDownload: () async {
                                 final url = permit.documentUrl;
                                 final externalDir =
