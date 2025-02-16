@@ -107,6 +107,7 @@ class _PermitRejectState extends State<PermitReject> {
               noSurat: permit.noPermit,
               noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
               processStatus: permit.processStatus,
+              uploadStatus: permit.uploadStatus ?? 'PENDING',
               funcRead: () {
                 final profileState = context.read<ProfileBloc>().state;
                 final role = profileState.user!.role;
