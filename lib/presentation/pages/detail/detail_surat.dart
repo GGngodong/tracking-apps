@@ -7,7 +7,6 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
-import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_detail.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
 import 'package:tracking_apps/presentation/pages/detail/detailDokumen/detail_pdf.dart';
@@ -128,25 +127,11 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 16.h,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
-                'Detail Surat',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Satoshi',
-                  color: AppColors.primary,
-                ),
-              ),
-            ),
-            SizedBox(
               height: 10.h,
             ),
             CardDetailSurat(
               processStatus: state.permit!.processStatus,
+              uploadStatus: state.permit!.uploadStatus ?? 'Pending',
               id: state.permit!.id,
               date: state.permit!.date,
               categorySurat: state.permit!.categoryPermit,
@@ -240,10 +225,6 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
         ),
       ),
     );
-  }
-
-  void _deletePermit(EditBloc editBloc) {
-
   }
 
   Widget _failedBody(DetailPermitLetterFailedState state) {
