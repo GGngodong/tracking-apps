@@ -69,7 +69,6 @@ mixin LoginMixin on State<LoginPage> {
           password: _passwordTextEditingController.text.trim(),
         ),
       );
-      AppHelper.alertDialogMessage(context: context, content: 'Login Success!');
     } else {
       AppHelper.alertDialogMessage(context: context, content: 'Login Failed! Invalid ${httpResponseModel.message}');
     }
