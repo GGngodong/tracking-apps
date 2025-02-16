@@ -268,6 +268,7 @@ class UserService extends UserInterface {
     required String date,
     required String authToken,
     required String documentUrl,
+    required String categoryAdministration,
     String? noPermitMabes,
     String? processStatus,
     String? uploadStatus,
@@ -282,6 +283,7 @@ class UserService extends UserInterface {
       request.fields['nama_pt'] = companyName;
       request.fields['tanggal'] = date;
       request.fields['status_tahapan'] = processStatus ?? 'Draft Created';
+      request.fields['sub_kategori_permit_letter'] = categoryAdministration;
       if (noPermitMabes != null) {
         request.fields['produk_no_surat_mabes'] = noPermitMabes;
       }
@@ -600,6 +602,37 @@ class UserService extends UserInterface {
       }
     } catch (e) {
       return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
+  Future<HttpResponseModel> updateDeviceToken({
+    required String authToken,
+    required String deviceToken,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/users/update-token');
+      var response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': 'Bearer $authToken',
+        },
+        body: jsonEncode({
+          'device_token': deviceToken,
+        }),
+      );
+
+      return HttpResponseModel(
+        statusCode: response.statusCode,
+        data: jsonDecode(response.body)["data"],
+        status: jsonDecode(response.body)["status"],
+        message: jsonDecode(response.body)["message"],
+      );
+    } catch (e) {
+      return HttpResponseModel(
+        message: 'An error occurred: $e',
+      );
     }
   }
 }

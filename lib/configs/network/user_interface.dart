@@ -28,6 +28,7 @@ abstract class UserInterface {
     required String date,
     required String authToken,
     required String documentUrl,
+    required String categoryAdministration,
     String? noPermitMabes,
     String? processStatus,
     String uploadStatus,
@@ -38,6 +39,7 @@ abstract class UserInterface {
     required String authToken,
     String? processStatus,
     String? uploadStatus,
+    String? noProdukMabes,
   });
 
   Future<HttpResponseModel> getListPermit({
@@ -78,5 +80,10 @@ abstract class UserInterface {
 
   Future<HttpResponseModel> getPendingPermit({
     required String authToken,
+  });
+
+  Future<HttpResponseModel> updateDeviceToken({
+    required String authToken,
+    required String deviceToken,
   });
 }
