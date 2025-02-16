@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/network/user_service.dart';
@@ -24,8 +25,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
           if (validateResponse.data != null) {
             await userService.saveAuthTokenToSP(loginResponse.data);
-            await SharedPreferencesService.instance.setData<String>(PreferenceKey.userRole, loginResponse.data);
+            await SharedPreferencesService.instance
+                .setData<String>(PreferenceKey.userRole, loginResponse.data);
             final user = UserModel.fromMap(validateResponse.data);
+
+            String? deviceToken = await FirebaseMessaging.instance.getToken();
+            if (deviceToken != null) {
+              await userService.updateDeviceToken(
+                authToken: loginResponse.data,
+                deviceToken: deviceToken,
+              );
+            }
             emit(LoginSuccess(
                 user: user,
                 message: validateResponse.message,
@@ -87,7 +97,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await userService.deleteAuthTokenFromSP();
       emit(const LoginState(isLoading: false));
     });
-
 
     on<ClearLoginData>((event, emit) async {
       emit(const LoginState());
