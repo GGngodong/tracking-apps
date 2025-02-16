@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
@@ -9,10 +11,9 @@ import 'package:tracking_apps/presentation/blocs/permit/search/search_bloc.dart'
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/custom_bottom_sheet_filter.dart';
+import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:path_provider/path_provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -28,6 +29,34 @@ class _SearchPageState extends State<SearchPage> {
 
   String _selectedCategory = '';
   String _selectedSubCategory = '';
+
+  final List<String> _categories = ['OPS', 'DTU', 'DTM', 'DKK'];
+  final List<String> _subCategories = [
+    '2P BARU',
+    '3P BARU',
+    'PENGGUNAAN SISA',
+    'AHLI GUNA',
+    'PEMUSNAHAN',
+    '3P PERPANJANG',
+    'PENGANGKUTAN ANTAR POLDA',
+    '2P PERPANJANGAN',
+    '3P PERPANJANGAN',
+    'AHLI GUNA/HIBAH',
+    'GUDANG',
+    'GUDANG PERPANJANG',
+    'RE-EKSPOR',
+    'PENGGUNAAN/PROD. DI WIL PENGGUNA AKHIR',
+    'IMPOR',
+    'EKSPOR',
+    'PEMBUATAN/PROD. HANDAK',
+    'UJI COBA',
+    'PEMBELIAN DAN PENGGUNAAN',
+    'PENGGUNAAN',
+    '3P',
+    'BARU',
+    'PERPANJANGAN',
+    'ANGKUT SENPI DAN AMUNISI',
+  ];
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -58,18 +87,18 @@ class _SearchPageState extends State<SearchPage> {
   Future<void> _doSearch() async {
     if (_searchController.text.isNotEmpty) {
       context.read<SearchBloc>().add(
-        SearchPermitLetter(
-          _searchController.text,
-          _defaultSearchField,
-          categoryPermitSearchQuery: _selectedCategory,
-          categoryPermitSearchParam:
-          _selectedCategory.isNotEmpty ? "kategori_permit_letter" : "",
-          subCategoryPermitSearchQuery: _selectedSubCategory,
-          subCategoryPermitSearchParam: _selectedSubCategory.isNotEmpty
-              ? "sub_kategori_permit_letter"
-              : "",
-        ),
-      );
+            SearchPermitLetter(
+              _searchController.text,
+              _defaultSearchField,
+              categoryPermitSearchQuery: _selectedCategory,
+              categoryPermitSearchParam:
+                  _selectedCategory.isNotEmpty ? "kategori_permit_letter" : "",
+              subCategoryPermitSearchQuery: _selectedSubCategory,
+              subCategoryPermitSearchParam: _selectedSubCategory.isNotEmpty
+                  ? "sub_kategori_permit_letter"
+                  : "",
+            ),
+          );
     }
   }
 
@@ -81,7 +110,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         titleSpacing: 0,
         toolbarHeight: 70.h,
-        backgroundColor: Colors.amber,
+        backgroundColor: AppColors.whitePage,
         title: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Row(
@@ -110,16 +139,22 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 child: IconButton(
                   onPressed: () async {
-                    final result = await showModalBottomSheet<Map<String, String>>(
+                    // Show the bottom sheet filter
+                    final result =
+                        await showModalBottomSheet<Map<String, String>>(
                       context: context,
                       enableDrag: true,
                       scrollControlDisabledMaxHeightRatio: 0.85,
                       backgroundColor: Colors.transparent,
                       isDismissible: true,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16.r)),
                       ),
-                      builder: (context) => const CustomBottomSheetFilter(),
+                      builder: (context) => CustomBottomSheetFilter(
+                        initialCategory: _selectedCategory,
+                        initialSubCategory: _selectedSubCategory,
+                      ),
                     );
                     if (result != null) {
                       setState(() {
@@ -183,45 +218,56 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                           );
                         }
-                        return ListView.builder(
+                        return ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(),
                           itemCount: permits.length,
+                          separatorBuilder: (context, index) => SizedBox(height: 10.h),
                           itemBuilder: (context, index) {
                             final permit = permits[index];
                             return CardSurat(
                               processStatus: permit.processStatus,
                               date: permit.date,
+                              uploadStatus: permit.uploadStatus ?? 'Pending',
                               categorySurat: permit.categoryPermit,
                               namaDokumen: permit.description,
                               namaPerusahaan: permit.companyName,
                               noSurat: permit.noPermit,
-                              noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
+                              noSuratIzinMabes:
+                                  permit.noPermitMabes ?? 'Belum Terbit',
                               funcDownload: () async {
                                 final url = permit.documentUrl;
-                                final externalDir = await getExternalStorageDirectory();
+                                final externalDir =
+                                    await getExternalStorageDirectory();
                                 if (externalDir != null) {
                                   try {
-                                    final taskId = await FlutterDownloader.enqueue(
+                                    final taskId =
+                                        await FlutterDownloader.enqueue(
                                       url: url,
                                       savedDir: externalDir.path,
-                                      fileName: 'Surat Permohonan ${permit.description}.pdf',
+                                      fileName:
+                                          'Surat Permohonan ${permit.description}.pdf',
                                       showNotification: true,
                                       openFileFromNotification: true,
                                     );
-                                    debugPrint('Download task enqueued with taskId: $taskId');
+                                    debugPrint(
+                                        'Download task enqueued with taskId: $taskId');
                                   } catch (e) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("Download failed: $e")),
+                                      SnackBar(
+                                          content: Text("Download failed: $e")),
                                     );
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text("Unable to access storage directory")),
+                                    const SnackBar(
+                                        content: Text(
+                                            "Unable to access storage directory")),
                                   );
                                 }
                               },
                               funcRead: () {
-                                final profileState = context.read<ProfileBloc>().state;
+                                final profileState =
+                                    context.read<ProfileBloc>().state;
                                 final role = profileState.user!.role;
                                 Navigator.push(
                                   context,
@@ -262,6 +308,7 @@ class _SearchPageState extends State<SearchPage> {
                                   color: Colors.grey[600],
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w300,
+                                  fontFamily: 'Satoshi',
                                 ),
                               ),
                             ],
@@ -275,7 +322,15 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         );
                       } else {
-                        return const Center(child: Text('Mulai mencari ...'));
+                        return Center(
+                            child: Text(
+                          'Mulai mencari ...',
+                          style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Satoshi'),
+                        ));
                       }
                     },
                   ),
