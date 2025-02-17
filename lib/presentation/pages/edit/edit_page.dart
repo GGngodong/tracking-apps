@@ -7,6 +7,7 @@ import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
+import 'package:tracking_apps/presentation/component/custom_text_field_2.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
 
 part 'edit_mixin.dart';
@@ -76,7 +77,7 @@ class _EditPageState extends State<EditPage> with EditMixin {
                       _submit(editBloc);
                     },
                     textEditingController: _uploadStatusTextEditingController,
-                    listDropdown: ['PENDING', 'REJECTED', 'ACCEPTED'],
+                    listDropdown: ['PENDING', 'REJECTED', 'APPROVED'],
                   ),
                   SizedBox(
                     height: 12.h,
@@ -85,6 +86,17 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     hintText: 'No. Produk Mabes',
                     header: 'Produk Mabes',
                     textController: _noPermitMabesTextEditingController,
+                    onFieldSubmitted: (value) {
+                      _submit(editBloc);
+                    },
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  CustomTextField2(
+                    hintText: 'Tambahkan catatan',
+                    header: 'Catatan',
+                    textController: _noteTextEditingController,
                     onFieldSubmitted: (value) {
                       _submit(editBloc);
                     },

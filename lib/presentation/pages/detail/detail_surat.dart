@@ -139,6 +139,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
               namaPerusahaan: state.permit!.companyName,
               noSurat: state.permit!.noPermit,
               noSuratIzinMabes: state.permit!.noPermitMabes ?? 'Belum Terbit',
+              note: state.permit!.note ?? 'Tidak ada catatan',
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),

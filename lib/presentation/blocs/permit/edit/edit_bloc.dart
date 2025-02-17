@@ -34,6 +34,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
           processStatus: event.processStatus,
           noProdukMabes: event.noProdukMabes,
           uploadStatus: event.uploadStatus,
+          note: event.note,
           authToken: token,
         );
         if (updateResponse.statusCode == 200) {

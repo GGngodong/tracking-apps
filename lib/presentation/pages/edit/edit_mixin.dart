@@ -4,6 +4,7 @@ mixin EditMixin on State<EditPage> {
   late TextEditingController _noPermitMabesTextEditingController;
   late TextEditingController _statusProcessTextEditingController;
   late TextEditingController _uploadStatusTextEditingController;
+  late TextEditingController _noteTextEditingController;
   late String? _authToken;
 
   @override
@@ -12,6 +13,7 @@ mixin EditMixin on State<EditPage> {
     _uploadStatusTextEditingController = TextEditingController();
     _statusProcessTextEditingController = TextEditingController();
     _noPermitMabesTextEditingController = TextEditingController();
+    _noteTextEditingController = TextEditingController();
     _loadAuthToken();
   }
 
@@ -32,6 +34,7 @@ mixin EditMixin on State<EditPage> {
     _uploadStatusTextEditingController.dispose();
     _statusProcessTextEditingController.dispose();
     _noPermitMabesTextEditingController.dispose();
+    _noteTextEditingController.dispose();
     super.dispose();
   }
 
@@ -74,6 +77,7 @@ mixin EditMixin on State<EditPage> {
         noProdukMabes: _noPermitMabesTextEditingController.text.trim(),
         processStatus: _statusProcessTextEditingController.text.trim(),
         uploadStatus: _uploadStatusTextEditingController.text.trim(),
+        note: _noteTextEditingController.text.trim(),
       ),
     );
   }
