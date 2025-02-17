@@ -8,10 +8,10 @@ class CustomBottomSheetFilter extends StatefulWidget {
   final String initialSubCategory;
 
   const CustomBottomSheetFilter({
-    Key? key,
+    super.key,
     this.initialCategory = '',
     this.initialSubCategory = '',
-  }) : super(key: key);
+  });
 
   @override
   State<CustomBottomSheetFilter> createState() =>
@@ -128,7 +128,7 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     children: [
                       Text(
-                        'Kategori',
+                        'Divisi',
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -161,7 +161,7 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
                       ),
                       SizedBox(height: 20.h),
                       Text(
-                        'Subkategori',
+                        'Jenis Izin',
                         style: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
