@@ -350,12 +350,14 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> updatePermit(
-      {required String id,
-      required String authToken,
-      String? noProdukMabes,
-      String? processStatus,
-      String? uploadStatus}) async {
+  Future<HttpResponseModel> updatePermit({
+    required String id,
+    required String authToken,
+    String? noProdukMabes,
+    String? processStatus,
+    String? uploadStatus,
+    String? note,
+  }) async {
     try {
       var url = Uri.parse('$_baseUrl/dev/permit-letters/edit/$id');
       var response = await http.patch(
@@ -369,6 +371,7 @@ class UserService extends UserInterface {
           'status_tahapan': processStatus,
           'upload_status': uploadStatus,
           'produk_no_surat_mabes': noProdukMabes,
+          'note' : note,
         }),
       );
       return HttpResponseModel(
