@@ -32,17 +32,10 @@ class CardSurat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late Color borderUploadColor;
-    late String typeStatus;
-    late TextStyle fontStatusStyle;
+    late Color borderUploadColor = const Color(0xFFBDBDBD);
+    late String typeUpload;
     late TextStyle fontUploadSyle;
     if (uploadStatus == 'PENDING') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
       fontUploadSyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
@@ -50,14 +43,8 @@ class CardSurat extends StatelessWidget {
         fontFamily: 'Satoshi',
       );
       borderUploadColor = const Color(0xFFBDBDBD);
-      typeStatus = 'PENDING';
+      typeUpload = 'PENDING';
     } else if (uploadStatus == 'APPROVED') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFF32A850),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
       fontUploadSyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
@@ -65,14 +52,8 @@ class CardSurat extends StatelessWidget {
         fontFamily: 'Satoshi',
       );
       borderUploadColor = const Color(0xFF32A850);
-      typeStatus = 'APPROVED';
+      typeUpload = 'APPROVED';
     } else if (uploadStatus == 'REJECTED') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFAF4848),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
       fontUploadSyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
@@ -80,87 +61,16 @@ class CardSurat extends StatelessWidget {
         fontFamily: 'Satoshi',
       );
       borderUploadColor = const Color(0xFFAF4848);
-      typeStatus = 'REJECTED';
-    } else if (processStatus == 'Draft Created') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
+      typeUpload = 'REJECTED';
+    }  else {
+      fontUploadSyle = TextStyle(
+        color: Colors.white,
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
         fontFamily: 'Satoshi',
       );
-      typeStatus = 'On Draft Created';
-    } else if (processStatus == 'Archiving') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Archiving';
-    } else if (processStatus == 'Submission') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Submission';
-    } else if (processStatus == 'Verification') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Verification';
-    } else if (processStatus == 'Initial Approval') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Initial Approval';
-    } else if (processStatus == 'Second Approval') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Second Approval';
-    } else if (processStatus == 'Drafter') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Drafter';
-    } else if (processStatus == 'Final Approval') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Final Approval';
-    } else if (processStatus == 'Printing') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'On Printing';
-    } else {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFAF4848),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-        fontFamily: 'Satoshi',
-      );
-      typeStatus = 'No Status';
+      typeUpload = 'No Status';
+      borderUploadColor = const Color(0xFFBDBDBD);
     }
     return Container(
       decoration: BoxDecoration(
@@ -231,7 +141,7 @@ class CardSurat extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
                     child: Text(
-                      typeStatus,
+                      typeUpload,
                       style: fontUploadSyle,
                     ),
                   ),
