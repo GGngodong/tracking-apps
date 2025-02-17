@@ -11,7 +11,6 @@ import 'package:tracking_apps/presentation/blocs/permit/search/search_bloc.dart'
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/custom_bottom_sheet_filter.dart';
-import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
 
@@ -221,7 +220,8 @@ class _SearchPageState extends State<SearchPage> {
                         return ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(),
                           itemCount: permits.length,
-                          separatorBuilder: (context, index) => SizedBox(height: 10.h),
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 10.h),
                           itemBuilder: (context, index) {
                             final permit = permits[index];
                             return CardSurat(
@@ -323,14 +323,16 @@ class _SearchPageState extends State<SearchPage> {
                         );
                       } else {
                         return Center(
-                            child: Text(
-                          'Mulai mencari ...',
-                          style: TextStyle(
+                          child: Text(
+                            'Mulai mencari ...',
+                            style: TextStyle(
                               color: Colors.grey[600],
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w300,
-                              fontFamily: 'Satoshi'),
-                        ));
+                              fontFamily: 'Satoshi',
+                            ),
+                          ),
+                        );
                       }
                     },
                   ),
