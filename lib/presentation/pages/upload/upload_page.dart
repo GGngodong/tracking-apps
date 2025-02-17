@@ -24,12 +24,11 @@ class UploadPage extends StatefulWidget {
 
 class _UploadPageState extends State<UploadPage> with UploadMixin {
   String? _authToken;
-  late final ScaffoldMessengerState _scaffoldMessenger; // Save a reference here
+  late final ScaffoldMessengerState _scaffoldMessenger;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Save the scaffold messenger reference
     _scaffoldMessenger = ScaffoldMessenger.of(context);
   }
 
@@ -138,8 +137,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       height: 12.h,
                     ),
                     DropdownFormStatusTahapan(
-                      hintText: 'Kategori Surat',
-                      header: 'Upload Status',
+                      hintText: 'Pilih Divisi',
+                      header: 'Divisi',
                       onCategoryChanged: (value) {
                         _submit(_uploadBloc);
                       },
@@ -147,8 +146,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       listDropdown: ['OPS', 'DTU', 'DTM', 'DKK'],
                     ),
                     DropdownFormStatusTahapan(
-                      hintText: 'Administrasi',
-                      header: 'Kategori Administrasi',
+                      hintText: 'Pilih Jenis Izin',
+                      header: 'Jenis Izin',
                       onCategoryChanged: (value) {
                         _submit(_uploadBloc);
                       },
@@ -211,7 +210,7 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
 AppBar _appBar() {
   return AppBar(
     title: Text(
-      'Pengunggahan Surat Izin',
+      'Permohonan Surat Izin',
       style: TextStyle(
         fontSize: 20.sp,
         fontWeight: FontWeight.w700,
