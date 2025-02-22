@@ -96,7 +96,7 @@ class _PermitRejectState extends State<PermitReject> {
           shrinkWrap: true,
           primary: false,
           physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.only(bottom: 20.h, left: 16.w, right: 16.w),
           itemBuilder: (context, index) {
             final permit = state.listPermitLetter[index];
             return CardSurat(
