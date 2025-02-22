@@ -117,21 +117,4 @@ class AppHelper {
       },
     );
   }
-
-  static List<int> category = [1, 2, 3, 4];
-
-  static String getCategory(int value) {
-    switch (value) {
-      case 1:
-        return 'OPS';
-      case 2:
-        return 'DTM';
-      case 3:
-        return 'DTU';
-      case 4:
-        return 'DKK';
-      default:
-        return 'No Category';
-    }
-  }
 }
