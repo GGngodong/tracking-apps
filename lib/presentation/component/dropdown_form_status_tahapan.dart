@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
-class DropdownFormStatusTahapan extends StatefulWidget {
+class CustomDropdownForm extends StatefulWidget {
   final String header;
   final Function onCategoryChanged;
   final String hintText;
   final List<String> listDropdown;
   final TextEditingController textEditingController;
 
-  DropdownFormStatusTahapan({
+  const CustomDropdownForm({
     super.key,
     required this.header,
     required this.onCategoryChanged,
@@ -20,11 +20,11 @@ class DropdownFormStatusTahapan extends StatefulWidget {
   });
 
   @override
-  State<DropdownFormStatusTahapan> createState() =>
-      _DropdownFormStatusTahapanState();
+  State<CustomDropdownForm> createState() =>
+      _CustomDropdownFormState();
 }
 
-class _DropdownFormStatusTahapanState extends State<DropdownFormStatusTahapan> {
+class _CustomDropdownFormState extends State<CustomDropdownForm> {
   String? selectedValue;
 
   @override
