@@ -66,7 +66,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           ),
           SizedBox(height: 8.h),
           Text(
-            'Kategori Surat',
+            'Divisi',
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w600,

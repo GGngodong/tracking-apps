@@ -46,10 +46,12 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> create(
-      {required String username,
-      required String email,
-      required String password}) async {
+  Future<HttpResponseModel> create({
+    required String username,
+    required String email,
+    required String password,
+    required String division,
+  }) async {
     try {
       var url = Uri.parse('$_baseUrl/dev/users');
       var response = await http.post(
@@ -62,6 +64,7 @@ class UserService extends UserInterface {
           'username': username,
           'email': email,
           'password': password,
+          'division': division,
         }),
       );
 
@@ -371,7 +374,7 @@ class UserService extends UserInterface {
           'status_tahapan': processStatus,
           'upload_status': uploadStatus,
           'produk_no_surat_mabes': noProdukMabes,
-          'note' : note,
+          'note': note,
         }),
       );
       return HttpResponseModel(

@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> with ProfileMixin {
                   CardProfile(
                     userName: '${profileState.user?.userName}',
                     email: '${profileState.user?.email}',
-                    role: '${profileState.user?.role}',
+                    division: '${profileState.user?.division}',
                   ),
                   SizedBox(
                     height: 20.h,

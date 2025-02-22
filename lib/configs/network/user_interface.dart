@@ -14,6 +14,7 @@ abstract class UserInterface {
     required String username,
     required String email,
     required String password,
+    required String division,
   });
 
   Future<HttpResponseModel> delete({required String id});

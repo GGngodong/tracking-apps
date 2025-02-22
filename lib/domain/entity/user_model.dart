@@ -5,13 +5,14 @@ class UserModel {
   String email;
   String userName;
   String role;
+  String division;
 
   UserModel({
     required this.id,
     required this.email,
     required this.userName,
     required this.role,
-
+    required this.division,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,7 +20,8 @@ class UserModel {
       'id': id,
       'email': email,
       'username': userName,
-      'role' : role ?? '',
+      'role': role ?? '',
+      'division': division ?? '',
     };
   }
 
@@ -29,10 +31,12 @@ class UserModel {
       email: map['email'] as String,
       userName: map['username'] as String,
       role: map['role'] as String,
+      division: map['division'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }
