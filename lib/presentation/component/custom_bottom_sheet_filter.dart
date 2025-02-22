@@ -150,6 +150,7 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
                               color: Colors.black,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,
+                              fontFamily: 'Satoshi',
                             ),
                             onSelected: (bool selected) {
                               setState(() {
