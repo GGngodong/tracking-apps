@@ -130,12 +130,6 @@ class _ListSuratPageState extends State<ListSuratPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 30.h),
-          CustomSearchBar(
-            hintText: 'Cari Surat Izin',
-            searchType: TypeSearchBar.withDropdownFilter,
-            items: const ['OPS', 'DTM', 'DTU', 'DKK'],
-          ),
           SizedBox(height: 20.h),
           state.listPermitLetter.isEmpty
               ? RefreshIndicator(
