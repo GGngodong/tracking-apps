@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
@@ -167,30 +166,8 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                   ),
                   widget.role == 'ADMIN'
                       ? Row(
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFE02020),
-                            ),
-                            onPressed: () {
-                              AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to delete this document?', onPressed: () async {
-                                editBloc.add(DeleteDataButtonPressed(id: widget.id));
-                                Navigator.pop(context);
-                              });
-                            },
-                            child: Text(
-                              'Delete Permit',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: 'Satoshi',
-                                  color: Colors.white),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          ElevatedButton(
+                          children: [
+                            ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFF39B43B),
                               ),
@@ -213,8 +190,8 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                                     color: Colors.white),
                               ),
                             ),
-                        ],
-                      )
+                          ],
+                        )
                       : SizedBox(),
                 ],
               ),
