@@ -116,10 +116,10 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               isLogOut: false,
                             ),
                             SizedBox(height: 32.h),
-                            const DividerText(text: 'Masuk dengan'),
-                            SizedBox(height: 32.h),
-                            const SocialMediaButton(),
-                            SizedBox(height: 32.h),
+                            // const DividerText(text: 'Masuk dengan'),
+                            // // SizedBox(height: 32.h),
+                            // // const SocialMediaButton(),
+                            // SizedBox(height: 32.h),
                             TitleAuth(
                               fun: () => Navigator.push(
                                 context,
