@@ -29,34 +29,6 @@ class _SearchPageState extends State<SearchPage> {
   String _selectedCategory = '';
   String _selectedSubCategory = '';
 
-  final List<String> _categories = ['OPS', 'DTU', 'DTM', 'DKK'];
-  final List<String> _subCategories = [
-    '2P BARU',
-    '3P BARU',
-    'PENGGUNAAN SISA',
-    'AHLI GUNA',
-    'PEMUSNAHAN',
-    '3P PERPANJANG',
-    'PENGANGKUTAN ANTAR POLDA',
-    '2P PERPANJANGAN',
-    '3P PERPANJANGAN',
-    'AHLI GUNA/HIBAH',
-    'GUDANG',
-    'GUDANG PERPANJANG',
-    'RE-EKSPOR',
-    'PENGGUNAAN/PROD. DI WIL PENGGUNA AKHIR',
-    'IMPOR',
-    'EKSPOR',
-    'PEMBUATAN/PROD. HANDAK',
-    'UJI COBA',
-    'PEMBELIAN DAN PENGGUNAAN',
-    'PENGGUNAAN',
-    '3P',
-    'BARU',
-    'PERPANJANGAN',
-    'ANGKUT SENPI DAN AMUNISI',
-  ];
-
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -219,6 +191,7 @@ class _SearchPageState extends State<SearchPage> {
                         }
                         return ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(bottom: 20.h),
                           itemCount: permits.length,
                           separatorBuilder: (context, index) =>
                               SizedBox(height: 10.h),

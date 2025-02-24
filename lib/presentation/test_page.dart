@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/presentation/component/card_permit.dart';
 import 'package:tracking_apps/presentation/component/custom_bottom_sheet_filter.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
 
@@ -84,28 +85,26 @@ class _TestPageState extends State<TestPage> {
               ],
               tabViews: [
                 SingleChildScrollView(
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 10.h,
+                    ),
                     shrinkWrap: true,
                     itemCount: 20,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text('Item $index'),
-                        ),
-                      );
+                      return CardPermit();
                     },
                   ),
                 ),
                 SingleChildScrollView(
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: 10.h,
+                    ),
                     shrinkWrap: true,
                     itemCount: 20,
                     itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text('Item $index'),
-                        ),
-                      );
+                      return CardPermit();
                     },
                   ),
                 )

@@ -9,7 +9,6 @@ import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart'
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_datepicker.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
-import 'package:tracking_apps/presentation/component/dropdown_form.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
 import 'package:tracking_apps/presentation/component/pdf_upload.dart';
 
@@ -136,16 +135,16 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     SizedBox(
                       height: 12.h,
                     ),
-                    DropdownFormStatusTahapan(
+                    CustomDropdownForm(
                       hintText: 'Pilih Divisi',
                       header: 'Divisi',
                       onCategoryChanged: (value) {
                         _submit(_uploadBloc);
                       },
                       textEditingController: _categoryPermitTextEditingController,
-                      listDropdown: ['OPS', 'DTU', 'DTM', 'DKK'],
+                      listDropdown: ['LOG.', 'DTU', 'DM/GM', 'DKK'],
                     ),
-                    DropdownFormStatusTahapan(
+                    CustomDropdownForm(
                       hintText: 'Pilih Jenis Izin',
                       header: 'Jenis Izin',
                       onCategoryChanged: (value) {
