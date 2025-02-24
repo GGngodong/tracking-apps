@@ -5,10 +5,12 @@ mixin RegisterMixin on State<RegisterPage> {
   late TextEditingController _emailTextEditingController;
   late TextEditingController _passwordTextEditingController;
   late TextEditingController _verificationCodeTextEditingController;
+  late TextEditingController _divisionTextEditingController;
 
   @override
   void initState() {
     super.initState();
+    _divisionTextEditingController = TextEditingController();
     _usernameTextEditingController = TextEditingController();
     _emailTextEditingController = TextEditingController();
     _passwordTextEditingController = TextEditingController();
@@ -18,6 +20,7 @@ mixin RegisterMixin on State<RegisterPage> {
   @override
   void dispose() {
     super.dispose();
+    _divisionTextEditingController.dispose();
     _usernameTextEditingController.dispose();
     _emailTextEditingController.dispose();
     _passwordTextEditingController.dispose();
@@ -37,6 +40,7 @@ mixin RegisterMixin on State<RegisterPage> {
           username: _usernameTextEditingController.text.trim(),
           email: _emailTextEditingController.text.trim(),
           password: _passwordTextEditingController.text.trim(),
+          division: _divisionTextEditingController.text.trim(),
         ),
       );
     } else {

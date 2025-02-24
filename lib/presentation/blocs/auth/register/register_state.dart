@@ -29,8 +29,10 @@ class CheckSuccess extends RegisterState {
   final String username;
   final String email;
   final String password;
+  final String division;
   final int? verificationCode;
   const CheckSuccess({
+    required this.division,
     required this.username,
     required this.email,
     required this.password,
