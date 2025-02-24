@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/constant.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 
@@ -85,33 +85,57 @@ class AppHelper {
     required BuildContext context,
     String? title,
     String? content,
+    Widget? image,
     void Function()? onPressed,
     bool barrierDismissible = true,
   }) {
     showDialog(
+
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           title: title != null
               ? Text(
                   title,
-                  style: TextStyle(
-                    color: CupertinoColors.systemRed,
+                  style: TextStyle(color: CupertinoColors.systemRed),
+                )
+              : null,
+          content: Container(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (image != null)
+                  Center(
+                    child: image,
                   ),
-                )
-              : null,
-          content: content != null
-              ? Text(
-                  content,
-                  textAlign: TextAlign.start,
-                )
-              : null,
+                if (content != null)
+                  Padding(
+                    padding: EdgeInsets.only(top: 8.0.h),
+                    child: Text(
+                      content,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Satoshi',
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
           actions: [
             CupertinoDialogAction(
-              onPressed: onPressed ?? () => context.pop(),
-              child: Text('OK'),
-            )
+              onPressed: onPressed ?? () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
           ],
         );
       },
