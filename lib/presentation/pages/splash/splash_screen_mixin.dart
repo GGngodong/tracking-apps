@@ -8,7 +8,7 @@ mixin SplashScreenMixin on State<SplashScreen> {
     String? authToken = await _userService.getAuthTokenFromSP();
 
     if (authToken == null) {
-      loginBloc.add(const LogoutButtonPressed());
+      loginBloc.add(LogoutButtonPressed(authToken: ''));
       if (context.mounted) {
         context.go(Routes.login.path);
       }
@@ -35,7 +35,7 @@ mixin SplashScreenMixin on State<SplashScreen> {
           ? context.go(Routes.navigation.path)
           : context.go(Routes.profile.path);
     } else if (state is ValidateFailed) {
-      loginBloc.add(const LogoutButtonPressed());
+      loginBloc.add(LogoutButtonPressed(authToken: ''));
       registerBloc.add(const ClearRegisterData());
       context.go(Routes.login.path);
       AppHelper.alertDialogMessage(
