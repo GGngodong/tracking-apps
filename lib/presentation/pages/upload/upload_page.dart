@@ -189,7 +189,10 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                             context: context,
                             content:
                             'Are you sure you want to upload this document?',
-                            onPressed: () {
+                            onPressedNo: () {
+                              Navigator.pop(context);
+                            },
+                            onPressedYes: () {
                               _submit(_uploadBloc);
                               Navigator.pop(context);
                             });

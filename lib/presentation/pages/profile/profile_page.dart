@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracking_apps/common/app_helper.dart';
+import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
@@ -24,6 +25,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> with ProfileMixin {
+  late String? authToken;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAuthToken();
+  }
+
+  Future<void> _loadAuthToken() async {
+    final token = SharedPreferencesService.instance
+        .getData<String>(PreferenceKey.authToken);
+    if (mounted) {
+      setState(() {
+        authToken = token;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,36 +70,44 @@ class _ProfilePageState extends State<ProfilePage> with ProfileMixin {
 
   Widget _body(BuildContext context) {
     final LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, loginState ) {
-        return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocBuilder<LoginBloc, LoginState>(builder: (context, loginState) {
+      return BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, profileState) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  CardProfile(
-                    userName: '${profileState.user?.userName}',
-                    email: '${profileState.user?.email}',
-                    division: '${profileState.user?.division}',
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  CustomButton(text: 'Log Out', onPressed: () => _showLogOutDialog(context, loginBloc), isLogOut: true)
-                ],
+        return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 30.h,
               ),
-            );
-          }
+              CardProfile(
+                userName: '${profileState.user?.userName}',
+                email: '${profileState.user?.email}',
+                division: '${profileState.user?.division}',
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              CustomButton(
+                  text: 'Log Out',
+                  onPressed: () => AppHelper.alertDialogMessage(
+                      context: context,
+                      title: 'Log Out',
+                      content: 'Are you sure want to Logout?',
+                      onPressedYes: () {
+                        loginBloc
+                            .add(LogoutButtonPressed(authToken: authToken!));
+                        context.go(Routes.login.path);
+                      },
+                      onPressedNo: () => Navigator.of(context).pop(),
+                      isLogOut: true),
+                  isLogOut: true),
+            ],
+          ),
         );
-      }
-
-    );
+      });
+    });
   }
 }
