@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/constant.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
+import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class AppHelper {
   static HttpResponseModel checkEmailAndPassword(
@@ -86,40 +86,49 @@ class AppHelper {
     String? title,
     String? content,
     Widget? image,
-    void Function()? onPressed,
+    void Function()? onPressedYes,
+    onPressedNo,
     bool barrierDismissible = true,
+    bool isLogOut = false,
+    bool isFailed = false,
   }) {
     showDialog(
-
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           title: title != null
-              ? Text(
-                  title,
-                  style: TextStyle(color: CupertinoColors.systemRed),
+              ? Center(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Satoshi',
+                    ),
+                  ),
                 )
               : null,
-          content: Container(
-            padding: EdgeInsets.all(8),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (image != null)
-                  Center(
-                    child: image,
-                  ),
-                if (content != null)
-                  Padding(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (image != null)
+                Center(
+                  child: image,
+                ),
+              if (content != null)
+                Center(
+                  child: Padding(
                     padding: EdgeInsets.only(top: 8.0.h),
                     child: Text(
                       content,
-                      textAlign: TextAlign.start,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 12.sp,
@@ -128,14 +137,82 @@ class AppHelper {
                       ),
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
           actions: [
-            CupertinoDialogAction(
-              onPressed: onPressed ?? () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
+            if (isLogOut)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    onPressed:
+                        onPressedYes ?? () => Navigator.of(context).pop(),
+                    child: Text(
+                      'Yes',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                        side: BorderSide(color: AppColors.primary),
+                      ),
+                    ),
+                    onPressed: onPressedNo ?? () => Navigator.of(context).pop(),
+                    child: Text(
+                      'No',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            if (isFailed)
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  onPressed: onPressedYes ?? () => Navigator.of(context).pop(),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Satoshi',
+                    ),
+                  ),
+                ),
+              ),
           ],
         );
       },
