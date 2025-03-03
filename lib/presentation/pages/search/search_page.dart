@@ -160,11 +160,12 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               Expanded(
                 child: RefreshIndicator(
+                  color: AppColors.primary,
                   onRefresh: _doSearch,
                   child: BlocBuilder<SearchBloc, SearchState>(
                     builder: (context, state) {
                       if (state.isLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator(color: AppColors.primary,));
                       } else if (state is SearchLoadedState) {
                         List<PermitModel> permits = state.listPermitLetter;
                         if (permits.isEmpty) {
