@@ -94,8 +94,45 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     });
 
     on<LogoutButtonPressed>((event, emit) async {
-      await userService.deleteAuthTokenFromSP();
       emit(const LoginState(isLoading: false));
+      try {
+        final token = await userService.getAuthTokenFromSP();
+        if (token == null) {
+          emit(const LoginState(
+              message: 'User is not authenticated. Please log in.',
+              isLoading: false,
+              statusCode: 401));
+          print('================== AUTH TOKEN IS NULL! ==================');
+          return;
+        }
+
+        print('================== SENDING LOGOUT REQUEST ==================');
+        print('User Logout with Token : ${event.authToken}');
+
+        HttpResponseModel<dynamic> logoutResponse =
+            await userService.delete(authToken: event.authToken);
+        print('Logout Response : ${logoutResponse.message}');
+
+        if (logoutResponse.statusCode == 200) {
+          await userService.deleteAuthTokenFromSP();
+          emit(LogoutSuccess(
+            message: logoutResponse.message,
+            isLoading: false,
+            statusCode: logoutResponse.statusCode,
+          ));
+          print('================== IN LOGOUT SUCCESS BLOC ==================');
+        } else {
+          emit(LogoutFailed(
+            message: logoutResponse.message,
+            isLoading: false,
+            statusCode: logoutResponse.statusCode,
+          ));
+        }
+      } catch (e) {
+        emit(LogoutFailed(
+            message: e.toString(), isLoading: false, statusCode: 500));
+        print('================== IN LOGOUT FAILED BLOC ==================');
+      }
     });
 
     on<ClearLoginData>((event, emit) async {

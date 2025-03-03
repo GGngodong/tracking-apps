@@ -27,9 +27,11 @@ mixin LoginMixin on State<LoginPage> {
       }
     } else if (state is ForgotPasswordCheckFailed) {
       print('================== CURRENT STATE : $state ==================');
-      AppHelper.alertDialogMessage(context: context, content: LocaleKeys.non_existent_user_message.tr());
+      AppHelper.alertDialogMessage(
+          context: context, content: LocaleKeys.non_existent_user_message.tr());
     } else if (state is CheckFailed) {
-      AppHelper.alertDialogMessage(context: context, content: LocaleKeys.something_went_wrong.tr());
+      AppHelper.alertDialogMessage(
+          context: context, content: LocaleKeys.something_went_wrong.tr());
       print('================== CURRENT STATE : $state ==================');
     }
   }
@@ -49,9 +51,11 @@ mixin LoginMixin on State<LoginPage> {
       print('================== CURRENT STATE  : $state ==================');
 
       if (state.statusCode == 401) {
-        AppHelper.alertDialogMessage(context: context, content: 'Invalid Email or Password');
+        AppHelper.alertDialogMessage(
+            context: context, content: 'Invalid Email or Password');
       } else {
-        AppHelper.alertDialogMessage(context: context, content: 'Something went wrong!');
+        AppHelper.alertDialogMessage(
+            context: context, content: 'Something went wrong!');
       }
     }
   }
@@ -70,7 +74,11 @@ mixin LoginMixin on State<LoginPage> {
         ),
       );
     } else {
-      AppHelper.alertDialogMessage(context: context, content: 'Login Failed! Invalid ${httpResponseModel.message}');
+      AppHelper.alertDialogMessage(
+        isFailed: true,
+          title: 'Login Failed!',
+          context: context,
+          content: 'Please ${httpResponseModel.message}.');
     }
   }
 }
