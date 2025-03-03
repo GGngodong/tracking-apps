@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
@@ -141,11 +142,18 @@ class _EditPageState extends State<EditPage> with EditMixin {
                   ),
                   CustomButton(
                     text: 'Edit Dokumen',
-                    onPressed: () {
-                      _submit(editBloc);
-                    },
-                    isLogOut: false,
-                    isLoading: state.isLoading,
+                    onPressed: () => AppHelper.alertDialogMessage(
+                      context: context,
+                      title: 'Edit Dokumen',
+                      content: 'Are you sure want to edit this document?',
+                      onPressedYes: () {
+                        _submit(editBloc);
+                        Navigator.of(context).pop();
+                      },
+                      onPressedNo: () => Navigator.of(context).pop(),
+                      isLogOut: true, isFailed: false,
+                    ),
+                    isLogOut: false, isLoading: state.isLoading,
                   ),
                 ],
               ),
