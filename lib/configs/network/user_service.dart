@@ -81,10 +81,16 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> delete({required String id}) async {
+  Future<HttpResponseModel> delete({required String authToken}) async {
     try {
-      var url = Uri.parse('$_baseUrl/users/$id');
-      var response = await http.delete(url);
+      var url = Uri.parse('$_baseUrl/dev/users/logout');
+      var response = await http.delete(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $authToken',
+        },
+      );
 
       return HttpResponseModel(
         statusCode: response.statusCode,

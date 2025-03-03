@@ -17,7 +17,9 @@ abstract class UserInterface {
     required String division,
   });
 
-  Future<HttpResponseModel> delete({required String id});
+  Future<HttpResponseModel> delete({
+    required String authToken,
+  });
 
   //////////////////////////////////////// PERMIT MODULE ////////////////////////////////////////
 
