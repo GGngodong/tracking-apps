@@ -46,7 +46,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'Status Permohonan',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -58,7 +58,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             widget.uploadStatus,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
@@ -68,7 +68,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'Divisi',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -78,7 +78,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             widget.categorySurat,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
@@ -88,7 +88,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'No. Surat',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -98,7 +98,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             widget.noSurat,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
@@ -108,7 +108,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'Nama Perusahaan',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -118,7 +118,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             widget.namaPerusahaan,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
@@ -128,7 +128,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'Tanggal Masuk Berkas',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -138,7 +138,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             widget.date,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
@@ -148,7 +148,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'No. Surat Izin Mabes',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -158,7 +158,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             widget.noSuratIzinMabes,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
@@ -168,7 +168,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'Status Proses Tahapan',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -178,7 +178,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             widget.processStatus,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
@@ -188,7 +188,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
           Text(
             'Catatan',
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w600,
               fontFamily: 'Satoshi',
               color: AppColors.primary,
@@ -199,7 +199,7 @@ class _CardDetailSuratState extends State<CardDetailSurat> {
             widget.note,
             maxLines: 3,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
