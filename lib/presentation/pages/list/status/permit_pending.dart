@@ -5,6 +5,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
+import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/pending/get_pending_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
@@ -60,6 +61,7 @@ class _PermitPendingState extends State<PermitPending> {
       child: BlocBuilder<PermitLetterPendingBloc, PermitLetterPendingState>(
         builder: (context, state) {
           return RefreshIndicator(
+            color: AppColors.primary,
             onRefresh: () async {
               context
                   .read<PermitLetterPendingBloc>()

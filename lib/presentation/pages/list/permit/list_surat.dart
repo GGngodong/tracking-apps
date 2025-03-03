@@ -60,6 +60,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
         child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
           builder: (context, state) {
             return RefreshIndicator(
+              color: AppColors.primary,
               onRefresh: () async {
                 context.read<PermitLetterBloc>().add(GetListPermitLetter());
               },
@@ -133,10 +134,11 @@ class _ListSuratPageState extends State<ListSuratPage> {
           SizedBox(height: 20.h),
           state.listPermitLetter.isEmpty
               ? RefreshIndicator(
+                  color: AppColors.primary,
                   onRefresh: () async {
                     context.read<PermitLetterBloc>().add(GetListPermitLetter());
                   },
-                child: Column(
+                  child: Column(
                     children: [
                       SizedBox(height: 50.h),
                       Image.asset(
@@ -170,7 +172,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                       ),
                     ],
                   ),
-              )
+                )
               : ListView.separated(
                   shrinkWrap: true,
                   primary: false,

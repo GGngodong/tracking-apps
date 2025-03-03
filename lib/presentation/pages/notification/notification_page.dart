@@ -50,7 +50,9 @@ class _NotificationPageState extends State<NotificationPage> {
       backgroundColor: AppColors.whitePage,
       appBar: _appBar(),
       body: RefreshIndicator(
-          onRefresh: _fetchNotifications, child: _body(context)),
+          color: AppColors.primary,
+          onRefresh: _fetchNotifications,
+          child: _body(context)),
     );
   }
 
@@ -58,7 +60,10 @@ class _NotificationPageState extends State<NotificationPage> {
     return BlocBuilder<NotificationBloc, NotificationState>(
       builder: (context, state) {
         if (state is NotificationLoading) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+              child: CircularProgressIndicator(
+            color: AppColors.primary,
+          ));
         } else if (state is NotificationLoadFailure) {
           return Center(child: Text('Error: ${state.error}'));
         } else if (state is NotificationLoadSuccess) {

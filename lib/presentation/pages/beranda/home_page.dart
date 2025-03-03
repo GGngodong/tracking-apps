@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
         child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
           builder: (context, state) {
             return RefreshIndicator(
+              color: AppColors.primary,
               onRefresh: () async {
                 context.read<PermitLetterBloc>().add(GetListPermitLetter());
               },
@@ -204,16 +205,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(  
+                padding: EdgeInsets.symmetric(
                   horizontal: 16.w,
                   vertical: 16.h,
                 ),
                 child: state.listPermitLetter.isEmpty
                     ? RefreshIndicator(
-                      onRefresh: () async {
-                        context.read<PermitLetterBloc>().add(GetListPermitLetter());
-                      },
-                      child: Column(
+                        color: AppColors.primary,
+                        onRefresh: () async {
+                          context
+                              .read<PermitLetterBloc>()
+                              .add(GetListPermitLetter());
+                        },
+                        child: Column(
                           children: [
                             Image.asset(
                               'assets/icons/document_empty.png',
@@ -244,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                    )
+                      )
                     : ListView.separated(
                         shrinkWrap: true,
                         primary: false,
@@ -274,8 +278,7 @@ class _HomePageState extends State<HomePage> {
                                       savedDir: externalDir.path,
                                       fileName: 'permit_${permit.id}.pdf',
                                       showNotification: true,
-                                      openFileFromNotification:
-                                          true,
+                                      openFileFromNotification: true,
                                     );
                                     debugPrint(
                                         'Download task enqueued with taskId: $taskId');

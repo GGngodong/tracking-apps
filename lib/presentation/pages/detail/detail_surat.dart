@@ -109,7 +109,10 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     print('================== IN DETAIL PERMIT LOADING ==================');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: SkeletonCard(),
+      child: Center(
+          child: CircularProgressIndicator(
+        color: AppColors.primary,
+      )),
     );
   }
 
@@ -118,6 +121,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     print('Permit Details in UI: ${state.permit!.toJson()}');
     print('================== IN DETAIL PERMIT LOADED ==================');
     return RefreshIndicator(
+      color: AppColors.primary,
       onRefresh: _refresh,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
