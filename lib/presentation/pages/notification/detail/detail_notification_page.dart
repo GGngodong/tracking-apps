@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/domain/entity/notification_model.dart';
@@ -72,7 +73,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
     return BlocBuilder<NotificationDetailBloc, NotificationDetailState>(
         builder: (context, state) {
       if (state is NotificationLoading) {
-        return Center(child: CircularProgressIndicator());
+        return Center(child: CircularProgressIndicator(color: AppColors.primary,));
       } else if (state is NotificationDetailSuccess) {
         final NotificationModel detail = state.notificationDetail;
         if (detail.data.type == 'user_permit_letter') {
@@ -231,7 +232,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
       } else if (state is NotificationDetailFailure) {
         return Center(child: Text('Error: ${state.error}'));
       } else {
-        return Center(child: CircularProgressIndicator());
+        return Center(child: CircularProgressIndicator(color: AppColors.primary,));
       }
     });
   }
@@ -259,12 +260,21 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
           color: Colors.white,
           onSelected: (value) {
             if (value == 'delete') {
-              context.read<NotificationEditBloc>().add(
-                    DeleteNotificationEvent(
-                      authToken: _authToken!,
-                      notificationId: widget.notificationId,
-                    ),
-                  );
+              AppHelper.alertDialogMessage(
+                  context: context,
+                  title: 'Delete Notification',
+                  content: 'Are you sure want to delete this notification?',
+                  onPressedYes: () {
+                    context.read<NotificationEditBloc>().add(
+                          DeleteNotificationEvent(
+                            authToken: _authToken!,
+                            notificationId: widget.notificationId,
+                          ),
+                        );
+                    Navigator.of(context).pop();
+                  },
+                  isLogOut: false,
+                  isFailed: true);
             }
           },
           itemBuilder: (context) => [
