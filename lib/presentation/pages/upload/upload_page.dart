@@ -186,9 +186,11 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       text: 'Unggah Surat',
                       onPressed: () {
                         AppHelper.alertDialogMessage(
+                            title: 'Unggah Permohonan',
                             context: context,
                             content:
                             'Are you sure you want to upload this document?',
+                            isLogOut: true,
                             onPressedNo: () {
                               Navigator.pop(context);
                             },

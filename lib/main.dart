@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,7 @@ import 'package:tracking_apps/presentation/blocs/custom_multi_bloc_provider.dart
 import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  log('Handling a background message: ${message.messageId}');
 }
 
 void main() async {
@@ -38,7 +40,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Received a foreground message: ${message.notification?.title}');
+    log('Received a foreground message: ${message.notification?.title}');
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
 
@@ -61,7 +63,7 @@ void main() async {
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    print('Notification clicked!');
+    log('A new onMessageOpenedApp event was published!');
   });
 
   String? userRole = await SharedPreferencesService.instance
@@ -80,7 +82,6 @@ class MyApp extends StatelessWidget {
 
   const MyApp({super.key, this.userRole});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
