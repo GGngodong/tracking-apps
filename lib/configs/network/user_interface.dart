@@ -21,6 +21,10 @@ abstract class UserInterface {
     required String authToken,
   });
 
+  Future <HttpResponseModel> resetPassword ({
+    required String email,
+  });
+
   //////////////////////////////////////// PERMIT MODULE ////////////////////////////////////////
 
   Future<HttpResponseModel> createPermit({
@@ -90,4 +94,5 @@ abstract class UserInterface {
     required String authToken,
     required String deviceToken,
   });
+
 }

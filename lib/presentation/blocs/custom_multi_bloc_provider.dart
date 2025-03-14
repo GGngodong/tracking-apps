@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracking_apps/configs/network/notification/notification_service.dart';
 import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/presentation/blocs/auth/reset/reset_password_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/notification/all/notification_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
@@ -65,7 +66,10 @@ class CustomMultiBlocProvider extends StatelessWidget {
                 notificationService: NotificationService())),
         BlocProvider(
             create: (context) =>
-                NotificationEditBloc(notificationService: NotificationService()))
+                NotificationEditBloc(notificationService: NotificationService())),
+        BlocProvider(
+          create: (context) => ResetPasswordBloc(userService: UserService()),
+        )
       ],
       child: child,
     );

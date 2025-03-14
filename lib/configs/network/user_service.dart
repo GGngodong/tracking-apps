@@ -46,6 +46,36 @@ class UserService extends UserInterface {
   }
 
   @override
+  Future <HttpResponseModel> resetPassword ({
+    required String email,
+  }) async {
+    try {
+      var url = Uri.parse('$_baseUrl/dev/users/forgot-password');
+      var response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Charset': 'utf-8',
+        },
+        body: jsonEncode({
+          'email': email,
+        }),
+      );
+
+      return HttpResponseModel(
+        statusCode: response.statusCode,
+        data: jsonDecode(response.body)["data"],
+        status: jsonDecode(response.body)["status"],
+        message: jsonDecode(response.body)["message"],
+      );
+    } catch (e) {
+      return HttpResponseModel(
+        message: 'An error occurred: $e',
+      );
+    }
+  }
+
+  @override
   Future<HttpResponseModel> create({
     required String username,
     required String email,
