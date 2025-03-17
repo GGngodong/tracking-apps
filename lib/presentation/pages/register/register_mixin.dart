@@ -44,22 +44,21 @@ mixin RegisterMixin on State<RegisterPage> {
         ),
       );
       Future.delayed(const Duration(seconds: 5));
-      AppHelper.alertDialogMessage(
+      AppHelper.showCustomAlertDialog(
         title: 'Register Success!',
-        isFailed: true,
-        isLogOut: false,
         context: context,
         content: 'Please login to continue.',
-        onPressedYes: () {
+        onPositivePressed: () {
           context.go(Routes.login.path);
         },
       );
     } else {
-      AppHelper.alertDialogMessage(
-          title: 'Register Failed!',
-          context: context,
-          content: 'Please ${httpResponseModel.message}.',
-          isFailed: true);
+      AppHelper.showCustomAlertDialog(
+        onPositivePressed: () => Navigator.pop(context),
+        title: 'Register Failed!',
+        context: context,
+        content: 'Please ${httpResponseModel.message}.',
+      );
     }
   }
 
@@ -67,22 +66,23 @@ mixin RegisterMixin on State<RegisterPage> {
     if (state is CheckSuccess) {
       if (state.data != null && !state.data!) {
         if (state.verificationCode != null) {
-          AppHelper.alertDialogMessage(
-              context: context,
-              content: 'Verification code has been sent to your email');
-          context.go(Routes.login.path);
+          AppHelper.showCustomAlertDialog(
+            context: context,
+            content: 'Verification code has been sent to your email',
+            onPositivePressed: () => context.go(Routes.login.path),
+          );
         }
       } else {
-        AppHelper.alertDialogMessage(
-            isFailed: true,
+        AppHelper.showCustomAlertDialog(
+            onPositivePressed: () => Navigator.pop(context),
             title: 'Register Failed!',
             context: context,
             content: 'Email already exists');
         print('================== CURRENT STATE : $state ==================');
       }
     } else if (state is CheckFailed) {
-      AppHelper.alertDialogMessage(
-          isFailed: true,
+      AppHelper.showCustomAlertDialog(
+          onPositivePressed: () => Navigator.pop(context),
           title: 'Register Failed!',
           context: context,
           content: 'Something went wrong!');

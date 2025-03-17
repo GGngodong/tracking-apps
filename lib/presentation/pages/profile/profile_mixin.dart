@@ -48,7 +48,7 @@ mixin ProfileMixin on State<ProfilePage> {
       }
     } else if (state is UpdateUserFailed) {
       profileBloc.add(SetUser(user: validateSuccess.user));
-      AppHelper.alertDialogMessage(context: context, content: state.message ?? LocaleKeys.something_went_wrong.tr());
+      // AppHelper.alertDialogMessage(context: context, content: state.message ?? LocaleKeys.something_went_wrong.tr());
     }
   }
 

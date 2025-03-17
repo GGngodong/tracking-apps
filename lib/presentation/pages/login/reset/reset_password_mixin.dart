@@ -17,16 +17,18 @@ mixin ResetPasswordMixin on State<ResetPasswordPage> {
 
   void _listener(ResetPasswordState state) {
     if (state is ResetPasswordSuccess) {
-      AppHelper.alertDialogMessage(
+      AppHelper.showCustomAlertDialog(
+        onPositivePressed: () => Navigator.pop(context),
         title: 'Password reset link successfully sent',
         context: context,
-        content: state.message!,
+        content: 'Please check your email to reset your password',
       );
     } else if (state is ResetPasswordFailed) {
-      AppHelper.alertDialogMessage(
+      AppHelper.showCustomAlertDialog(
+        onPositivePressed: () => Navigator.pop(context),
         title: 'Failed to send password reset link',
         context: context,
-        content: state.message!,
+        content: 'Please try again later',
       );
     }
   }

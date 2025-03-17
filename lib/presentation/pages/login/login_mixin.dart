@@ -50,11 +50,17 @@ mixin LoginMixin on State<LoginPage> {
     } else if (state is LoginFailed) {
       print('================== CURRENT STATE  : $state ==================');
       if (state.statusCode == 401) {
-        AppHelper.alertDialogMessage(isFailed: true, title: 'Login Failed!',
-            context: context, content: 'Invalid Email or Password');
+        AppHelper.showCustomAlertDialog(
+            onPositivePressed: ()  => Navigator.pop(context),
+            title: 'Login Failed!',
+            context: context,
+            content: 'Invalid Email or Password');
       } else {
-        AppHelper.alertDialogMessage(isFailed: true, title: 'Login Failed!',
-            context: context, content: 'Something went wrong!');
+        AppHelper.showCustomAlertDialog(
+            onPositivePressed: () => Navigator.pop(context),
+            title: 'Login Failed!',
+            context: context,
+            content: 'Something went wrong!');
       }
     }
   }
@@ -73,8 +79,8 @@ mixin LoginMixin on State<LoginPage> {
         ),
       );
     } else {
-      AppHelper.alertDialogMessage(
-        isFailed: true,
+      AppHelper.showCustomAlertDialog(
+          onPositivePressed: () => Navigator.pop(context),
           title: 'Login Failed!',
           context: context,
           content: 'Please ${httpResponseModel.message}.');

@@ -141,7 +141,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       onCategoryChanged: (value) {
                         _submit(_uploadBloc);
                       },
-                      textEditingController: _categoryPermitTextEditingController,
+                      textEditingController:
+                          _categoryPermitTextEditingController,
                       listDropdown: ['LOG.', 'DTU', 'DM/GM', 'DKK'],
                     ),
                     CustomDropdownForm(
@@ -150,7 +151,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       onCategoryChanged: (value) {
                         _submit(_uploadBloc);
                       },
-                      textEditingController: _categoryAdministrationTextEditingController,
+                      textEditingController:
+                          _categoryAdministrationTextEditingController,
                       listDropdown: [
                         '2P BARU',
                         '3P BARU',
@@ -185,16 +187,16 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     CustomButton(
                       text: 'Unggah Surat',
                       onPressed: () {
-                        AppHelper.alertDialogMessage(
+                        AppHelper.showCustomAlertDialog(
                             title: 'Unggah Permohonan',
                             context: context,
                             content:
-                            'Are you sure you want to upload this document?',
-                            isLogOut: true,
-                            onPressedNo: () {
+                                'Are you sure you want to upload this document?',
+                            onNegativePressed: () {
                               Navigator.pop(context);
                             },
-                            onPressedYes: () {
+                            negativeButtonText: 'Cancel',
+                            onPositivePressed: () {
                               _submit(_uploadBloc);
                               Navigator.pop(context);
                             });

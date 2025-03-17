@@ -91,19 +91,20 @@ class _ProfilePageState extends State<ProfilePage> with ProfileMixin {
                 height: 20.h,
               ),
               CustomButton(
-                  text: 'Log Out',
-                  onPressed: () => AppHelper.alertDialogMessage(
-                      context: context,
-                      title: 'Log Out',
-                      content: 'Are you sure want to Logout?',
-                      onPressedYes: () {
-                        loginBloc
-                            .add(LogoutButtonPressed(authToken: authToken!));
-                        context.go(Routes.login.path);
-                      },
-                      onPressedNo: () => Navigator.of(context).pop(),
-                      isLogOut: true),
-                  isLogOut: true),
+                text: 'Log Out',
+                onPressed: () => AppHelper.showCustomAlertDialog(
+                  context: context,
+                  title: 'Log Out',
+                  content: 'Are you sure want to Logout?',
+                  onPositivePressed: () {
+                    loginBloc.add(LogoutButtonPressed(authToken: authToken!));
+                    context.go(Routes.login.path);
+                  },
+                  onNegativePressed: () => Navigator.of(context).pop(),
+                  negativeButtonText: 'Cancel',
+                ),
+                isLogOut: true, isLoading: loginState.isLoading,
+              ),
             ],
           ),
         );

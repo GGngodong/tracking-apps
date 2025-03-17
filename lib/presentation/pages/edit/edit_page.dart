@@ -142,16 +142,16 @@ class _EditPageState extends State<EditPage> with EditMixin {
                   ),
                   CustomButton(
                     text: 'Edit Dokumen',
-                    onPressed: () => AppHelper.alertDialogMessage(
+                    onPressed: () => AppHelper.showCustomAlertDialog(
                       context: context,
                       title: 'Edit Dokumen',
                       content: 'Are you sure want to edit this document?',
-                      onPressedYes: () {
+                      onPositivePressed: () {
                         _submit(editBloc);
                         Navigator.of(context).pop();
                       },
-                      onPressedNo: () => Navigator.of(context).pop(),
-                      isLogOut: true, isFailed: false,
+                      onNegativePressed: () => Navigator.of(context).pop(),
+                      negativeButtonText: 'Cancel',
                     ),
                     isLogOut: false, isLoading: state.isLoading,
                   ),

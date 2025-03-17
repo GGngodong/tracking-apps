@@ -38,8 +38,10 @@ mixin SplashScreenMixin on State<SplashScreen> {
       loginBloc.add(LogoutButtonPressed(authToken: ''));
       registerBloc.add(const ClearRegisterData());
       context.go(Routes.login.path);
-      AppHelper.alertDialogMessage(
-          context: context, content: LocaleKeys.session_terminated.tr());
+      AppHelper.showCustomAlertDialog(
+          onPositivePressed: () => Navigator.pop(context),
+          context: context,
+          content: 'Session Expired! Please login again.');
     }
   }
 }
