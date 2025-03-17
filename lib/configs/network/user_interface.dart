@@ -14,9 +14,16 @@ abstract class UserInterface {
     required String username,
     required String email,
     required String password,
+    required String division,
   });
 
-  Future<HttpResponseModel> delete({required String id});
+  Future<HttpResponseModel> delete({
+    required String authToken,
+  });
+
+  Future <HttpResponseModel> resetPassword ({
+    required String email,
+  });
 
   //////////////////////////////////////// PERMIT MODULE ////////////////////////////////////////
 
@@ -27,15 +34,20 @@ abstract class UserInterface {
     required String companyName,
     required String date,
     required String authToken,
-    String? noPermitMabes,
     required String documentUrl,
+    required String categoryAdministration,
+    String? noPermitMabes,
     String? processStatus,
+    String uploadStatus,
   });
 
   Future<HttpResponseModel> updatePermit({
     required String id,
-    String? processStatus,
     required String authToken,
+    String? processStatus,
+    String? uploadStatus,
+    String? noProdukMabes,
+    String? note,
   });
 
   Future<HttpResponseModel> getListPermit({
@@ -57,6 +69,30 @@ abstract class UserInterface {
     String? searchQuery,
     String? searchParam,
     String? categoryPermitSearchParam,
-
+    String? categoryPermitSearchQuery,
+    String? subCategoryPermitSearchParam,
+    String? subCategoryPermitSearchQuery,
   });
+
+  Future<HttpResponseModel> getLatestPermit({
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> getApprovedPermit({
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> getRejectedPermit({
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> getPendingPermit({
+    required String authToken,
+  });
+
+  Future<HttpResponseModel> updateDeviceToken({
+    required String authToken,
+    required String deviceToken,
+  });
+
 }

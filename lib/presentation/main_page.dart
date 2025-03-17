@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
+import 'package:tracking_apps/presentation/pages/list/status/status_page.dart';
 import 'package:tracking_apps/presentation/pages/search/search_page.dart';
 
 import 'pages/notification/notification_page.dart';
@@ -30,14 +31,14 @@ class _MainPageState extends State<MainPage> {
     if (widget.role == 'ADMIN') {
       _pages = const [
         HomePage(),
-        UploadPage(),
+        StatusPage(),
         SearchPage(),
         NotificationPage(),
         ProfilePage(),
       ];
       _navBarItems = [
         _buildNavBarItem('home'),
-        _buildNavBarItem('upload'),
+        _buildNavBarItem('status'),
         _buildNavBarItem('search'),
         _buildNavBarItem('notification'),
         _buildNavBarItem('user'),
@@ -45,12 +46,15 @@ class _MainPageState extends State<MainPage> {
     } else {
       _pages = const [
         HomePage(),
+        UploadPage(),
         SearchPage(),
         NotificationPage(),
         ProfilePage(),
       ];
       _navBarItems = [
+
         _buildNavBarItem('home'),
+        _buildNavBarItem('upload'),
         _buildNavBarItem('search'),
         _buildNavBarItem('notification'),
         _buildNavBarItem('user'),
@@ -94,6 +98,7 @@ class _MainPageState extends State<MainPage> {
           selectedLabelStyle: TextStyle(
             color: AppColors.primary,
             fontSize: 12.sp,
+            fontFamily: 'Satoshi',
             fontWeight: FontWeight.w700,
           ),
           unselectedItemColor: AppColors.lightGrey,

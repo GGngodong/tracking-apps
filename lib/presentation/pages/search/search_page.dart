@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
@@ -8,9 +10,9 @@ import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bl
 import 'package:tracking_apps/presentation/blocs/permit/search/search_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
+import 'package:tracking_apps/presentation/component/custom_bottom_sheet_filter.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
 import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
-import 'package:tracking_apps/presentation/test_main_page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -22,11 +24,10 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   String? _authToken;
 
-  final List<String> _textSearchFields = ['uraian', 'no_surat', 'nama_pt'];
-  String _selectedTextField = 'uraian';
+  final String _defaultSearchField = 'uraian';
 
-  final List<String> _categoryOptions = ['OPS', 'DTU', 'DTM', 'DKK'];
   String _selectedCategory = '';
+  String _selectedSubCategory = '';
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -50,7 +51,7 @@ class _SearchPageState extends State<SearchPage> {
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
-      context.read<PermitLetterBloc>().add(GetPermitLetter());
+      context.read<PermitLetterBloc>().add(GetListPermitLetter());
     }
   }
 
@@ -59,11 +60,14 @@ class _SearchPageState extends State<SearchPage> {
       context.read<SearchBloc>().add(
             SearchPermitLetter(
               _searchController.text,
-              _selectedTextField,
-              // Pass category filter if selected; otherwise empty.
+              _defaultSearchField,
               categoryPermitSearchQuery: _selectedCategory,
               categoryPermitSearchParam:
                   _selectedCategory.isNotEmpty ? "kategori_permit_letter" : "",
+              subCategoryPermitSearchQuery: _selectedSubCategory,
+              subCategoryPermitSearchParam: _selectedSubCategory.isNotEmpty
+                  ? "sub_kategori_permit_letter"
+                  : "",
             ),
           );
     }
@@ -74,7 +78,74 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.whitePage,
-      appBar: _appBar(),
+      appBar: AppBar(
+        titleSpacing: 0,
+        toolbarHeight: 70.h,
+        backgroundColor: AppColors.whitePage,
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Row(
+            children: [
+              Expanded(
+                child: CustomSearchBar(
+                  controller: _searchController,
+                  hintText: 'Cari Surat Permohonan',
+                  searchType: TypeSearchBar.regular,
+                  items: const [],
+                  isSubmitted: (query) {
+                    if (query.isNotEmpty) {
+                      _doSearch();
+                    }
+                  },
+                  onChanged: (value) {},
+                ),
+              ),
+              SizedBox(width: 4.w),
+              Container(
+                height: 50.h,
+                width: 50.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: IconButton(
+                  onPressed: () async {
+                    // Show the bottom sheet filter
+                    final result =
+                        await showModalBottomSheet<Map<String, String>>(
+                      context: context,
+                      enableDrag: true,
+                      scrollControlDisabledMaxHeightRatio: 0.85,
+                      backgroundColor: Colors.transparent,
+                      isDismissible: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16.r)),
+                      ),
+                      builder: (context) => CustomBottomSheetFilter(
+                        initialCategory: _selectedCategory,
+                        initialSubCategory: _selectedSubCategory,
+                      ),
+                    );
+                    if (result != null) {
+                      setState(() {
+                        _selectedCategory = result['category'] ?? '';
+                        _selectedSubCategory = result['subCategory'] ?? '';
+                      });
+                      _doSearch();
+                    }
+                  },
+                  icon: Icon(
+                    Icons.filter_alt_outlined,
+                    size: 24.sp,
+                    color: const Color.fromRGBO(102, 102, 102, 1),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: BlocListener<SearchBloc, SearchState>(
         listener: (context, state) {
           if (state is SearchEmptyState) {
@@ -83,217 +154,168 @@ class _SearchPageState extends State<SearchPage> {
             );
           }
         },
-        child: _body(),
-      ),
-    );
-  }
-
-  Widget _body() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 30.h),
-          // First chip row for text search fields.
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: _textSearchFields.map((field) {
-                String display = (field == 'no_surat')
-                    ? 'No. Surat'
-                    : (field == 'nama_pt')
-                        ? 'Nama PT'
-                        : 'Uraian';
-                bool isSelected = field == _selectedTextField;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: ChoiceChip(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    label: Text(
-                      display,
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                      ),
-                    ),
-                    selected: isSelected,
-                    selectedColor: Color(0xff489FB5),
-                    onSelected: (selected) {
-                      setState(() {
-                        _selectedTextField = field;
-                      });
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          SizedBox(height: 10.h),
-          // Second chip row for category options.
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: _categoryOptions.map((category) {
-                bool isSelected = category == _selectedCategory;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: ChoiceChip(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    label: Text(
-                      category,
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                      ),
-                    ),
-                    selected: isSelected,
-                    selectedColor: Color(0xff489FB5),
-                    onSelected: (selected) {
-                      setState(() {
-                        if (isSelected) {
-                          _selectedCategory = '';
-                        } else {
-                          _selectedCategory = category;
-                        }
-                      });
-                    },
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          CustomSearchBar(
-            controller: _searchController,
-            hintText: 'Cari Surat Izin',
-            searchType: TypeSearchBar.regular,
-            items: const [],
-            isSubmitted: (query) {
-              if (query.isNotEmpty) {
-                _doSearch();
-              }
-            },
-            onChanged: (value) {},
-          ),
-          SizedBox(height: 20.h),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: _doSearch,
-              child: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is SearchLoadedState) {
-                    List<PermitModel> permits = state.listPermitLetter;
-                    if (permits.isEmpty) {
-                      return const Center(child: Text('No permits found.'));
-                    }
-                    return ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: permits.length,
-                      itemBuilder: (context, index) {
-                        final permit = permits[index];
-                        return CardSurat(
-                            processStatus: permit.processStatus,
-                            date: permit.date,
-                            categorySurat: permit.categoryPermit,
-                            namaDokumen: permit.description,
-                            namaPerusahaan: permit.companyName,
-                            noSurat: permit.noPermit,
-                            noSuratIzinMabes:
-                                permit.noPermitMabes ?? 'Belum Terbit',
-                            funcDownload: () {},
-                            funcRead: () {
-                              final profileState =
-                                  context.read<ProfileBloc>().state;
-                              final role = profileState.user!.role;
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      DetailSuratPage(
-                                    id: permit.id.toString(),
-                                    role: role,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          child: Column(
+            children: [
+              Expanded(
+                child: RefreshIndicator(
+                  color: AppColors.primary,
+                  onRefresh: _doSearch,
+                  child: BlocBuilder<SearchBloc, SearchState>(
+                    builder: (context, state) {
+                      if (state.isLoading) {
+                        return const Center(child: CircularProgressIndicator(color: AppColors.primary,));
+                      } else if (state is SearchLoadedState) {
+                        List<PermitModel> permits = state.listPermitLetter;
+                        if (permits.isEmpty) {
+                          return Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/search_empty.png',
+                                  height: 120.h,
+                                ),
+                                SizedBox(height: 20.h),
+                                Text(
+                                  'Data tidak ditemukan',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 ),
-                              );
-                            },
-                            detailSurat: () {
-                              BlocBuilder<ProfileBloc, ProfileState>(
-                                builder: (context, profileState) {
-                                  return DetailSuratPage(
-                                    id: permit.id.toString(),
-                                    role: profileState.user!.role,
+                              ],
+                            ),
+                          );
+                        }
+                        return ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(bottom: 20.h),
+                          itemCount: permits.length,
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 10.h),
+                          itemBuilder: (context, index) {
+                            final permit = permits[index];
+                            return CardSurat(
+                              processStatus: permit.processStatus,
+                              date: permit.date,
+                              uploadStatus: permit.uploadStatus ?? 'Pending',
+                              categorySurat: permit.categoryPermit,
+                              namaDokumen: permit.description,
+                              namaPerusahaan: permit.companyName,
+                              noSurat: permit.noPermit,
+                              noSuratIzinMabes:
+                                  permit.noPermitMabes ?? 'Belum Terbit',
+                              funcDownload: () async {
+                                final url = permit.documentUrl;
+                                final externalDir =
+                                    await getExternalStorageDirectory();
+                                if (externalDir != null) {
+                                  try {
+                                    final taskId =
+                                        await FlutterDownloader.enqueue(
+                                      url: url,
+                                      savedDir: externalDir.path,
+                                      fileName:
+                                          'Surat Permohonan ${permit.description}.pdf',
+                                      showNotification: true,
+                                      openFileFromNotification: true,
+                                    );
+                                    debugPrint(
+                                        'Download task enqueued with taskId: $taskId');
+                                  } catch (e) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text("Download failed: $e")),
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Unable to access storage directory")),
                                   );
-                                },
-                              );
-                            });
-                      },
-                    );
-                  } else if (state is SearchEmptyState) {
-                    return Center(
-                      child: SizedBox(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icons/search_empty.png',
-                              height: 120.h,
-                            ),
-                            SizedBox(height: 20.h),
-                            Text(
-                              'Data tidak ditemukan',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w300,
+                                }
+                              },
+                              funcRead: () {
+                                final profileState =
+                                    context.read<ProfileBloc>().state;
+                                final role = profileState.user!.role;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailSuratPage(
+                                      id: permit.id.toString(),
+                                      role: role,
+                                    ),
+                                  ),
+                                );
+                              },
+                              detailSurat: () {
+                                BlocBuilder<ProfileBloc, ProfileState>(
+                                  builder: (context, profileState) {
+                                    return DetailSuratPage(
+                                      id: permit.id.toString(),
+                                      role: profileState.user!.role,
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        );
+                      } else if (state is SearchEmptyState) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icons/search_empty.png',
+                                height: 120.h,
                               ),
-
+                              SizedBox(height: 20.h),
+                              Text(
+                                'Data tidak ditemukan',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: 'Satoshi',
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else if (state is SearchFailedState) {
+                        return Center(
+                          child: Text(
+                            state.message ?? 'An error occurred.',
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            'Mulai mencari ...',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Satoshi',
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-                  else if (state is SearchFailedState) {
-                    return Center(
-                      child: Text(
-                        state.message ?? 'An error occurred.',
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
-                  } else {
-                    return const Center(child: Text('Mulai mencari ...'));
-                  }
-                },
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-
-  AppBar _appBar() {
-    return AppBar(
-      title: Text(
-        'Cari Surat Izin',
-        style: TextStyle(
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
         ),
       ),
-      flexibleSpace: Container(
-        decoration: BoxDecoration(gradient: headerAppBar),
-      ),
-      centerTitle: true,
-      elevation: 0,
     );
   }
 }

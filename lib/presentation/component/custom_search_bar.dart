@@ -54,6 +54,7 @@ class _SearchBarState extends State<CustomSearchBar> {
       ),
       child: CupertinoTextField(
         style: TextStyle(
+          fontFamily: 'Satoshi',
           fontSize: 14.sp,
         ),
         controller: widget.controller,

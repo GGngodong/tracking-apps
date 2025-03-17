@@ -7,7 +7,6 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
-import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_detail.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
 import 'package:tracking_apps/presentation/pages/detail/detailDokumen/detail_pdf.dart';
@@ -70,6 +69,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
           style: TextStyle(
             fontSize: 20.sp,
             fontWeight: FontWeight.w700,
+            fontFamily: 'Satoshi',
             color: Colors.white,
           ),
         ),
@@ -110,7 +110,10 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     print('================== IN DETAIL PERMIT LOADING ==================');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
-      child: SkeletonCard(),
+      child: Center(
+          child: CircularProgressIndicator(
+        color: AppColors.primary,
+      )),
     );
   }
 
@@ -119,6 +122,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
     print('Permit Details in UI: ${state.permit!.toJson()}');
     print('================== IN DETAIL PERMIT LOADED ==================');
     return RefreshIndicator(
+      color: AppColors.primary,
       onRefresh: _refresh,
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -127,24 +131,11 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 16.h,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Text(
-                'Detail Surat',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                ),
-              ),
-            ),
-            SizedBox(
               height: 10.h,
             ),
             CardDetailSurat(
               processStatus: state.permit!.processStatus,
+              uploadStatus: state.permit!.uploadStatus ?? 'Pending',
               id: state.permit!.id,
               date: state.permit!.date,
               categorySurat: state.permit!.categoryPermit,
@@ -152,6 +143,7 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
               namaPerusahaan: state.permit!.companyName,
               noSurat: state.permit!.noPermit,
               noSuratIzinMabes: state.permit!.noPermitMabes ?? 'Belum Terbit',
+              note: state.permit!.note ?? 'Tidak ada catatan',
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -172,35 +164,52 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
                         color: AppColors.primary,
                       ),
                     ),
                   ),
                   widget.role == 'ADMIN'
                       ? Row(
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFE02020),
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFE02020),
+                              ),
+                              onPressed: () {
+                                AppHelper.showCustomAlertDialog(
+                                    title: 'Delete Permit',
+                                    context: context,
+                                    content:
+                                        'Are you sure you want to delete this document?',
+                                    onNegativePressed: () =>
+                                        Navigator.of(context).pop(),
+                                    negativeButtonText: 'Cancel',
+                                    onPositivePressed: () async {
+                                      editBloc.add(
+                                        DeleteDataButtonPressed(
+                                          id: widget.id,
+                                        ),
+                                      );
+                                      Navigator.of(context).pop();
+                                      Future.delayed(
+                                          Duration(milliseconds: 300));
+                                      Navigator.of(context)
+                                          .popUntil((route) => route.isFirst);
+                                    });
+                              },
+                              child: Text(
+                                'Delete Permit',
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
                             ),
-                            onPressed: () {
-                              AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to delete this document?', onPressed: () async {
-                                editBloc.add(DeleteDataButtonPressed(id: widget.id));
-                                Navigator.pop(context);
-                              });
-                            },
-                            child: Text(
-                              'Delete Permit',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
+                            SizedBox(
+                              width: 10.w,
                             ),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          ElevatedButton(
+                            ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Color(0xFF39B43B),
                               ),
@@ -219,11 +228,12 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w500,
+                                    fontFamily: 'Satoshi',
                                     color: Colors.white),
                               ),
                             ),
-                        ],
-                      )
+                          ],
+                        )
                       : SizedBox(),
                 ],
               ),
@@ -235,10 +245,6 @@ class _DetailSuratPageState extends State<DetailSuratPage> {
         ),
       ),
     );
-  }
-
-  void _deletePermit(EditBloc editBloc) {
-
   }
 
   Widget _failedBody(DetailPermitLetterFailedState state) {

@@ -1,14 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:tracking_apps/configs/network/firebase_service.dart';
+import 'package:equatable/equatable.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/network/user_service.dart';
-import 'package:equatable/equatable.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
-import 'package:tracking_apps/generated/locale_keys.g.dart';
 
 part 'register_event.dart';
+
 part 'register_state.dart';
+
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final UserService userService;
 
@@ -17,9 +16,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(const RegisterState(isLoading: true));
       try {
         HttpResponseModel<dynamic> registerResponse = await userService.create(
-            username: event.username,
-            email: event.email,
-            password: event.password);
+          username: event.username,
+          email: event.email,
+          password: event.password,
+          division: event.division,
+        );
         if (registerResponse.data != null) {
           HttpResponseModel<dynamic> loginResponse = await userService.login(
               email: event.email, password: event.password);
@@ -32,11 +33,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
                 user: user,
                 message: validateResponse.message,
                 isLoading: false));
-            print('================== IN REGISTER SUCCESS BLOC ==================');
+            print(
+                '================== IN REGISTER SUCCESS BLOC ==================');
           } else {
             emit(RegisterState(
                 isLoading: false, message: loginResponse.message));
-            print('================== IN REGISTER STATE BLOC ==================');
+            print(
+                '================== IN REGISTER STATE BLOC ==================');
           }
         } else {
           emit(RegisterState(
@@ -47,7 +50,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         print('================== IN REGISTER FAILED BLOC ==================');
       }
     });
-
 
     on<ClearRegisterData>((event, emit) async {
       emit(const RegisterState());

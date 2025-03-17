@@ -22,6 +22,7 @@ class TitleAuth extends StatelessWidget {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
             children: [
@@ -30,6 +31,7 @@ class TitleAuth extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w500,
+                  fontFamily: 'Satoshi',
                   color: AppColors.tertiary,
                 ),
               ),

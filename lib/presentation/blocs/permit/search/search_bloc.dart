@@ -28,6 +28,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           searchParam: event.searchParam,
           categoryPermitSearchQuery: event.categoryPermitSearchQuery,
           categoryPermitSearchParam: event.categoryPermitSearchParam,
+          subCategoryPermitSearchQuery: event.subCategoryPermitSearchQuery,
+          subCategoryPermitSearchParam: event.subCategoryPermitSearchParam
         );
         if (response.statusCode == 200) {
           emit(SearchLoadedState(

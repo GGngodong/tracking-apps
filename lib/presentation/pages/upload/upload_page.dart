@@ -9,7 +9,7 @@ import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart'
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_datepicker.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
-import 'package:tracking_apps/presentation/component/dropdown_form.dart';
+import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
 import 'package:tracking_apps/presentation/component/pdf_upload.dart';
 
 part 'upload_mixin.dart';
@@ -22,7 +22,14 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> with UploadMixin {
-  late String? _authToken;
+  String? _authToken;
+  late final ScaffoldMessengerState _scaffoldMessenger;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scaffoldMessenger = ScaffoldMessenger.of(context);
+  }
 
   @override
   void initState() {
@@ -33,9 +40,11 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
   Future<void> _loadAuthToken() async {
     final token = await SharedPreferencesService.instance
         .getData<String>(PreferenceKey.authToken);
-    setState(() {
-      _authToken = token;
-    });
+    if (mounted) {
+      setState(() {
+        _authToken = token;
+      });
+    }
   }
 
   @override
@@ -62,6 +71,7 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       style: TextStyle(
                         fontSize: 20.sp,
                         fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
                         color: AppColors.primary,
                       ),
                     ),
@@ -125,17 +135,50 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     SizedBox(
                       height: 12.h,
                     ),
-                    DropdownForm(
-                      header: 'Kategori',
+                    CustomDropdownForm(
+                      hintText: 'Pilih Divisi',
+                      header: 'Divisi',
                       onCategoryChanged: (value) {
                         _submit(_uploadBloc);
-                        print('============= INI NULL =============');
                       },
                       textEditingController:
                           _categoryPermitTextEditingController,
+                      listDropdown: ['LOG.', 'DTU', 'DM/GM', 'DKK'],
                     ),
-                    SizedBox(
-                      height: 12.h,
+                    CustomDropdownForm(
+                      hintText: 'Pilih Jenis Izin',
+                      header: 'Jenis Izin',
+                      onCategoryChanged: (value) {
+                        _submit(_uploadBloc);
+                      },
+                      textEditingController:
+                          _categoryAdministrationTextEditingController,
+                      listDropdown: [
+                        '2P BARU',
+                        '3P BARU',
+                        'PENGGUNAAN SISA',
+                        'AHLI GUNA',
+                        'PEMUSNAHAN',
+                        '3P PERPANJANG',
+                        'PENGANGKUTAN ANTAR POLDA',
+                        '2P PERPANJANGAN',
+                        '3P PERPANJANGAN',
+                        'AHLI GUNA/HIBAH',
+                        'GUDANG',
+                        'GUDANG PERPANJANG',
+                        'RE-EKSPOR',
+                        'PENGGUNAAN/PROD. DI WIL PENGGUNA AKHIR',
+                        'IMPOR',
+                        'EKSPOR',
+                        'PEMBUATAN/PROD. HANDAK',
+                        'UJI COBA',
+                        'PEMBELIAN DAN PENGGUNAAN',
+                        'PENGGUNAAN',
+                        '3P',
+                        'BARU',
+                        'PERPANJANGAN',
+                        'ANGKUT SENPI DAN AMUNISI',
+                      ],
                     ),
                     buildPdfPicker(),
                     SizedBox(
@@ -144,10 +187,19 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     CustomButton(
                       text: 'Unggah Surat',
                       onPressed: () {
-                        AppHelper.alertDialogMessage(context: context, content: 'Are you sure you want to upload this document?', onPressed: () {
-                          _submit(_uploadBloc);
-                          Navigator.pop(context);
-                        });
+                        AppHelper.showCustomAlertDialog(
+                            title: 'Unggah Permohonan',
+                            context: context,
+                            content:
+                                'Are you sure you want to upload this document?',
+                            onNegativePressed: () {
+                              Navigator.pop(context);
+                            },
+                            negativeButtonText: 'Cancel',
+                            onPositivePressed: () {
+                              _submit(_uploadBloc);
+                              Navigator.pop(context);
+                            });
                       },
                       isLogOut: false,
                       isLoading: state.isLoading,
@@ -164,10 +216,11 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
 AppBar _appBar() {
   return AppBar(
     title: Text(
-      'Pengunggahan Surat Izin',
+      'Permohonan Surat Izin',
       style: TextStyle(
         fontSize: 20.sp,
         fontWeight: FontWeight.w700,
+        fontFamily: 'Satoshi',
         color: Colors.white,
       ),
     ),

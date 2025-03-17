@@ -19,6 +19,7 @@ class DividerText extends StatelessWidget {
             style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
+                fontFamily: 'Satoshi',
                 color: AppColors.lightGrey),
           ),
         ),

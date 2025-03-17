@@ -20,6 +20,7 @@ import 'package:tracking_apps/presentation/component/header_title.dart';
 import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
 import 'package:tracking_apps/presentation/main_page.dart';
+import 'package:tracking_apps/presentation/pages/login/reset/reset_password.dart';
 import 'package:tracking_apps/presentation/pages/register/register.dart';
 
 part 'login_mixin.dart';
@@ -32,8 +33,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with LoginMixin {
-
-
   @override
   Widget build(BuildContext context) {
     final LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
@@ -95,7 +94,14 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                             Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const ResetPasswordPage()),
+                                  );
+                                },
                                 child: Text(
                                   'Lupa Password?',
                                   style: TextStyle(
@@ -116,16 +122,16 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               isLogOut: false,
                             ),
                             SizedBox(height: 32.h),
-                            const DividerText(text: 'Masuk dengan'),
-                            SizedBox(height: 32.h),
-                            const SocialMediaButton(),
-                            SizedBox(height: 32.h),
+                            // const DividerText(text: 'Masuk dengan'),
+                            // // SizedBox(height: 32.h),
+                            // // const SocialMediaButton(),
+                            // SizedBox(height: 32.h),
                             TitleAuth(
                               fun: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                  const RegisterPage(),
+                                      const RegisterPage(),
                                 ),
                               ),
                               firstText: 'Belum mempunyai akun?',

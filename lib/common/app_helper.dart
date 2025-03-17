@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/constant.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
+import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class AppHelper {
   static HttpResponseModel checkEmailAndPassword(
@@ -81,11 +81,15 @@ class AppHelper {
     }
   }
 
-  static void alertDialogMessage({
+  static void showCustomAlertDialog({
     required BuildContext context,
     String? title,
     String? content,
-    void Function()? onPressed,
+    String? imageUrl,
+    String positiveButtonText = 'OK',
+    String? negativeButtonText,
+    VoidCallback? onPositivePressed,
+    VoidCallback? onNegativePressed,
     bool barrierDismissible = true,
   }) {
     showDialog(
@@ -93,45 +97,120 @@ class AppHelper {
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           title: title != null
-              ? Text(
-                  title,
-                  style: TextStyle(
-                    color: CupertinoColors.systemRed,
-                  ),
-                )
+              ? Center(
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Satoshi',
+              ),
+            ),
+          )
               : null,
-          content: content != null
-              ? Text(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (imageUrl != null)
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.0.h),
+                  child: Image.asset(imageUrl),
+                ),
+              if (content != null)
+                Text(
                   content,
-                  textAlign: TextAlign.start,
-                )
-              : null,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Satoshi',
+                  ),
+                ),
+            ],
+          ),
           actions: [
-            CupertinoDialogAction(
-              onPressed: onPressed ?? () => context.pop(),
-              child: Text('OK'),
-            )
+            if (negativeButtonText != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    onPressed:
+                    onPositivePressed ?? () => Navigator.of(context).pop(),
+                    child: Text(
+                      positiveButtonText,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                        side: BorderSide(color: AppColors.primary),
+                      ),
+                    ),
+                    onPressed:
+                    onNegativePressed ?? () => Navigator.of(context).pop(),
+                    child: Text(
+                      negativeButtonText,
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            else
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                  onPressed:
+                  onPositivePressed ?? () => Navigator.of(context).pop(),
+                  child: Text(
+                    positiveButtonText,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Satoshi',
+                    ),
+                  ),
+                ),
+              )
           ],
         );
       },
     );
-  }
-
-  static List<int> category = [1, 2, 3, 4];
-
-  static String getCategory(int value) {
-    switch (value) {
-      case 1:
-        return 'OPS';
-      case 2:
-        return 'DTM';
-      case 3:
-        return 'DTU';
-      case 4:
-        return 'DKK';
-      default:
-        return 'No Category';
-    }
   }
 }

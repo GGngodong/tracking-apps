@@ -39,6 +39,7 @@ class _CardExpandedState extends State<CardExpanded> {
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 16.sp,
+            fontFamily: 'Satoshi',
             color: AppColors.primary,
           ),
         ),
@@ -93,6 +94,7 @@ class _CardExpandedState extends State<CardExpanded> {
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
+                    fontFamily: 'Satoshi',
                     color: AppColors.primary,
                   ),
                 ),
@@ -119,6 +121,7 @@ Widget _buildRow(String title, String value) {
           style: TextStyle(
             fontSize: 12.sp,
             fontWeight: FontWeight.w600,
+            fontFamily: 'Satoshi',
             color: AppColors.primary,
           ),
         ),
@@ -128,6 +131,7 @@ Widget _buildRow(String title, String value) {
             style: TextStyle(
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
+              fontFamily: 'Satoshi',
               color: AppColors.lightGrey,
             ),
             textAlign: TextAlign.end,

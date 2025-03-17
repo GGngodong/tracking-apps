@@ -12,7 +12,8 @@ class PermitLetterBloc extends Bloc<PermitLetterEvent, PermitLetterState> {
 
   PermitLetterBloc({required this.userService})
       : super(const PermitLetterState()) {
-    on<GetPermitLetter>((event, state) async {
+    ///////////////////// Get LIST /////////////////////
+    on<GetListPermitLetter>((event, state) async {
       emit(const PermitLetterState(isLoading: true));
       try {
         final token = await userService.getAuthTokenFromSP();
@@ -43,7 +44,7 @@ class PermitLetterBloc extends Bloc<PermitLetterEvent, PermitLetterState> {
         emit(PermitLetterFailedState(
             message: e.toString(), isLoading: false, statusCode: 500));
         print(
-            '================== IN GET PERMIT FAILED BLOC ==================');
+            '================== IN GET PERMIT FAILED BLOC $e ==================');
       }
     });
   }

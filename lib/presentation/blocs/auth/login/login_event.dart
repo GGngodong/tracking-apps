@@ -23,7 +23,8 @@ class ValidateAuthToken extends LoginEvent {
 }
 
 class LogoutButtonPressed extends LoginEvent {
-  const LogoutButtonPressed();
+  final String authToken;
+  const LogoutButtonPressed({required this.authToken});
   @override
   List<Object?> get props => [];
 }

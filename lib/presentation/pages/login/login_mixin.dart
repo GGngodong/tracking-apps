@@ -18,21 +18,23 @@ mixin LoginMixin on State<LoginPage> {
     _passwordTextEditingController.dispose();
   }
 
-  void _forgotPasswordListener(RegisterState state) async {
-    if (state is ForgotPasswordCheckSuccess) {
-      if (state.data != null && state.data!) {
-        if (state.verificationCode != null) {
-          context.go(Routes.verify.path);
-        }
-      }
-    } else if (state is ForgotPasswordCheckFailed) {
-      print('================== CURRENT STATE : $state ==================');
-      AppHelper.alertDialogMessage(context: context, content: LocaleKeys.non_existent_user_message.tr());
-    } else if (state is CheckFailed) {
-      AppHelper.alertDialogMessage(context: context, content: LocaleKeys.something_went_wrong.tr());
-      print('================== CURRENT STATE : $state ==================');
-    }
-  }
+  // void _forgotPasswordListener(RegisterState state) async {
+  //   if (state is ForgotPasswordCheckSuccess) {
+  //     if (state.data != null && state.data!) {
+  //       if (state.verificationCode != null) {
+  //         context.go(Routes.verify.path);
+  //       }
+  //     }
+  //   } else if (state is ForgotPasswordCheckFailed) {
+  //     print('================== CURRENT STATE : $state ==================');
+  //     AppHelper.alertDialogMessage(
+  //         context: context, content: LocaleKeys.non_existent_user_message.tr());
+  //   } else if (state is CheckFailed) {
+  //     AppHelper.alertDialogMessage(
+  //         context: context, content: LocaleKeys.something_went_wrong.tr());
+  //     print('================== CURRENT STATE : $state ==================');
+  //   }
+  // }
 
   void _listener(LoginState state) {
     final ProfileBloc profileBloc = BlocProvider.of<ProfileBloc>(context);
@@ -47,11 +49,18 @@ mixin LoginMixin on State<LoginPage> {
       }
     } else if (state is LoginFailed) {
       print('================== CURRENT STATE  : $state ==================');
-
       if (state.statusCode == 401) {
-        AppHelper.alertDialogMessage(context: context, content: 'Invalid Email or Password');
+        AppHelper.showCustomAlertDialog(
+            onPositivePressed: ()  => Navigator.pop(context),
+            title: 'Login Failed!',
+            context: context,
+            content: 'Invalid Email or Password');
       } else {
-        AppHelper.alertDialogMessage(context: context, content: 'Something went wrong!');
+        AppHelper.showCustomAlertDialog(
+            onPositivePressed: () => Navigator.pop(context),
+            title: 'Login Failed!',
+            context: context,
+            content: 'Something went wrong!');
       }
     }
   }
@@ -69,9 +78,12 @@ mixin LoginMixin on State<LoginPage> {
           password: _passwordTextEditingController.text.trim(),
         ),
       );
-      AppHelper.alertDialogMessage(context: context, content: 'Login Success!');
     } else {
-      AppHelper.alertDialogMessage(context: context, content: 'Login Failed! Invalid ${httpResponseModel.message}');
+      AppHelper.showCustomAlertDialog(
+          onPositivePressed: () => Navigator.pop(context),
+          title: 'Login Failed!',
+          context: context,
+          content: 'Please ${httpResponseModel.message}.');
     }
   }
 }

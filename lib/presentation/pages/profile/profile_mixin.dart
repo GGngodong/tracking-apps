@@ -48,7 +48,7 @@ mixin ProfileMixin on State<ProfilePage> {
       }
     } else if (state is UpdateUserFailed) {
       profileBloc.add(SetUser(user: validateSuccess.user));
-      AppHelper.alertDialogMessage(context: context, content: state.message ?? LocaleKeys.something_went_wrong.tr());
+      // AppHelper.alertDialogMessage(context: context, content: state.message ?? LocaleKeys.something_went_wrong.tr());
     }
   }
 
@@ -60,31 +60,31 @@ mixin ProfileMixin on State<ProfilePage> {
     return true;
   }
 
-  void _showLogOutDialog(BuildContext context, LoginBloc loginBloc) {
-    showCupertinoDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return CupertinoAlertDialog(
-          title: const Text('Logout').tr(),
-          content: const Text('Are you sure want to Logout?').tr(),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              child: const Text('No').tr(),
-              onPressed: () {
-                if (context.canPop()) context.pop();
-              },
-            ),
-            CupertinoDialogAction(
-              child: const Text('Yes').tr(),
-              onPressed: () {
-                loginBloc.add(const LogoutButtonPressed());
-                context.go(Routes.login.path);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showLogOutDialog(BuildContext context, LoginBloc loginBloc) {
+  //   showCupertinoDialog(
+  //     context: context,
+  //     barrierDismissible: true,
+  //     builder: (BuildContext context) {
+  //       return CupertinoAlertDialog(
+  //         title: const Text('Logout').tr(),
+  //         content: const Text('Are you sure want to Logout?').tr(),
+  //         actions: <Widget>[
+  //           CupertinoDialogAction(
+  //             child: const Text('No').tr(),
+  //             onPressed: () {
+  //               if (context.canPop()) context.pop();
+  //             },
+  //           ),
+  //           CupertinoDialogAction(
+  //             child: const Text('Yes').tr(),
+  //             onPressed: () {
+  //               loginBloc.add(LogoutButtonPressed(authToken: ));
+  //               context.go(Routes.login.path);
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 }

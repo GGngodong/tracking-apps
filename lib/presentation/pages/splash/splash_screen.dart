@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,58 +25,104 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with SplashScreenMixin {
+  bool isTimeout = false;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimeout();
+  }
+
+  void _startTimeout() {
+    _timer = Timer(const Duration(seconds: 30), () {
+      if (mounted) {
+        setState(() {
+          isTimeout = true;
+        });
+      }
+    });
+  }
+
+  void _restartProcess() {
+    setState(() {
+      isTimeout = false;
+    });
+    _startTimeout();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final LoginBloc _loginBloc = BlocProvider.of<LoginBloc>(context);
-    final RegisterBloc _registerBloc = BlocProvider.of<RegisterBloc>(context);
-    final ProfileBloc _profileBloc = BlocProvider.of<ProfileBloc>(context);
+    final LoginBloc loginBloc = BlocProvider.of<LoginBloc>(context);
+    final RegisterBloc registerBloc = BlocProvider.of<RegisterBloc>(context);
+    final ProfileBloc profileBloc = BlocProvider.of<ProfileBloc>(context);
+
     return Container(
       color: AppColors.whitePage,
-      child: FutureBuilder(
-        future: _future(context),
-        builder: (context, snapshot) {
-          return BlocListener<LoginBloc, LoginState>(
-            listener: (context, state) {
-              if (snapshot.hasData) {
-                _listener(
-                  state,
-                  loginBloc: _loginBloc,
-                  profileBloc: _profileBloc,
-                  registerBloc: _registerBloc,
-                );
-              }
-            },
-            child: Column(
+      child: isTimeout
+          ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/home/dahana-hitam.png',
-                  height: 100.h,
+                const Icon(Icons.error, color: Colors.red, size: 50),
+                const SizedBox(height: 10),
+                const Text(
+                  "Server error. Please try again.",
+                  style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
-                SizedBox(
-                  height: 50.h,
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _restartProcess,
+                  child: const Text("Retry"),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 20.w,
-                  ),
-                  width: 300.h,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: LinearProgressIndicator(
-                      backgroundColor: AppColors.whitePage,
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.h),
               ],
+            )
+          : FutureBuilder(
+              future: _future(context),
+              builder: (context, snapshot) {
+                return BlocListener<LoginBloc, LoginState>(
+                  listener: (context, state) {
+                    if (snapshot.hasData) {
+                      _listener(
+                        state,
+                        loginBloc: loginBloc,
+                        profileBloc: profileBloc,
+                        registerBloc: registerBloc,
+                      );
+                    }
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/home/dahana-hitam.png',
+                        height: 100.h,
+                      ),
+                      SizedBox(height: 50.h),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 20.w),
+                        width: 300.h,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: LinearProgressIndicator(
+                            backgroundColor: AppColors.whitePage,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

@@ -3,30 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
-class DropdownFormStatusTahapan extends StatefulWidget {
+class CustomDropdownForm extends StatefulWidget {
   final String header;
   final Function onCategoryChanged;
+  final String hintText;
+  final List<String> listDropdown;
   final TextEditingController textEditingController;
 
-  DropdownFormStatusTahapan(
-      {super.key, required this.header, required this.onCategoryChanged, required this.textEditingController});
+  const CustomDropdownForm({
+    super.key,
+    required this.header,
+    required this.onCategoryChanged,
+    required this.textEditingController,
+    required this.listDropdown,
+    required this.hintText,
+  });
 
   @override
-  State<DropdownFormStatusTahapan> createState() => _DropdownFormStatusTahapanState();
+  State<CustomDropdownForm> createState() =>
+      _CustomDropdownFormState();
 }
 
-class _DropdownFormStatusTahapanState extends State<DropdownFormStatusTahapan> {
-  final List<String> statusTahapan = [
-    'Draft Created',
-    'Archiving',
-    'Verification',
-    'Initial Approval',
-    'Second Approval',
-    'Drafter',
-    'Final Approval',
-    'Printing'
-  ];
-
+class _CustomDropdownFormState extends State<CustomDropdownForm> {
   String? selectedValue;
 
   @override
@@ -39,6 +37,7 @@ class _DropdownFormStatusTahapanState extends State<DropdownFormStatusTahapan> {
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w500,
+            fontFamily: 'Satoshi',
             color: AppColors.primary,
           ),
         ),
@@ -53,10 +52,10 @@ class _DropdownFormStatusTahapanState extends State<DropdownFormStatusTahapan> {
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
           ),
           hint: Text(
-            'Kategori surat',
+            widget.hintText,
             style: TextStyle(fontSize: 14.sp, color: AppColors.lightGrey),
           ),
-          items: statusTahapan
+          items: widget.listDropdown
               .map(
                 (item) => DropdownMenuItem(
                   value: item,

@@ -7,7 +7,8 @@ class PdfUpload extends StatefulWidget {
   final String header;
   final Function onFileSelected;
 
-  const PdfUpload({super.key, required this.header, required this.onFileSelected});
+  const PdfUpload(
+      {super.key, required this.header, required this.onFileSelected});
 
   @override
   State<PdfUpload> createState() => _PdfUploadState();
@@ -52,6 +53,7 @@ class _PdfUploadState extends State<PdfUpload> {
             style: TextStyle(
               fontSize: 14.sp,
               fontWeight: FontWeight.w500,
+              fontFamily: 'Satoshi',
               color: AppColors.primary,
             ),
           ),
@@ -86,6 +88,7 @@ class _PdfUploadState extends State<PdfUpload> {
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: AppColors.lightGrey,
+                                fontFamily: 'Satoshi',
                               ),
                             )
                           : Text.rich(
@@ -95,6 +98,7 @@ class _PdfUploadState extends State<PdfUpload> {
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
+                                  fontFamily: 'Satoshi',
                                   color: AppColors.tertiary,
                                 ),
                                 children: [
@@ -103,6 +107,7 @@ class _PdfUploadState extends State<PdfUpload> {
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
+                                      fontFamily: 'Satoshi',
                                       color: AppColors.lightGrey,
                                     ),
                                   ),
@@ -111,6 +116,7 @@ class _PdfUploadState extends State<PdfUpload> {
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
+                                      fontFamily: 'Satoshi',
                                       color: AppColors.lightGrey,
                                     ),
                                   ),
@@ -128,6 +134,7 @@ class _PdfUploadState extends State<PdfUpload> {
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   color: Colors.red,
+                                  fontFamily: 'Satoshi',
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),

@@ -12,6 +12,7 @@ import 'package:tracking_apps/presentation/blocs/auth/register/register_bloc.dar
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/divider_text.dart';
+import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
 import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
 import 'package:tracking_apps/presentation/pages/login/login.dart';
@@ -74,6 +75,18 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                         SizedBox(
                           height: 16.h,
                         ),
+                        CustomDropdownForm(
+                          hintText: 'Pilih Divisi',
+                          header: 'Divisi',
+                          onCategoryChanged: (value) {
+                            _submit(registerBloc);
+                          },
+                          textEditingController: _divisionTextEditingController,
+                          listDropdown: ['LOG.', 'DTU', 'DM/GM', 'DKK'],
+                        ),
+                        // SizedBox(
+                        //   height: 16.h,
+                        // ),
                         CustomTextField(
                           hintText: 'Masukan password anda',
                           header: 'Password',
@@ -103,14 +116,14 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                         SizedBox(
                           height: 32.h,
                         ),
-                        const DividerText(text: 'Masuk dengan'),
-                        SizedBox(
-                          height: 32.h,
-                        ),
-                        const SocialMediaButton(),
-                        SizedBox(
-                          height: 32.h,
-                        ),
+                        // const DividerText(text: 'Masuk dengan'),
+                        // // SizedBox(
+                        // //   height: 32.h,
+                        // // ),
+                        // // const SocialMediaButton(),
+                        // // SizedBox(
+                        // //   height: 32.h,
+                        // // ),
                         TitleAuth(
                           fun: () => Navigator.push(
                             context,

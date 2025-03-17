@@ -40,7 +40,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
-      context.read<PermitLetterBloc>().add(GetPermitLetter());
+      context.read<PermitLetterBloc>().add(GetListPermitLetter());
     }
   }
 
@@ -60,8 +60,9 @@ class _ListSuratPageState extends State<ListSuratPage> {
         child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
           builder: (context, state) {
             return RefreshIndicator(
+              color: AppColors.primary,
               onRefresh: () async {
-                context.read<PermitLetterBloc>().add(GetPermitLetter());
+                context.read<PermitLetterBloc>().add(GetListPermitLetter());
               },
               child: _buildBody(state),
             );
@@ -91,6 +92,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
           fontSize: 20.sp,
           fontWeight: FontWeight.w700,
           color: Colors.white,
+          fontFamily: 'Satoshi',
         ),
       ),
       flexibleSpace: Container(
@@ -129,19 +131,14 @@ class _ListSuratPageState extends State<ListSuratPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 30.h),
-          CustomSearchBar(
-            hintText: 'Cari Surat Izin',
-            searchType: TypeSearchBar.withDropdownFilter,
-            items: const ['OPS', 'DTM', 'DTU', 'DKK'],
-          ),
           SizedBox(height: 20.h),
           state.listPermitLetter.isEmpty
               ? RefreshIndicator(
+                  color: AppColors.primary,
                   onRefresh: () async {
-                    context.read<PermitLetterBloc>().add(GetPermitLetter());
+                    context.read<PermitLetterBloc>().add(GetListPermitLetter());
                   },
-                child: Column(
+                  child: Column(
                     children: [
                       SizedBox(height: 50.h),
                       Image.asset(
@@ -158,6 +155,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                             color: Colors.grey[700],
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
+                            fontFamily: 'Satoshi',
                           ),
                         ),
                       ),
@@ -168,12 +166,13 @@ class _ListSuratPageState extends State<ListSuratPage> {
                             color: Colors.grey[600],
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w300,
+                            fontFamily: 'Satoshi',
                           ),
                         ),
                       ),
                     ],
                   ),
-              )
+                )
               : ListView.separated(
                   shrinkWrap: true,
                   primary: false,
@@ -233,6 +232,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                 color: Colors.grey[700],
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'Satoshi',
               ),
             ),
           ),
@@ -243,6 +243,7 @@ class _ListSuratPageState extends State<ListSuratPage> {
                 color: Colors.grey[600],
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w300,
+                fontFamily: 'Satoshi',
               ),
             ),
           ),

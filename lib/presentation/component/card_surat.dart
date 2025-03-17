@@ -9,6 +9,7 @@ class CardSurat extends StatelessWidget {
   final String namaPerusahaan;
   final String namaDokumen;
   final String noSuratIzinMabes;
+  final String uploadStatus;
   final String processStatus;
   final VoidCallback detailSurat;
   final VoidCallback funcRead;
@@ -25,90 +26,51 @@ class CardSurat extends StatelessWidget {
     required this.funcRead,
     required this.funcDownload,
     required this.detailSurat,
+    required this.uploadStatus,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final String typeStatus;
-    final TextStyle fontStatusStyle;
-    if (processStatus == 'Draft Created') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFBDBDBD),
+    late Color borderUploadColor = const Color(0xFFBDBDBD);
+    late String typeUpload;
+    late TextStyle fontUploadSyle;
+    if (uploadStatus == 'PENDING') {
+      fontUploadSyle = TextStyle(
+        color: Colors.white,
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
-      typeStatus = 'On Draft Created';
-    } else if (processStatus == 'Archiving') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFA0A0A0),
+      borderUploadColor = const Color(0xFFBDBDBD);
+      typeUpload = 'PENDING';
+    } else if (uploadStatus == 'APPROVED') {
+      fontUploadSyle = TextStyle(
+        color: Colors.white,
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
-      typeStatus = 'On Archiving';
-    } else if (processStatus == 'Submission') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFF64B5F6),
+      borderUploadColor = const Color(0xFF32A850);
+      typeUpload = 'APPROVED';
+    } else if (uploadStatus == 'REJECTED') {
+      fontUploadSyle = TextStyle(
+        color: Colors.white,
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
-      typeStatus = 'On Submission';
-    }
-    else if (processStatus == 'Verification') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFFFF59D),
+      borderUploadColor = const Color(0xFFAF4848);
+      typeUpload = 'REJECTED';
+    }  else {
+      fontUploadSyle = TextStyle(
+        color: Colors.white,
         fontWeight: FontWeight.w600,
         fontSize: 12.sp,
+        fontFamily: 'Satoshi',
       );
-      typeStatus = 'On Verification';
-    }
-    else if (processStatus == 'Initial Approval') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFF81C784),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-      );
-      typeStatus = 'On Initial Approval';
-    }
-    else if (processStatus == 'Second Approval') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFF689F38),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-      );
-      typeStatus = 'On Second Approval';
-    }
-    else if (processStatus == 'Drafter') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFFFA500),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-      );
-      typeStatus = 'On Drafter';
-    }
-    else if (processStatus == 'Final Approval') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFF00FF00),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-      );
-      typeStatus = 'On Final Approval';
-    }
-    else if (processStatus == 'Printing') {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFCE93D8),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-      );
-      typeStatus = 'On Printing';
-    }
-    else {
-      fontStatusStyle = TextStyle(
-        color: Color(0xFFAF4848),
-        fontWeight: FontWeight.w600,
-        fontSize: 12.sp,
-      );
-      typeStatus = 'No Status';
+      typeUpload = 'No Status';
+      borderUploadColor = const Color(0xFFBDBDBD);
     }
     return Container(
       decoration: BoxDecoration(
@@ -135,6 +97,7 @@ class CardSurat extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
                   decoration: BoxDecoration(
@@ -147,33 +110,6 @@ class CardSurat extends StatelessWidget {
                         offset: Offset(0, 4),
                         blurRadius: 8,
                       )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                    child: Text(
-                      categorySurat,
-                      style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: AppColors.lightGrey),
-                    borderRadius: BorderRadius.circular(16.r),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
-                        offset: Offset(0, 4),
-                        blurRadius: 8,
-                      ),
                     ],
                   ),
                   child: Padding(
@@ -181,37 +117,6 @@ class CardSurat extends StatelessWidget {
                     child: Text(
                       noSurat,
                       style: TextStyle(
-                          color: const Color.fromRGBO(37, 42, 49, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 12.h,
-            ),
-            Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: AppColors.tertiary),
-                    borderRadius: BorderRadius.circular(16.r),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
-                        offset: Offset(0, 4),
-                        blurRadius: 8,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                    child: Text(
-                      namaPerusahaan,
-                      style: TextStyle(
                           color: AppColors.primary,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w500),
@@ -223,8 +128,7 @@ class CardSurat extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: AppColors.lightGrey),
+                    color: borderUploadColor,
                     borderRadius: BorderRadius.circular(16.r),
                     boxShadow: const [
                       BoxShadow(
@@ -237,15 +141,15 @@ class CardSurat extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
                     child: Text(
-                      noSuratIzinMabes,
-                      style: TextStyle(
-                          color: const Color.fromRGBO(37, 42, 49, 1),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp),
+                      typeUpload,
+                      style: fontUploadSyle,
                     ),
                   ),
                 )
               ],
+            ),
+            SizedBox(
+              height: 12.h,
             ),
             SizedBox(
               height: 12.h,
@@ -257,6 +161,7 @@ class CardSurat extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w700,
+                  fontFamily: 'Satoshi',
                   fontSize: 18.sp,
                 ),
               ),
@@ -281,6 +186,7 @@ class CardSurat extends StatelessWidget {
                   style: TextStyle(
                     color: AppColors.lightGrey,
                     fontWeight: FontWeight.w500,
+                    fontFamily: 'Satoshi',
                     fontSize: 12.sp,
                   ),
                 ),
@@ -290,8 +196,13 @@ class CardSurat extends StatelessWidget {
               height: 20.h,
             ),
             Text(
-              typeStatus,
-              style: fontStatusStyle,
+              namaPerusahaan,
+              style: TextStyle(
+                color: AppColors.lightGrey,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Satoshi',
+                fontSize: 12.sp,
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -301,6 +212,7 @@ class CardSurat extends StatelessWidget {
               style: TextStyle(
                 color: AppColors.lightGrey,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'Satoshi',
                 fontSize: 12.sp,
               ),
             ),
@@ -325,6 +237,7 @@ class CardSurat extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12.sp,
+                      fontFamily: 'Satoshi',
                       color: AppColors.lightGrey,
                     ),
                   ),
@@ -367,6 +280,7 @@ class CardSurat extends StatelessWidget {
                             style: TextStyle(
                               color: AppColors.tertiary,
                               fontWeight: FontWeight.w600,
+                              fontFamily: 'Satoshi',
                               fontSize: 16.sp,
                             ),
                           ),
@@ -406,6 +320,7 @@ class CardSurat extends StatelessWidget {
                             style: TextStyle(
                               color: AppColors.tertiary,
                               fontWeight: FontWeight.w600,
+                              fontFamily: 'Satoshi',
                               fontSize: 16.sp,
                             ),
                           ),
