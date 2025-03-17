@@ -81,16 +81,16 @@ class AppHelper {
     }
   }
 
-  static void alertDialogMessage({
+  static void showCustomAlertDialog({
     required BuildContext context,
     String? title,
     String? content,
-    Widget? image,
-    void Function()? onPressedYes,
-    onPressedNo,
+    String? imageUrl,
+    String positiveButtonText = 'OK',
+    String? negativeButtonText,
+    VoidCallback? onPositivePressed,
+    VoidCallback? onNegativePressed,
     bool barrierDismissible = true,
-    bool isLogOut = false,
-    bool isFailed = false,
   }) {
     showDialog(
       context: context,
@@ -103,47 +103,42 @@ class AppHelper {
           ),
           title: title != null
               ? Center(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: 'Satoshi',
-                    ),
-                  ),
-                )
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Satoshi',
+              ),
+            ),
+          )
               : null,
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (image != null)
-                Center(
-                  child: image,
+              if (imageUrl != null)
+                Padding(
+                  padding: EdgeInsets.only(bottom: 8.0.h),
+                  child: Image.asset(imageUrl),
                 ),
               if (content != null)
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 8.0.h),
-                    child: Text(
-                      content,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Satoshi',
-                      ),
-                    ),
+                Text(
+                  content,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Satoshi',
                   ),
                 ),
             ],
           ),
           actions: [
-            if (isLogOut)
+            if (negativeButtonText != null)
               Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
@@ -155,9 +150,9 @@ class AppHelper {
                       ),
                     ),
                     onPressed:
-                        onPressedYes ?? () => Navigator.of(context).pop(),
+                    onPositivePressed ?? () => Navigator.of(context).pop(),
                     child: Text(
-                      'Yes',
+                      positiveButtonText,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12.sp,
@@ -166,9 +161,7 @@ class AppHelper {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
+                  SizedBox(width: 10.w),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -178,9 +171,10 @@ class AppHelper {
                         side: BorderSide(color: AppColors.primary),
                       ),
                     ),
-                    onPressed: onPressedNo ?? () => Navigator.of(context).pop(),
+                    onPressed:
+                    onNegativePressed ?? () => Navigator.of(context).pop(),
                     child: Text(
-                      'No',
+                      negativeButtonText,
                       style: TextStyle(
                         color: AppColors.primary,
                         fontSize: 12.sp,
@@ -190,8 +184,8 @@ class AppHelper {
                     ),
                   ),
                 ],
-              ),
-            if (isFailed)
+              )
+            else
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -201,9 +195,10 @@ class AppHelper {
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                   ),
-                  onPressed: onPressedYes ?? () => Navigator.of(context).pop(),
+                  onPressed:
+                  onPositivePressed ?? () => Navigator.of(context).pop(),
                   child: Text(
-                    'OK',
+                    positiveButtonText,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12.sp,
@@ -212,7 +207,7 @@ class AppHelper {
                     ),
                   ),
                 ),
-              ),
+              )
           ],
         );
       },
