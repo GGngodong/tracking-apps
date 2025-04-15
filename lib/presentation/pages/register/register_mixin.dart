@@ -43,13 +43,20 @@ mixin RegisterMixin on State<RegisterPage> {
           division: _divisionTextEditingController.text.trim(),
         ),
       );
-      Future.delayed(const Duration(seconds: 5));
+      Future.delayed(const Duration(seconds: 10), () {
+        registerBloc.add(const ClearRegisterData());
+      });
       AppHelper.showCustomAlertDialog(
         title: 'Register Success!',
         context: context,
         content: 'Please login to continue.',
         onPositivePressed: () {
-          context.go(Routes.login.path);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginPage(),
+            ),
+          );
         },
       );
     } else {
