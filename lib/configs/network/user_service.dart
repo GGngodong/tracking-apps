@@ -18,7 +18,7 @@ class UserService extends UserInterface {
   Future<HttpResponseModel> login(
       {required String email, required String password}) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/users/login');
+      var url = Uri.parse('$_baseUrl/users/login');
 
       var response = await http.post(
         url,
@@ -50,7 +50,7 @@ class UserService extends UserInterface {
     required String email,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/users/forgot-password');
+      var url = Uri.parse('$_baseUrl/users/forgot-password');
       var response = await http.post(
         url,
         headers: {
@@ -83,7 +83,7 @@ class UserService extends UserInterface {
     required String division,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/users');
+      var url = Uri.parse('$_baseUrl/users');
       var response = await http.post(
         url,
         headers: {
@@ -113,7 +113,7 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> delete({required String authToken}) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/users/logout');
+      var url = Uri.parse('$_baseUrl/users/logout');
       var response = await http.delete(
         url,
         headers: {
@@ -162,7 +162,7 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> validate({required String token}) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/users/current');
+      var url = Uri.parse('$_baseUrl/users/current');
       var response = await http.get(
         url,
         headers: {
@@ -226,7 +226,7 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/');
+      var url = Uri.parse('$_baseUrl/permit-letters/');
       var response = await http.get(
         url,
         headers: {
@@ -264,7 +264,7 @@ class UserService extends UserInterface {
   Future<HttpResponseModel<PermitModel>> getDetailPermit(
       {required String authToken, required String id}) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/$id');
+      var url = Uri.parse('$_baseUrl/permit-letters/$id');
       var response = await http.get(
         url,
         headers: {
@@ -313,7 +313,7 @@ class UserService extends UserInterface {
     String? uploadStatus,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/upload');
+      var url = Uri.parse('$_baseUrl/permit-letters/upload');
       var request = http.MultipartRequest('POST', url);
 
       request.fields['uraian'] = description;
@@ -398,7 +398,7 @@ class UserService extends UserInterface {
     String? note,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/edit/$id');
+      var url = Uri.parse('$_baseUrl/permit-letters/edit/$id');
       var response = await http.patch(
         url,
         headers: {
@@ -432,7 +432,7 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/delete/$id');
+      var url = Uri.parse('$_baseUrl/permit-letters/delete/$id');
       var response = await http.delete(
         url,
         headers: {
@@ -466,7 +466,7 @@ class UserService extends UserInterface {
   }) async {
     try {
       var url = Uri.parse(
-          '$_baseUrl/dev/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery&$subCategoryPermitSearchParam=$subCategoryPermitSearchQuery');
+          '$_baseUrl/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery&$subCategoryPermitSearchParam=$subCategoryPermitSearchQuery');
       var response = await http.get(
         url,
         headers: {
@@ -508,7 +508,7 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/approved');
+      var url = Uri.parse('$_baseUrl/permit-letters/approved');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -544,7 +544,7 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/rejected');
+      var url = Uri.parse('$_baseUrl/permit-letters/rejected');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -580,7 +580,7 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/latest');
+      var url = Uri.parse('$_baseUrl/permit-letters/latest');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -616,7 +616,7 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/permit-letters/pending');
+      var url = Uri.parse('$_baseUrl/permit-letters/pending');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -653,7 +653,7 @@ class UserService extends UserInterface {
     required String deviceToken,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/dev/users/update-token');
+      var url = Uri.parse('$_baseUrl/users/update-token');
       var response = await http.patch(
         url,
         headers: {

@@ -13,7 +13,7 @@ class NotificationService extends NotificationInterface {
   @override
   Future<HttpResponseModel<NotificationListResponse>> getNotification({required String authToken}) async {
     try {
-      final url = Uri.parse('$_baseUrl/dev/notifications');
+      final url = Uri.parse('$_baseUrl/notifications');
       final response = await http.get(
         url,
         headers : {
@@ -53,7 +53,7 @@ class NotificationService extends NotificationInterface {
     required String notificationId,
   }) async {
     try {
-      final url = Uri.parse('$_baseUrl/dev/notifications/$notificationId/read');
+      final url = Uri.parse('$_baseUrl/notifications/$notificationId/read');
       final response = await http.patch(
         url,
         headers: {
@@ -80,7 +80,7 @@ class NotificationService extends NotificationInterface {
     required String notificationId,
 }) async {
     try {
-      final url = Uri.parse('$_baseUrl/dev/notifications/$notificationId');
+      final url = Uri.parse('$_baseUrl/notifications/$notificationId');
       final response = await http.get(
         url,
         headers: {
@@ -110,7 +110,7 @@ class NotificationService extends NotificationInterface {
     required String notificationId,
   }) async {
     try {
-      final url = Uri.parse('$_baseUrl/dev/notifications/delete/$notificationId');
+      final url = Uri.parse('$_baseUrl/notifications/delete/$notificationId');
       final response = await http.delete(
         url,
         headers: {
