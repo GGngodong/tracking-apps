@@ -1,7 +1,9 @@
-# tracking_apps
+# Dahana Tracking Apps
 
-A new Flutter project.
+Dahana Tracking Apps is an application that allows you to see the 
+progress of permits submitted to the National Police Bureau.
 
 ## Getting Started
 
-`flutter pub get`
+1. `git clone https://github.com/GGngodong/tracking-apps.git`
+2. `flutter pub get`
