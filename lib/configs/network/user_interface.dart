@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
 import 'http_response_model.dart';
@@ -21,7 +23,7 @@ abstract class UserInterface {
     required String authToken,
   });
 
-  Future <HttpResponseModel> resetPassword ({
+  Future<HttpResponseModel> resetPassword({
     required String email,
   });
 
@@ -90,9 +92,12 @@ abstract class UserInterface {
     required String authToken,
   });
 
+  Future<HttpResponseModel> getReleasePermit({
+    required String authToken,
+  });
+
   Future<HttpResponseModel> updateDeviceToken({
     required String authToken,
     required String deviceToken,
   });
-
 }

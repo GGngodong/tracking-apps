@@ -5,6 +5,7 @@ import 'package:tracking_apps/presentation/component/custom_tab_bar_2.dart';
 import 'package:tracking_apps/presentation/pages/list/status/permit_approved.dart';
 import 'package:tracking_apps/presentation/pages/list/status/permit_pending.dart';
 import 'package:tracking_apps/presentation/pages/list/status/permit_reject.dart';
+import 'package:tracking_apps/presentation/pages/list/status/permit_release.dart';
 
 class StatusPage extends StatefulWidget {
   const StatusPage({super.key});
@@ -24,11 +25,13 @@ class _StatusPageState extends State<StatusPage> {
             Tab(child: Text('Pending'),),
             Tab(child: Text('Approved')),
             Tab(child: Text('Rejected')),
+            Tab(child: Text('SI TERBIT'),)
           ],
           tabViews: [
             PermitPending(),
             PermitApproved(),
-            PermitReject()
+            PermitReject(),
+            PermitRelease(),
           ],
         ),
       ),

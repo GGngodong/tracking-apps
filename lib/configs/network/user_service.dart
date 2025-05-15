@@ -46,7 +46,7 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future <HttpResponseModel> resetPassword ({
+  Future<HttpResponseModel> resetPassword({
     required String email,
   }) async {
     try {
@@ -495,6 +495,41 @@ class UserService extends UserInterface {
           statusCode: response.statusCode,
           message:
               jsonDecode(response.body)['message'] ?? 'Error fetching permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
+  Future<HttpResponseModel<PermitListResponse>> getReleasePermit(
+      {required String authToken}) async {
+    try {
+      var url = Uri.parse('$_baseUrl/permit-letters/released');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Accept': 'application/json;charset=UTF-8',
+        'Charset': 'utf-8',
+        'Authorization': 'Bearer $authToken',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final releaseListResponse =
+            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: releaseListResponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error Fetching Permits',
           status: 'error',
         );
       }
