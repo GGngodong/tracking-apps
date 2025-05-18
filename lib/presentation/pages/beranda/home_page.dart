@@ -328,7 +328,7 @@ class _HomePageState extends State<HomePage> {
                             height: 10.h,
                           );
                         },
-                        itemCount: state.listPermitLetter.length,
+                        itemCount: 3,
                       ),
               ),
             ],
