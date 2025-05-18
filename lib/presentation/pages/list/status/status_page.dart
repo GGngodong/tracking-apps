@@ -25,13 +25,11 @@ class _StatusPageState extends State<StatusPage> {
             Tab(child: Text('Pending'),),
             Tab(child: Text('Approved')),
             Tab(child: Text('Rejected')),
-            Tab(child: Text('SI TERBIT'),)
           ],
           tabViews: [
             PermitPending(),
             PermitApproved(),
             PermitReject(),
-            PermitRelease(),
           ],
         ),
       ),
