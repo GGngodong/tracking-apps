@@ -50,6 +50,7 @@ abstract class UserInterface {
     String? uploadStatus,
     String? noProdukMabes,
     String? note,
+    String? documentUrl,
   });
 
   Future<HttpResponseModel> getListPermit({

@@ -389,42 +389,111 @@ class UserService extends UserInterface {
   }
 
   @override
-  Future<HttpResponseModel> updatePermit({
+  Future<HttpResponseModel<PermitModel>> updatePermit({
     required String id,
     required String authToken,
     String? noProdukMabes,
     String? processStatus,
     String? uploadStatus,
     String? note,
+    String? documentUrl,
   }) async {
     try {
-      var url = Uri.parse('$_baseUrl/permit-letters/edit/$id');
-      var response = await http.patch(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $authToken',
-        },
-        body: jsonEncode({
-          'status_tahapan': processStatus,
-          'upload_status': uploadStatus,
-          'produk_no_surat_mabes': noProdukMabes,
-          'note': note,
-        }),
-      );
-      return HttpResponseModel(
-        statusCode: response.statusCode,
-        data: jsonDecode(response.body)["data"],
-        status: jsonDecode(response.body)["status"],
-        message: jsonDecode(response.body)["message"],
-      );
+      final url = Uri.parse('$_baseUrl/permit-letters/edit/$id');
+      final request = http.MultipartRequest('POST', url);
+      request.fields['_method'] = 'PUT';
+      if (processStatus != null) {
+        request.fields['status_tahapan'] = processStatus;
+      }
+      if (uploadStatus != null) {
+        request.fields['upload_status'] = uploadStatus;
+      }
+      if (noProdukMabes != null) {
+        request.fields['produk_no_surat_mabes'] = noProdukMabes;
+      }
+      if (note != null) {
+        request.fields['note'] = note;
+      }
+
+      request.headers['Authorization'] = 'Bearer $authToken';
+
+      if (documentUrl != null && documentUrl.isNotEmpty) {
+        final mimeType = lookupMimeType(documentUrl);
+        request.files.add(await http.MultipartFile.fromPath(
+          'dokumen',
+          documentUrl,
+          contentType: mimeType != null ? MediaType.parse(mimeType) : null,
+        ));
+      }
+
+      final streamed = await request.send();
+      final response = await http.Response.fromStream(streamed);
+
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final dataMap = body['data'] as Map<String, dynamic>?;
+        final permit = dataMap != null ? PermitModel.fromMap(dataMap) : null;
+
+        return HttpResponseModel<PermitModel>(
+          statusCode: response.statusCode,
+          data: permit,
+          status: body['status'] as String?,
+          message: body['message'] as String?,
+        );
+      } else {
+        return HttpResponseModel<PermitModel>(
+          statusCode: response.statusCode,
+          data: null,
+          status: body['status'] as String?,
+          message: body['message'] as String? ?? 'Unknown error',
+        );
+      }
     } catch (e) {
-      return HttpResponseModel(
+      return HttpResponseModel<PermitModel>(
         message: 'An error occurred: $e',
       );
     }
   }
+
+  //
+  // @override
+  // Future<HttpResponseModel> updatePermit({
+  //   required String id,
+  //   required String authToken,
+  //   String? noProdukMabes,
+  //   String? processStatus,
+  //   String? uploadStatus,
+  //   String? note,
+  //   String? documentUrl,
+  // }) async {
+  //   try {
+  //     var url = Uri.parse('$_baseUrl/permit-letters/edit/$id');
+  //     var response = await http.patch(
+  //       url,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json',
+  //         'Authorization': 'Bearer $authToken',
+  //       },
+  //       body: jsonEncode({
+  //         'status_tahapan': processStatus,
+  //         'upload_status': uploadStatus,
+  //         'produk_no_surat_mabes': noProdukMabes,
+  //         'note': note,
+  //       }),
+  //     );
+  //     return HttpResponseModel(
+  //       statusCode: response.statusCode,
+  //       data: jsonDecode(response.body)["data"],
+  //       status: jsonDecode(response.body)["status"],
+  //       message: jsonDecode(response.body)["message"],
+  //     );
+  //   } catch (e) {
+  //     return HttpResponseModel(
+  //       message: 'An error occurred: $e',
+  //     );
+  //   }
+  // }
 
   @override
   Future<HttpResponseModel> deletePermit({
@@ -465,43 +534,130 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse(
-          '$_baseUrl/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery&$subCategoryPermitSearchParam=$subCategoryPermitSearchQuery');
-      var response = await http.get(
-        url,
+      // 1) Build a map, but only insert key/value if the key != '' and value != ''.
+      final Map<String, String> params = {};
+
+      // a) Always add the main search field, if non-empty.
+      if (searchParam != null &&
+          searchParam.isNotEmpty &&
+          searchQuery != null &&
+          searchQuery.isNotEmpty) {
+        params[searchParam] = searchQuery;
+      }
+
+      // b) Add category filter only if both param name & value are non-empty
+      if (categoryPermitSearchParam != null &&
+          categoryPermitSearchParam.isNotEmpty &&
+          categoryPermitSearchQuery != null &&
+          categoryPermitSearchQuery.isNotEmpty) {
+        params[categoryPermitSearchParam] = categoryPermitSearchQuery;
+      }
+
+      // c) Add sub-category filter only if both param name & value are non-empty
+      if (subCategoryPermitSearchParam != null &&
+          subCategoryPermitSearchParam.isNotEmpty &&
+          subCategoryPermitSearchQuery != null &&
+          subCategoryPermitSearchQuery.isNotEmpty) {
+        params[subCategoryPermitSearchParam] = subCategoryPermitSearchQuery;
+      }
+
+      // 2) Build the final URI with only the keys that actually exist in `params`.
+      final uri = Uri.parse('$_baseUrl/permit-letters/search')
+          .replace(queryParameters: params);
+
+      final response = await http.get(
+        uri,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $authToken',
         },
       );
+
+      // 3) Handle HTTP 200
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        final permitListResponse =
-            PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        final jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+        final permitListResponse = PermitListResponse.fromMap(jsonResponse);
+
         return HttpResponseModel(
           statusCode: response.statusCode,
           data: permitListResponse,
-          status: jsonResponse['status'],
-          message: jsonResponse['message'],
+          status: jsonResponse['status'] as String?,
+          message: jsonResponse['message'] as String?,
         );
-      } else if (response.statusCode == 404) {
+      }
+      // 4) Handle HTTP 404 (no results)
+      else if (response.statusCode == 404) {
+        final body = jsonDecode(response.body) as Map<String, dynamic>;
         return HttpResponseModel(
           statusCode: response.statusCode,
-          message: jsonDecode(response.body)['message'],
           status: 'error',
+          message: body['message'] as String,
         );
-      } else {
+      }
+      // 5) Anything else
+      else {
+        final body = jsonDecode(response.body) as Map<String, dynamic>;
         return HttpResponseModel(
           statusCode: response.statusCode,
-          message:
-              jsonDecode(response.body)['message'] ?? 'Error fetching permits',
           status: 'error',
+          message: body['message'] as String? ?? 'Error fetching permits',
         );
       }
     } catch (e) {
-      return HttpResponseModel(message: 'Error Fetching Data $e');
+      return HttpResponseModel(message: 'Error fetching data: $e');
     }
   }
+
+
+  //
+  // @override
+  // Future<HttpResponseModel> searchPermit({
+  //   String? searchParam,
+  //   String? searchQuery,
+  //   String? categoryPermitSearchQuery,
+  //   String? categoryPermitSearchParam,
+  //   String? subCategoryPermitSearchQuery,
+  //   String? subCategoryPermitSearchParam,
+  //   required String authToken,
+  // }) async {
+  //   try {
+  //     var url = Uri.parse(
+  //         '$_baseUrl/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery&$subCategoryPermitSearchParam=$subCategoryPermitSearchQuery');
+  //     var response = await http.get(
+  //       url,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $authToken',
+  //       },
+  //     );
+  //     if (response.statusCode == 200) {
+  //       final jsonResponse = jsonDecode(response.body);
+  //       final permitListResponse =
+  //           PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+  //       return HttpResponseModel(
+  //         statusCode: response.statusCode,
+  //         data: permitListResponse,
+  //         status: jsonResponse['status'],
+  //         message: jsonResponse['message'],
+  //       );
+  //     } else if (response.statusCode == 404) {
+  //       return HttpResponseModel(
+  //         statusCode: response.statusCode,
+  //         message: jsonDecode(response.body)['message'],
+  //         status: 'error',
+  //       );
+  //     } else {
+  //       return HttpResponseModel(
+  //         statusCode: response.statusCode,
+  //         message:
+  //             jsonDecode(response.body)['message'] ?? 'Error fetching permits',
+  //         status: 'error',
+  //       );
+  //     }
+  //   } catch (e) {
+  //     return HttpResponseModel(message: 'Error Fetching Data $e');
+  //   }
+  // }
 
   @override
   Future<HttpResponseModel<PermitListResponse>> getReleasePermit(
