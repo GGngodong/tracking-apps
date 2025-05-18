@@ -15,15 +15,24 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
       emit(const ResetPasswordState(isLoading: true));
       try {
         final response = await userService.resetPassword(email: event.email);
-        if (response.data != null) {
+
+        if (response.statusCode == 200 && response.status == "success") {
           emit(ResetPasswordSuccess(
-              email: event.email, message: response.message, isLoading: false));
+            email: event.email,
+            message: response.message,
+            isLoading: false,
+          ));
         } else {
-          emit(
-              ResetPasswordFailed(message: response.message, isLoading: false));
+          emit(ResetPasswordFailed(
+            message: response.message ?? 'Unknown error',
+            isLoading: false,
+          ));
         }
       } catch (error) {
-        emit(ResetPasswordFailed(message: error.toString(), isLoading: false));
+        emit(ResetPasswordFailed(
+          message: error.toString(),
+          isLoading: false,
+        ));
       }
     });
   }
