@@ -124,17 +124,6 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     SizedBox(
                       height: 12.h,
                     ),
-                    CustomTextField(
-                      textController: _noPermitMabesEditingController,
-                      hintText: 'Masukan nomor surat',
-                      header: 'Nomor Surat Mabes',
-                      onFieldSubmitted: (value) {
-                        _submit(_uploadBloc);
-                      },
-                    ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
                     CustomDropdownForm(
                       hintText: 'Pilih Divisi',
                       header: 'Divisi',
