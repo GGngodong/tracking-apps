@@ -455,46 +455,6 @@ class UserService extends UserInterface {
     }
   }
 
-  //
-  // @override
-  // Future<HttpResponseModel> updatePermit({
-  //   required String id,
-  //   required String authToken,
-  //   String? noProdukMabes,
-  //   String? processStatus,
-  //   String? uploadStatus,
-  //   String? note,
-  //   String? documentUrl,
-  // }) async {
-  //   try {
-  //     var url = Uri.parse('$_baseUrl/permit-letters/edit/$id');
-  //     var response = await http.patch(
-  //       url,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Accept': 'application/json',
-  //         'Authorization': 'Bearer $authToken',
-  //       },
-  //       body: jsonEncode({
-  //         'status_tahapan': processStatus,
-  //         'upload_status': uploadStatus,
-  //         'produk_no_surat_mabes': noProdukMabes,
-  //         'note': note,
-  //       }),
-  //     );
-  //     return HttpResponseModel(
-  //       statusCode: response.statusCode,
-  //       data: jsonDecode(response.body)["data"],
-  //       status: jsonDecode(response.body)["status"],
-  //       message: jsonDecode(response.body)["message"],
-  //     );
-  //   } catch (e) {
-  //     return HttpResponseModel(
-  //       message: 'An error occurred: $e',
-  //     );
-  //   }
-  // }
-
   @override
   Future<HttpResponseModel> deletePermit({
     required String id,
@@ -534,10 +494,8 @@ class UserService extends UserInterface {
     required String authToken,
   }) async {
     try {
-      // 1) Build a map, but only insert key/value if the key != '' and value != ''.
       final Map<String, String> params = {};
 
-      // a) Always add the main search field, if non-empty.
       if (searchParam != null &&
           searchParam.isNotEmpty &&
           searchQuery != null &&
@@ -545,7 +503,6 @@ class UserService extends UserInterface {
         params[searchParam] = searchQuery;
       }
 
-      // b) Add category filter only if both param name & value are non-empty
       if (categoryPermitSearchParam != null &&
           categoryPermitSearchParam.isNotEmpty &&
           categoryPermitSearchQuery != null &&
@@ -553,7 +510,6 @@ class UserService extends UserInterface {
         params[categoryPermitSearchParam] = categoryPermitSearchQuery;
       }
 
-      // c) Add sub-category filter only if both param name & value are non-empty
       if (subCategoryPermitSearchParam != null &&
           subCategoryPermitSearchParam.isNotEmpty &&
           subCategoryPermitSearchQuery != null &&
@@ -561,7 +517,6 @@ class UserService extends UserInterface {
         params[subCategoryPermitSearchParam] = subCategoryPermitSearchQuery;
       }
 
-      // 2) Build the final URI with only the keys that actually exist in `params`.
       final uri = Uri.parse('$_baseUrl/permit-letters/search')
           .replace(queryParameters: params);
 
@@ -573,7 +528,6 @@ class UserService extends UserInterface {
         },
       );
 
-      // 3) Handle HTTP 200
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
         final permitListResponse = PermitListResponse.fromMap(jsonResponse);
@@ -585,7 +539,7 @@ class UserService extends UserInterface {
           message: jsonResponse['message'] as String?,
         );
       }
-      // 4) Handle HTTP 404 (no results)
+
       else if (response.statusCode == 404) {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
         return HttpResponseModel(
@@ -594,7 +548,7 @@ class UserService extends UserInterface {
           message: body['message'] as String,
         );
       }
-      // 5) Anything else
+
       else {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
         return HttpResponseModel(
@@ -607,57 +561,6 @@ class UserService extends UserInterface {
       return HttpResponseModel(message: 'Error fetching data: $e');
     }
   }
-
-
-  //
-  // @override
-  // Future<HttpResponseModel> searchPermit({
-  //   String? searchParam,
-  //   String? searchQuery,
-  //   String? categoryPermitSearchQuery,
-  //   String? categoryPermitSearchParam,
-  //   String? subCategoryPermitSearchQuery,
-  //   String? subCategoryPermitSearchParam,
-  //   required String authToken,
-  // }) async {
-  //   try {
-  //     var url = Uri.parse(
-  //         '$_baseUrl/permit-letters/search?$searchParam=$searchQuery&$categoryPermitSearchParam=$categoryPermitSearchQuery&$subCategoryPermitSearchParam=$subCategoryPermitSearchQuery');
-  //     var response = await http.get(
-  //       url,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $authToken',
-  //       },
-  //     );
-  //     if (response.statusCode == 200) {
-  //       final jsonResponse = jsonDecode(response.body);
-  //       final permitListResponse =
-  //           PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
-  //       return HttpResponseModel(
-  //         statusCode: response.statusCode,
-  //         data: permitListResponse,
-  //         status: jsonResponse['status'],
-  //         message: jsonResponse['message'],
-  //       );
-  //     } else if (response.statusCode == 404) {
-  //       return HttpResponseModel(
-  //         statusCode: response.statusCode,
-  //         message: jsonDecode(response.body)['message'],
-  //         status: 'error',
-  //       );
-  //     } else {
-  //       return HttpResponseModel(
-  //         statusCode: response.statusCode,
-  //         message:
-  //             jsonDecode(response.body)['message'] ?? 'Error fetching permits',
-  //         status: 'error',
-  //       );
-  //     }
-  //   } catch (e) {
-  //     return HttpResponseModel(message: 'Error Fetching Data $e');
-  //   }
-  // }
 
   @override
   Future<HttpResponseModel<PermitListResponse>> getReleasePermit(
