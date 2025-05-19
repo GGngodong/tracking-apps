@@ -12,6 +12,7 @@ class UpdateDataButtonPressed extends EditEvent {
   String? uploadStatus;
   String? noProdukMabes;
   String? note;
+  String? documentUrl;
   final String id;
 
   UpdateDataButtonPressed({
@@ -19,12 +20,13 @@ class UpdateDataButtonPressed extends EditEvent {
     this.noProdukMabes,
     this.processStatus,
     this.uploadStatus,
+    this.documentUrl,
     required this.id,
   });
 
   @override
   List<Object?> get props =>
-      [note, noProdukMabes, processStatus, uploadStatus, id];
+      [note, noProdukMabes, processStatus, uploadStatus, id, documentUrl];
 }
 
 class DeleteDataButtonPressed extends EditEvent {

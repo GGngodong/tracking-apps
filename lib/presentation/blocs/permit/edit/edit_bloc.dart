@@ -35,10 +35,11 @@ class EditBloc extends Bloc<EditEvent, EditState> {
           noProdukMabes: event.noProdukMabes,
           uploadStatus: event.uploadStatus,
           note: event.note,
+          documentUrl: event.documentUrl,
           authToken: token,
         );
         if (updateResponse.statusCode == 200) {
-          final permit = PermitModel.fromMap(updateResponse.data);
+          final permit = updateResponse.data as PermitModel;
           emit(EditSuccessState(
               permit: permit,
               message: updateResponse.message,

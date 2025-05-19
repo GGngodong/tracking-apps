@@ -11,6 +11,7 @@ import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field_with_modal.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
+import 'package:tracking_apps/presentation/component/pdf_upload.dart';
 
 part 'edit_mixin.dart';
 
@@ -140,20 +141,49 @@ class _EditPageState extends State<EditPage> with EditMixin {
                   SizedBox(
                     height: 12.h,
                   ),
+                  buildPdfPicker(),
+                  SizedBox(
+                    height: 12.h,
+                  ),
                   CustomButton(
                     text: 'Edit Dokumen',
-                    onPressed: () => AppHelper.showCustomAlertDialog(
-                      context: context,
-                      title: 'Edit Dokumen',
-                      content: 'Are you sure want to edit this document?',
-                      onPositivePressed: () {
-                        _submit(editBloc);
-                        Navigator.of(context).pop();
-                      },
-                      onNegativePressed: () => Navigator.of(context).pop(),
-                      negativeButtonText: 'Cancel',
-                    ),
-                    isLogOut: false, isLoading: state.isLoading,
+                    onPressed: () {
+                      if (_statusProcessTextEditingController.text
+                          .trim()
+                          .isEmpty) {
+                        AppHelper.showCustomAlertDialog(
+                          context: context,
+                          title: 'Bagian ini harus di isi!',
+                          content: 'Silahkan pilih proses tahapan.',
+                          onPositivePressed: () => Navigator.pop(context),
+                        );
+                        return;
+                      }
+                      if (_uploadStatusTextEditingController.text
+                          .trim()
+                          .isEmpty) {
+                        AppHelper.showCustomAlertDialog(
+                          context: context,
+                          title: 'Bagian ini harus di isi!',
+                          content: 'Silahkan pilih status.',
+                          onPositivePressed: () => Navigator.pop(context),
+                        );
+                        return;
+                      }
+                      AppHelper.showCustomAlertDialog(
+                        context: context,
+                        title: 'Edit Dokumen',
+                        content: 'Are you sure want to edit this document?',
+                        onPositivePressed: () {
+                          _submit(editBloc);
+                          Navigator.of(context).pop();
+                        },
+                        onNegativePressed: () => Navigator.of(context).pop(),
+                        negativeButtonText: 'Cancel',
+                      );
+                    },
+                    isLogOut: false,
+                    isLoading: state.isLoading,
                   ),
                 ],
               ),
