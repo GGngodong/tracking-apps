@@ -53,23 +53,11 @@ mixin UploadMixin on State<UploadPage> {
 
   void _submit(UploadBloc uploadBloc) {
     final formattedDate = DateFormat('dd-MM-yyyy').format(_dateTextEditingController); // Format the date
-
-    print('=======================================================');
-    print('Checking document URL before submit: $_documentUrl');
-    print('Description: ${_descriptionTextEditingController.text}');
-    print('No Permit: ${_noPermitTextEditingController.text}');
-    print('Category Permit: ${_categoryPermitTextEditingController.text}');
-    print('Company Name: ${_companyNameTextEditingController.text}');
-    print('No Permit Mabes: ${_noPermitMabesEditingController.text}');
-    print('Selected Date: $_dateTextEditingController');
-    print('=======================================================');
     String description = _descriptionTextEditingController.text.trim();
     String noPermit = _noPermitTextEditingController.text.trim();
     String categoryPermit = _categoryPermitTextEditingController.text.trim();
     String companyName = _companyNameTextEditingController.text.trim();
     String noPermitMabes = _noPermitMabesEditingController.text.trim();
-    print('Document URL is valid $_documentUrl, proceeding with upload.');
-    print('================== CURRENT : $uploadBloc ==================');
       uploadBloc.add(
         UploadButtonPressed(
           description: description.isEmpty ? "" : description,

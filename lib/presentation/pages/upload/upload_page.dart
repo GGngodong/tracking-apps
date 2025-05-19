@@ -176,6 +176,88 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     CustomButton(
                       text: 'Unggah Surat',
                       onPressed: () {
+                        if (_documentUrl == null) {
+                          AppHelper.showCustomAlertDialog(
+                            title: 'Unggah Permohonan',
+                            context: context,
+                            content:
+                                'Silahkan unggah dokumen permohonan izin terlebih dahulu.',
+                            onPositivePressed: () =>
+                                Navigator.of(context).pop(),
+                          );
+                          return;
+                        }
+                        if (_categoryPermitTextEditingController.text
+                            .trim()
+                            .isEmpty) {
+                          AppHelper.showCustomAlertDialog(
+                            context: context,
+                            title: 'Bagian ini harus di isi!',
+                            content: 'Silahkan pilih jenis izin.',
+                            onPositivePressed: () =>
+                                Navigator.of(context).pop(),
+                          );
+                          return;
+                        }
+                        if (_categoryAdministrationTextEditingController.text
+                            .trim()
+                            .isEmpty) {
+                          AppHelper.showCustomAlertDialog(
+                            context: context,
+                            title: 'Bagian ini harus di isi!',
+                            content: 'Silahkan pilih divisi.',
+                            onPositivePressed: () =>
+                                Navigator.of(context).pop(),
+                          );
+                          return;
+                        }
+                        if (_descriptionTextEditingController.text
+                            .trim()
+                            .isEmpty) {
+                          AppHelper.showCustomAlertDialog(
+                            context: context,
+                            title: 'Bagian ini harus di isi!',
+                            content: 'Silahkan masukan deskripsi surat izin.',
+                            onPositivePressed: () =>
+                                Navigator.of(context).pop(),
+                          );
+                          return;
+                        }
+                        if (_noPermitTextEditingController.text
+                            .trim()
+                            .isEmpty) {
+                          AppHelper.showCustomAlertDialog(
+                            context: context,
+                            title: 'Bagian ini harus di isi!',
+                            content: 'Silahkan masukan nomor surat.',
+                            onPositivePressed: () =>
+                                Navigator.of(context).pop(),
+                          );
+                          return;
+                        }
+                        if (_companyNameTextEditingController.text
+                            .trim()
+                            .isEmpty) {
+                          AppHelper.showCustomAlertDialog(
+                            context: context,
+                            title: 'Bagian ini harus di isi!',
+                            content: 'Silahkan masukan nama perusahaan.',
+                            onPositivePressed: () =>
+                                Navigator.of(context).pop(),
+                          );
+                          return;
+                        }
+                        if (_dateTextEditingController == null) {
+                          AppHelper.showCustomAlertDialog(
+                            context: context,
+                            title: 'Bagian ini harus di isi!',
+                            content: 'Silahkan pilih tanggal surat.',
+                            onPositivePressed: () =>
+                                Navigator.of(context).pop(),
+                          );
+                          return;
+                        }
+
                         AppHelper.showCustomAlertDialog(
                             title: 'Unggah Permohonan',
                             context: context,

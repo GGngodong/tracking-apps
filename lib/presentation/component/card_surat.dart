@@ -253,38 +253,44 @@ class CardSurat extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 1,
-                  child: GestureDetector(
-                    onTap: funcDownload,
-                    child: Container(
-                      width: 122.w,
-                      height: 44.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: AppColors.primary),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ImageIcon(
-                            const AssetImage(
-                                'assets/icons/document-download.png'),
-                            size: 20.sp,
-                            color: AppColors.tertiary,
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: GestureDetector(
+                        onTap: funcDownload,
+                        child: Container(
+                          width: 122.w,
+                          height: 44.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(color: AppColors.primary),
+                            color: Colors.white,
                           ),
-                          SizedBox(
-                            width: 12.w,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ImageIcon(
+                                const AssetImage(
+                                    'assets/icons/document-download.png'),
+                                size: 20.sp,
+                                color: AppColors.tertiary,
+                              ),
+                              SizedBox(
+                                width: 12.w,
+                              ),
+                              Text(
+                                'Unduh',
+                                style: TextStyle(
+                                  color: AppColors.tertiary,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Satoshi',
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Unduh',
-                            style: TextStyle(
-                              color: AppColors.tertiary,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Satoshi',
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -294,37 +300,43 @@ class CardSurat extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: GestureDetector(
-                    onTap: funcRead,
-                    child: Container(
-                      width: 186.w,
-                      height: 44.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: AppColors.primary),
-                        color: Colors.white,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ImageIcon(
-                            const AssetImage('assets/icons/book.png'),
-                            size: 20.sp,
-                            color: AppColors.tertiary,
+                  child: Material(
+                    color: Colors.white,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(8.r),
+                      child: GestureDetector(
+                        onTap: funcRead,
+                        child: Container(
+                          width: 186.w,
+                          height: 44.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            border: Border.all(color: AppColors.primary),
+                            color: Colors.white,
                           ),
-                          SizedBox(
-                            width: 12.w,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ImageIcon(
+                                const AssetImage('assets/icons/book.png'),
+                                size: 20.sp,
+                                color: AppColors.tertiary,
+                              ),
+                              SizedBox(
+                                width: 12.w,
+                              ),
+                              Text(
+                                'Baca',
+                                style: TextStyle(
+                                  color: AppColors.tertiary,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Satoshi',
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Baca',
-                            style: TextStyle(
-                              color: AppColors.tertiary,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Satoshi',
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),

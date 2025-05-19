@@ -1,5 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,18 +6,13 @@ import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/generated/locale_keys.g.dart';
 import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
-import 'package:tracking_apps/presentation/blocs/auth/register/register_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
-import 'package:tracking_apps/presentation/component/divider_text.dart';
 import 'package:tracking_apps/presentation/component/header.dart';
 import 'package:tracking_apps/presentation/component/header_title.dart';
-import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
-import 'package:tracking_apps/presentation/main_page.dart';
 import 'package:tracking_apps/presentation/pages/login/reset/reset_password.dart';
 import 'package:tracking_apps/presentation/pages/register/register.dart';
 
@@ -117,6 +110,40 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               isLoading: state.isLoading,
                               text: 'Sign In',
                               onPressed: () {
+                                if (_emailTextEditingController.text.isEmpty) {
+                                  AppHelper.showCustomAlertDialog(
+                                    onPositivePressed: () =>
+                                        Navigator.pop(context),
+                                    title: 'Email tidak boleh kosong!',
+                                    context: context,
+                                    content: 'Silahkan isi email',
+                                  );
+                                  return;
+                                }
+                                if (_passwordTextEditingController
+                                    .text.isEmpty) {
+                                  AppHelper.showCustomAlertDialog(
+                                    onPositivePressed: () =>
+                                        Navigator.pop(context),
+                                    title: 'Password tidak boleh kosong!',
+                                    context: context,
+                                    content: 'Silahkan isi password',
+                                  );
+                                  return;
+                                }
+                                if (_emailTextEditingController.text.isEmpty ||
+                                    _passwordTextEditingController
+                                        .text.isEmpty) {
+                                  AppHelper.showCustomAlertDialog(
+                                    onPositivePressed: () =>
+                                        Navigator.pop(context),
+                                    title:
+                                        'Email dan Password tidak boleh kosong',
+                                    context: context,
+                                    content: 'Silahkan isi email dan password',
+                                  );
+                                  return;
+                                }
                                 _submit(_loginBloc);
                               },
                               isLogOut: false,
