@@ -38,10 +38,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Theme(
       data: Theme.of(context).copyWith(
           textSelectionTheme: TextSelectionThemeData(
-        cursorColor: AppColors.primary,
-        selectionColor: AppColors.primary.withOpacity(0.4),
-        selectionHandleColor: AppColors.primary,
-      )),
+            cursorColor: AppColors.primary,
+            selectionColor: AppColors.primary.withOpacity(0.4),
+            selectionHandleColor: AppColors.primary,
+          )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -80,19 +80,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
                   borderSide:
-                      BorderSide(color: AppColors.primary, width: 1.5.w)),
+                  BorderSide(color: AppColors.primary, width: 1.5.w)),
               alignLabelWithHint: false,
               suffixIcon: widget.isPassword
                   ? IconButton(
-                      icon: Icon(isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
-                    )
+                icon: Icon(isPasswordVisible
+                    ? Icons.visibility
+                    : Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    isPasswordVisible = !isPasswordVisible;
+                  });
+                },
+              )
                   : null,
             ),
             keyboardType: widget.isPassword
