@@ -13,7 +13,8 @@ class CardSurat extends StatelessWidget {
   final String processStatus;
   final VoidCallback detailSurat;
   final VoidCallback funcRead;
-  final VoidCallback funcDownload;
+  final VoidCallback funcDownloadPermohonan;
+  final VoidCallback funcDownloadSuratTerbit;
 
   const CardSurat({
     required this.date,
@@ -24,7 +25,8 @@ class CardSurat extends StatelessWidget {
     required this.noSuratIzinMabes,
     required this.processStatus,
     required this.funcRead,
-    required this.funcDownload,
+    required this.funcDownloadPermohonan,
+    required this.funcDownloadSuratTerbit,
     required this.detailSurat,
     required this.uploadStatus,
     super.key,
@@ -247,50 +249,81 @@ class CardSurat extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
+            SizedBox(
+              width: double.infinity,
+              height: 44.h,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  side: BorderSide(color: AppColors.primary),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                onPressed: funcRead,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ImageIcon(
+                      const AssetImage('assets/icons/book.png'),
+                      size: 20.sp,
+                      color: AppColors.tertiary,
+                    ),
+                    SizedBox(width: 12.w),
+                    Text(
+                      'Baca',
+                      style: TextStyle(
+                        color: AppColors.tertiary,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Satoshi',
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 1,
-                  child: Material(
-                    color: Colors.white,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: GestureDetector(
-                        onTap: funcDownload,
-                        child: Container(
-                          width: 122.w,
-                          height: 44.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            border: Border.all(color: AppColors.primary),
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ImageIcon(
-                                const AssetImage(
-                                    'assets/icons/document-download.png'),
-                                size: 20.sp,
-                                color: AppColors.tertiary,
-                              ),
-                              SizedBox(
-                                width: 12.w,
-                              ),
-                              Text(
-                                'Unduh',
-                                style: TextStyle(
-                                  color: AppColors.tertiary,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Satoshi',
-                                  fontSize: 16.sp,
-                                ),
-                              ),
-                            ],
-                          ),
+                  child: SizedBox(
+                    height: 44.h,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: AppColors.primary),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
+                      ),
+                      onPressed: funcDownloadPermohonan,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ImageIcon(
+                            const AssetImage(
+                                'assets/icons/document-download.png'),
+                            size: 20.sp,
+                            color: AppColors.tertiary,
+                          ),
+                          SizedBox(
+                            width: 12.w,
+                          ),
+                          Flexible(
+                            child: Text(
+                              'Unduh Surat Permohonan',
+                              style: TextStyle(
+                                color: AppColors.tertiary,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Satoshi',
+                                fontSize: 10.sp,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -299,44 +332,41 @@ class CardSurat extends StatelessWidget {
                   width: 10.w,
                 ),
                 Expanded(
-                  flex: 1,
-                  child: Material(
-                    color: Colors.white,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: GestureDetector(
-                        onTap: funcRead,
-                        child: Container(
-                          width: 186.w,
-                          height: 44.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            border: Border.all(color: AppColors.primary),
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ImageIcon(
-                                const AssetImage('assets/icons/book.png'),
-                                size: 20.sp,
-                                color: AppColors.tertiary,
-                              ),
-                              SizedBox(
-                                width: 12.w,
-                              ),
-                              Text(
-                                'Baca',
-                                style: TextStyle(
-                                  color: AppColors.tertiary,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Satoshi',
-                                  fontSize: 16.sp,
-                                ),
-                              ),
-                            ],
-                          ),
+                  child: SizedBox(
+                    height: 44.h,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: AppColors.primary),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
+                      ),
+                      onPressed: funcDownloadSuratTerbit,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ImageIcon(
+                            const AssetImage(
+                                'assets/icons/document-download.png'),
+                            size: 20.sp,
+                            color: AppColors.tertiary,
+                          ),
+                          SizedBox(
+                            width: 12.w,
+                          ),
+                          Flexible(
+                            child: Text(
+                              'Unduh Surat Izin Terbit',
+                              style: TextStyle(
+                                color: AppColors.tertiary,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Satoshi',
+                                fontSize: 10.sp,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
