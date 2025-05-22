@@ -71,6 +71,7 @@ class SkeletonCard extends StatelessWidget {
             SizedBox(
               height: 12.h,
             ),
+
             Row(
               children: [
                 SkeletonAnimation(
@@ -150,6 +151,24 @@ class SkeletonCard extends StatelessWidget {
                 ),
                 SkeletonLoading(height: 12.h, width: 80.w),
               ],
+            ),
+            SizedBox(
+              height: 12.h,
+            ),
+            SkeletonAnimation(
+              borderRadius: BorderRadius.circular(8.r),
+              shimmerColor: Colors.grey,
+              shimmerDuration: 1500,
+              child: SizedBox(
+                width: double.infinity,
+                height: 44.h,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ),
             ),
             SizedBox(
               height: 12.h,
