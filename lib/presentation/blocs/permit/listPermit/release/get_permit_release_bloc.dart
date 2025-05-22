@@ -7,11 +7,11 @@ part 'get_permit_release_event.dart';
 
 part 'get_permit_release_state.dart';
 
-class PermitLetterReleasedBloc
+class PermitLetterReleaseBloc
     extends Bloc<PermitLetterReleaseEvent, PermitLetterReleaseState> {
   final UserService userService;
 
-  PermitLetterReleasedBloc({required this.userService})
+  PermitLetterReleaseBloc({required this.userService})
       : super(const PermitLetterReleaseState()) {
     on<GetListPermitLetter>((event, state) async {
       emit(const PermitLetterReleaseState(isLoading: true));
