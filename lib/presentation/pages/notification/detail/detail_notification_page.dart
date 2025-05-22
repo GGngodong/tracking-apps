@@ -11,7 +11,7 @@ import 'package:tracking_apps/presentation/blocs/notification/detail/notificatio
 import 'package:tracking_apps/presentation/blocs/notification/edit/notification_edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class DetailNotificationPage extends StatefulWidget {
   final String notificationId;
@@ -126,7 +126,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => DetailSuratPage(
+                        builder: (BuildContext context) => DetailPermitPage(
                           id: state.notificationDetail.data.permitLetterId,
                           role: role,
                         ),
@@ -218,7 +218,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => DetailSuratPage(
+                      builder: (BuildContext context) => DetailPermitPage(
                         id: state.notificationDetail.data.permitLetterId,
                         role: role,
                       ),

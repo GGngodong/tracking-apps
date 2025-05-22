@@ -10,7 +10,7 @@ import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/document_empty.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class PermitRelease extends StatefulWidget {
   const PermitRelease({super.key});
@@ -42,24 +42,24 @@ class _PermitReleaseState extends State<PermitRelease> {
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
-      context.read<PermitLetterReleasedBloc>().add(GetListPermitLetter());
+      context.read<PermitLetterReleaseBloc>().add(GetListPermitLetter());
     }
   }
 
   Widget build(BuildContext context) {
-    return BlocListener<PermitLetterReleasedBloc, PermitLetterReleaseState>(
+    return BlocListener<PermitLetterReleaseBloc, PermitLetterReleaseState>(
         listener: (context, state) {
       if (state is PermitLetterFailedState) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Fetching failed: ${state.message}')),
         );
       }
-    }, child: BlocBuilder<PermitLetterReleasedBloc, PermitLetterReleaseState>(
+    }, child: BlocBuilder<PermitLetterReleaseBloc, PermitLetterReleaseState>(
       builder: (context, state) {
         return RefreshIndicator(
           color: AppColors.primary,
           onRefresh: () async {
-            context.read<PermitLetterReleasedBloc>().add(GetListPermitLetter());
+            context.read<PermitLetterReleaseBloc>().add(GetListPermitLetter());
           },
           child: _buildBody(state),
         );
@@ -103,20 +103,51 @@ class _PermitReleaseState extends State<PermitRelease> {
             noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
             processStatus: permit.processStatus,
             uploadStatus: permit.uploadStatus ?? 'PENDING',
+            funcDownloadSuratTerbit: () async {
+              final url = permit.releasedDocumentUrl;
+              final externalDir =
+              await getExternalStorageDirectory();
+              if (externalDir != null) {
+                try {
+                  final taskId =
+                  await FlutterDownloader.enqueue(
+                    url: url!,
+                    savedDir: externalDir.path,
+                    fileName: 'permit_${permit.id}.pdf',
+                    showNotification: true,
+                    openFileFromNotification: true,
+                  );
+                  debugPrint(
+                      'Download task enqueued with taskId: $taskId');
+                } catch (e) {
+                  print(e);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text("Download failed: $e")),
+                  );
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content: Text(
+                          "Unable to access storage directory")),
+                );
+              }
+            },
             funcRead: () {
               final profileState = context.read<ProfileBloc>().state;
               final role = profileState.user!.role;
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => DetailSuratPage(
+                  builder: (BuildContext context) => DetailPermitPage(
                     id: permit.id.toString(),
                     role: role,
                   ),
                 ),
               );
             },
-            funcDownload: () async {
+            funcDownloadPermohonan: () async {
               final url = permit.documentUrl;
               final externalDir = await getExternalStorageDirectory();
               if (externalDir != null) {
@@ -145,7 +176,7 @@ class _PermitReleaseState extends State<PermitRelease> {
             detailSurat: () {
               BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, profileState) {
-                  return DetailSuratPage(
+                  return DetailPermitPage(
                     id: permit.id.toString(),
                     role: profileState.user!.role,
                   );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -11,7 +10,7 @@ import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/document_empty.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class PermitPending extends StatefulWidget {
   const PermitPending({super.key});
@@ -40,7 +39,6 @@ class _PermitPendingState extends State<PermitPending> {
       _fetchPermitLetters();
     }
   }
-
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
@@ -87,14 +85,14 @@ class _PermitPendingState extends State<PermitPending> {
   }
 
   Widget _loadedBody(PermitLetterLoadedState state) {
-    if(state.listPermitLetter.isEmpty) {
+    if (state.listPermitLetter.isEmpty) {
       return Padding(
         padding: EdgeInsets.only(top: 190.h),
         child: DocumentEmpty(),
       );
     } else {
       return SingleChildScrollView(
-        child : ListView.separated(
+        child: ListView.separated(
           shrinkWrap: true,
           primary: false,
           physics: const NeverScrollableScrollPhysics(),
@@ -110,20 +108,51 @@ class _PermitPendingState extends State<PermitPending> {
               noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
               processStatus: permit.processStatus,
               uploadStatus: permit.uploadStatus ?? 'PENDING',
+              funcDownloadSuratTerbit: () async {
+                final url = permit.releasedDocumentUrl;
+                final externalDir =
+                await getExternalStorageDirectory();
+                if (externalDir != null) {
+                  try {
+                    final taskId =
+                    await FlutterDownloader.enqueue(
+                      url: url!,
+                      savedDir: externalDir.path,
+                      fileName: 'permit_${permit.id}.pdf',
+                      showNotification: true,
+                      openFileFromNotification: true,
+                    );
+                    debugPrint(
+                        'Download task enqueued with taskId: $taskId');
+                  } catch (e) {
+                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text("Download failed: $e")),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text(
+                            "Unable to access storage directory")),
+                  );
+                }
+              },
               funcRead: () {
                 final profileState = context.read<ProfileBloc>().state;
                 final role = profileState.user!.role;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => DetailSuratPage(
+                    builder: (BuildContext context) => DetailPermitPage(
                       id: permit.id.toString(),
                       role: role,
                     ),
                   ),
                 );
               },
-              funcDownload: () async {
+              funcDownloadPermohonan: () async {
                 final url = permit.documentUrl;
                 final externalDir = await getExternalStorageDirectory();
                 if (externalDir != null) {
@@ -131,13 +160,11 @@ class _PermitPendingState extends State<PermitPending> {
                     final taskId = await FlutterDownloader.enqueue(
                       url: url,
                       savedDir: externalDir.path,
-                      fileName:
-                      'Surat Permohonan ${permit.description}.pdf',
+                      fileName: 'Surat Permohonan ${permit.description}.pdf',
                       showNotification: true,
                       openFileFromNotification: true,
                     );
-                    debugPrint(
-                        'Download task enqueued with taskId: $taskId');
+                    debugPrint('Download task enqueued with taskId: $taskId');
                   } catch (e) {
                     print(e);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -147,15 +174,14 @@ class _PermitPendingState extends State<PermitPending> {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content:
-                        Text("Unable to access storage directory")),
+                        content: Text("Unable to access storage directory")),
                   );
                 }
               },
               detailSurat: () {
                 BlocBuilder<ProfileBloc, ProfileState>(
                   builder: (context, profileState) {
-                    return DetailSuratPage(
+                    return DetailPermitPage(
                       id: permit.id.toString(),
                       role: profileState.user!.role,
                     );

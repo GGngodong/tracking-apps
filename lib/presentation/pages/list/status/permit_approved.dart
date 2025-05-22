@@ -10,7 +10,7 @@ import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/document_empty.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class PermitApproved extends StatefulWidget {
   const PermitApproved({super.key});
@@ -110,20 +110,51 @@ class _PermitApprovedState extends State<PermitApproved> {
               noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
               processStatus: permit.processStatus,
               uploadStatus: permit.uploadStatus ?? 'PENDING',
+              funcDownloadSuratTerbit: () async {
+                final url = permit.releasedDocumentUrl;
+                final externalDir =
+                await getExternalStorageDirectory();
+                if (externalDir != null) {
+                  try {
+                    final taskId =
+                    await FlutterDownloader.enqueue(
+                      url: url!,
+                      savedDir: externalDir.path,
+                      fileName: 'permit_${permit.id}.pdf',
+                      showNotification: true,
+                      openFileFromNotification: true,
+                    );
+                    debugPrint(
+                        'Download task enqueued with taskId: $taskId');
+                  } catch (e) {
+                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text("Download failed: $e")),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text(
+                            "Unable to access storage directory")),
+                  );
+                }
+              },
               funcRead: () {
                 final profileState = context.read<ProfileBloc>().state;
                 final role = profileState.user!.role;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => DetailSuratPage(
+                    builder: (BuildContext context) => DetailPermitPage(
                       id: permit.id.toString(),
                       role: role,
                     ),
                   ),
                 );
               },
-              funcDownload: () async {
+              funcDownloadPermohonan: () async {
                 final url = permit.documentUrl;
                 final externalDir = await getExternalStorageDirectory();
                 if (externalDir != null) {
@@ -152,7 +183,7 @@ class _PermitApprovedState extends State<PermitApproved> {
               detailSurat: () {
                 BlocBuilder<ProfileBloc, ProfileState>(
                   builder: (context, profileState) {
-                    return DetailSuratPage(
+                    return DetailPermitPage(
                       id: permit.id.toString(),
                       role: profileState.user!.role,
                     );

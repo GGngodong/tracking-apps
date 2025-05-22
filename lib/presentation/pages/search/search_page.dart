@@ -12,7 +12,7 @@ import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/custom_bottom_sheet_filter.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -165,7 +165,10 @@ class _SearchPageState extends State<SearchPage> {
                   child: BlocBuilder<SearchBloc, SearchState>(
                     builder: (context, state) {
                       if (state.isLoading) {
-                        return const Center(child: CircularProgressIndicator(color: AppColors.primary,));
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                        ));
                       } else if (state is SearchLoadedState) {
                         List<PermitModel> permits = state.listPermitLetter;
                         if (permits.isEmpty) {
@@ -206,9 +209,40 @@ class _SearchPageState extends State<SearchPage> {
                               namaDokumen: permit.description,
                               namaPerusahaan: permit.companyName,
                               noSurat: permit.noPermit,
+                              funcDownloadSuratTerbit: () async {
+                                final url = permit.releasedDocumentUrl;
+                                final externalDir =
+                                await getExternalStorageDirectory();
+                                if (externalDir != null) {
+                                  try {
+                                    final taskId =
+                                    await FlutterDownloader.enqueue(
+                                      url: url!,
+                                      savedDir: externalDir.path,
+                                      fileName: 'permit_${permit.id}.pdf',
+                                      showNotification: true,
+                                      openFileFromNotification: true,
+                                    );
+                                    debugPrint(
+                                        'Download task enqueued with taskId: $taskId');
+                                  } catch (e) {
+                                    print(e);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text("Download failed: $e")),
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            "Unable to access storage directory")),
+                                  );
+                                }
+                              },
                               noSuratIzinMabes:
                                   permit.noPermitMabes ?? 'Belum Terbit',
-                              funcDownload: () async {
+                              funcDownloadPermohonan: () async {
                                 final url = permit.documentUrl;
                                 final externalDir =
                                     await getExternalStorageDirectory();
@@ -246,7 +280,7 @@ class _SearchPageState extends State<SearchPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailSuratPage(
+                                    builder: (context) => DetailPermitPage(
                                       id: permit.id.toString(),
                                       role: role,
                                     ),
@@ -256,7 +290,7 @@ class _SearchPageState extends State<SearchPage> {
                               detailSurat: () {
                                 BlocBuilder<ProfileBloc, ProfileState>(
                                   builder: (context, profileState) {
-                                    return DetailSuratPage(
+                                    return DetailPermitPage(
                                       id: permit.id.toString(),
                                       role: profileState.user!.role,
                                     );
