@@ -11,6 +11,7 @@ import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bl
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/latest/get_latest_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/pending/get_pending_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/reject/get_reject_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/listPermit/release/get_permit_release_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/search/search_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
@@ -58,6 +59,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
           create: (context) =>
               PermitLetterLatestBloc(userService: UserService()),
         ),
+        BlocProvider(
+            create: (context) =>
+                PermitLetterReleaseBloc(userService: UserService())),
         BlocProvider(
             create: (context) =>
                 NotificationBloc(notificationService: NotificationService())),
