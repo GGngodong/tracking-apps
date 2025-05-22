@@ -566,7 +566,7 @@ class UserService extends UserInterface {
   Future<HttpResponseModel<PermitListResponse>> getReleasePermit(
       {required String authToken}) async {
     try {
-      var url = Uri.parse('$_baseUrl/permit-letters/released');
+      var url = Uri.parse('$_baseUrl/permit-letters/release');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -684,11 +684,11 @@ class UserService extends UserInterface {
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
-        final approvedListReponse =
+        final latestPermitResponse =
             PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
         return HttpResponseModel(
           statusCode: response.statusCode,
-          data: approvedListReponse,
+          data: latestPermitResponse,
           status: jsonResponse['status'],
           message: jsonResponse['message'],
         );
