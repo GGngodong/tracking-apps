@@ -112,13 +112,23 @@ class _PermitApprovedState extends State<PermitApproved> {
               uploadStatus: permit.uploadStatus ?? 'PENDING',
               funcDownloadSuratTerbit: () async {
                 final url = permit.releasedDocumentUrl;
+                if (url == null ||
+                    url.isEmpty ||
+                    url == 'No Released Document Url') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content:
+                        Text("Permit is not released yet.")),
+                  );
+                  return;
+                }
                 final externalDir =
                 await getExternalStorageDirectory();
                 if (externalDir != null) {
                   try {
                     final taskId =
                     await FlutterDownloader.enqueue(
-                      url: url!,
+                      url: url,
                       savedDir: externalDir.path,
                       fileName: 'permit_${permit.id}.pdf',
                       showNotification: true,
@@ -127,7 +137,7 @@ class _PermitApprovedState extends State<PermitApproved> {
                     debugPrint(
                         'Download task enqueued with taskId: $taskId');
                   } catch (e) {
-                    print(e);
+                    debugPrint('Download failed: $e');
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                           content: Text("Download failed: $e")),
@@ -244,13 +254,16 @@ class _PermitApprovedState extends State<PermitApproved> {
   }
 
   Widget _loadingBody() {
-    return ListView(
-      children: [
-        SkeletonCard(),
-        SizedBox(height: 20.h),
-        SkeletonCard(),
-        SizedBox(height: 20.h),
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+      child: ListView(
+        children: [
+          SkeletonCard(),
+          SizedBox(height: 10.h),
+          SkeletonCard(),
+          SizedBox(height: 10.h),
+        ],
+      ),
     );
   }
 }
