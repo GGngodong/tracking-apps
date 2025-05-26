@@ -14,6 +14,7 @@ import 'package:tracking_apps/generated/locale_keys.g.dart';
 import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/auth/register/register_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
+import 'package:tracking_apps/presentation/component/server_error_page.dart';
 
 part 'splash_screen_mixin.dart';
 
@@ -72,10 +73,7 @@ class _SplashScreenState extends State<SplashScreen> with SplashScreenMixin {
               children: [
                 const Icon(Icons.error, color: Colors.red, size: 50),
                 const SizedBox(height: 10),
-                const Text(
-                  "Server error. Please try again.",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                ),
+                ServerErrorPage(),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _restartProcess,

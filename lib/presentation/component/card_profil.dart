@@ -39,7 +39,7 @@ class CardProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                'assets/icons/user-profile.png',
+                'assets/icons/user_profile.png',
                 width: 64.w,
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
@@ -53,7 +53,7 @@ class CardProfile extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: AppColors.secondary,
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: const [
                         BoxShadow(
