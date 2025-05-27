@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/download_helper.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/latest/get_latest_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
@@ -299,6 +298,7 @@ class _HomePageState extends State<HomePage> {
                               uploadStatus: permit.uploadStatus ?? 'PENDING',
                               funcDownloadSuratTerbit: () async {
                                 final url = permit.releasedDocumentUrl;
+
                                 if (url == null ||
                                     url.isEmpty ||
                                     url == 'No Released Document Url') {
@@ -309,64 +309,41 @@ class _HomePageState extends State<HomePage> {
                                   );
                                   return;
                                 }
-                                final externalDir =
-                                    await getExternalStorageDirectory();
-                                if (externalDir != null) {
-                                  try {
-                                    final taskId =
-                                        await FlutterDownloader.enqueue(
-                                      url: url,
-                                      savedDir: externalDir.path,
-                                      fileName: 'permit_${permit.id}.pdf',
-                                      showNotification: true,
-                                      openFileFromNotification: true,
-                                    );
-                                    debugPrint(
-                                        'Download task enqueued with taskId: $taskId');
-                                  } catch (e) {
-                                    debugPrint('Download failed: $e');
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text("Download failed: $e")),
-                                    );
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            "Unable to access storage directory")),
-                                  );
+
+                                final taskId =
+                                    await DownloadHelper.downloadFile(
+                                  url: url,
+                                  savedFileName: 'permit_${permit.id}.pdf',
+                                  context: context,
+                                );
+
+                                if (taskId != null) {
+                                  debugPrint(
+                                      'Download task enqueued (Surat Terbit): $taskId');
                                 }
                               },
                               funcDownloadPermohonan: () async {
                                 final url = permit.documentUrl;
-                                final externalDir =
-                                    await getExternalStorageDirectory();
-                                if (externalDir != null) {
-                                  try {
-                                    final taskId =
-                                        await FlutterDownloader.enqueue(
-                                      url: url,
-                                      savedDir: externalDir.path,
-                                      fileName: 'permit_${permit.id}.pdf',
-                                      showNotification: true,
-                                      openFileFromNotification: true,
-                                    );
-                                    debugPrint(
-                                        'Download task enqueued with taskId: $taskId');
-                                  } catch (e) {
-                                    print(e);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text("Download failed: $e")),
-                                    );
-                                  }
-                                } else {
+
+                                if (url == null || url.isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content: Text(
-                                            "Unable to access storage directory")),
+                                        content:
+                                            Text("No document URL available.")),
                                   );
+                                  return;
+                                }
+
+                                final taskId =
+                                    await DownloadHelper.downloadFile(
+                                  url: url,
+                                  savedFileName: 'permit_${permit.id}.pdf',
+                                  context: context,
+                                );
+
+                                if (taskId != null) {
+                                  debugPrint(
+                                      'Download task enqueued (Permohonan): $taskId');
                                 }
                               },
                               funcRead: () {
