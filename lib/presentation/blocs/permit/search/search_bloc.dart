@@ -1,19 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/permit/permit_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final UserService userService;
+  final PermitService permitService;
 
-  SearchBloc({required this.userService}) : super(const SearchState()) {
+  SearchBloc({required this.permitService}) : super(const SearchState()) {
     on<SearchPermitLetter>((event, state) async {
       emit(const SearchState(isLoading: true));
       try {
-        final token = await userService.getAuthTokenFromSP();
+        final token = await permitService.getAuthTokenFromSP();
         if (token == null) {
           emit(SearchFailedState(
               message: 'User is not authenticated. Please log in',
@@ -21,7 +21,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               statusCode: 401));
           return;
         }
-        final response = await userService.searchPermit(
+        final response = await permitService.searchPermit(
             authToken: token,
             searchQuery: event.searchQuery,
             searchParam: event.searchParam,

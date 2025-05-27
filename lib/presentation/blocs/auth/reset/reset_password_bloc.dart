@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/user/user_service.dart';
 
 part 'reset_password_event.dart';
 part 'reset_password_state.dart';

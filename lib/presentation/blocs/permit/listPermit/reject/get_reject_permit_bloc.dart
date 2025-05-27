@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/permit/permit_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'get_reject_permit_event.dart';
@@ -8,15 +8,15 @@ part 'get_reject_permit_state.dart';
 
 class PermitLetterRejectBloc
     extends Bloc<PermitLetterRejectEvent, PermitLetterRejectState> {
-  final UserService userService;
+  final PermitService permitService;
 
-  PermitLetterRejectBloc({required this.userService})
+  PermitLetterRejectBloc({required this.permitService})
       : super(const PermitLetterRejectState()) {
     ///////////////////// Get LIST /////////////////////
     on<GetListPermitLetter>((event, state) async {
       emit(const PermitLetterRejectState(isLoading: true));
       try {
-        final token = await userService.getAuthTokenFromSP();
+        final token = await permitService.getAuthTokenFromSP();
         if (token == null) {
           emit(PermitLetterFailedState(
               message: 'User is not authenticated. Please log in',
@@ -24,7 +24,8 @@ class PermitLetterRejectBloc
               statusCode: 401));
           return;
         }
-        final response = await userService.getRejectedPermit(authToken: token);
+        final response =
+            await permitService.getRejectedPermit(authToken: token);
         if (response.statusCode == 200) {
           emit(PermitLetterLoadedState(
             listPermitLetter: response.data!.data,

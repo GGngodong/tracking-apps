@@ -1,32 +1,6 @@
-import 'package:tracking_apps/domain/entity/user_model.dart';
+import 'package:tracking_apps/configs/network/http_response_model.dart';
 
-import 'http_response_model.dart';
-
-abstract class UserInterface {
-  Future<HttpResponseModel> login(
-      {required String email, required String password});
-
-  Future<HttpResponseModel> validate({required String token});
-
-  Future<HttpResponseModel> update({required UserModel userModel});
-
-  Future<HttpResponseModel> create({
-    required String username,
-    required String email,
-    required String password,
-    required String division,
-  });
-
-  Future<HttpResponseModel> delete({
-    required String authToken,
-  });
-
-  Future<HttpResponseModel> resetPassword({
-    required String email,
-  });
-
-  //////////////////////////////////////// PERMIT MODULE ////////////////////////////////////////
-
+abstract class PermitInterface {
   Future<HttpResponseModel> createPermit({
     required String description,
     required String noPermit,
@@ -93,10 +67,5 @@ abstract class UserInterface {
 
   Future<HttpResponseModel> getReleasePermit({
     required String authToken,
-  });
-
-  Future<HttpResponseModel> updateDeviceToken({
-    required String authToken,
-    required String deviceToken,
   });
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
@@ -225,7 +223,7 @@ class _SearchPageState extends State<SearchPage> {
                                 }
 
                                 final taskId =
-                                await DownloadHelper.downloadFile(
+                                    await DownloadHelper.downloadFile(
                                   url: url,
                                   savedFileName: 'permit_${permit.id}.pdf',
                                   context: context,
@@ -243,13 +241,13 @@ class _SearchPageState extends State<SearchPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content:
-                                        Text("No document URL available.")),
+                                            Text("No document URL available.")),
                                   );
                                   return;
                                 }
 
                                 final taskId =
-                                await DownloadHelper.downloadFile(
+                                    await DownloadHelper.downloadFile(
                                   url: url,
                                   savedFileName: 'permit_${permit.id}.pdf',
                                   context: context,

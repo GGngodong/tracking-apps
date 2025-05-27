@@ -28,24 +28,24 @@ class CustomButton extends StatelessWidget {
             onPressed: isLoading ? null : onPressed,
             style: ElevatedButton.styleFrom(
               backgroundColor:
-              isLogOut ? const Color(0xFFAF4848) : AppColors.primary,
+                  isLogOut ? const Color(0xFFAF4848) : AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
             ),
             child: isLoading
                 ? const CupertinoActivityIndicator(
-              color: Colors.black,
-            )
+                    color: Colors.black,
+                  )
                 : Text(
-              text,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Satoshi',
-                color: Colors.white,
-              ),
-            ),
+                    text,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Satoshi',
+                      color: Colors.white,
+                    ),
+                  ),
           ),
         ),
       ],

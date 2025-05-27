@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/user/user_service.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
 part 'register_event.dart';

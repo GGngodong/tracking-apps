@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/user/user_service.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
 part 'login_event.dart';

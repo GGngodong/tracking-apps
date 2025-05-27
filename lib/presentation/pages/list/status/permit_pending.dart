@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/helper/download_helper.dart';
@@ -117,22 +115,19 @@ class _PermitPendingState extends State<PermitPending> {
                     url == 'No Released Document Url') {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content: Text(
-                            "Permit is not released yet.")),
+                        content: Text("Permit is not released yet.")),
                   );
                   return;
                 }
 
-                final taskId =
-                await DownloadHelper.downloadFile(
+                final taskId = await DownloadHelper.downloadFile(
                   url: url,
                   savedFileName: 'permit_${permit.id}.pdf',
                   context: context,
                 );
 
                 if (taskId != null) {
-                  debugPrint(
-                      'Download task enqueued (Surat Terbit): $taskId');
+                  debugPrint('Download task enqueued (Surat Terbit): $taskId');
                 }
               },
               funcDownloadPermohonan: () async {
@@ -140,23 +135,19 @@ class _PermitPendingState extends State<PermitPending> {
 
                 if (url == null || url.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content:
-                        Text("No document URL available.")),
+                    const SnackBar(content: Text("No document URL available.")),
                   );
                   return;
                 }
 
-                final taskId =
-                await DownloadHelper.downloadFile(
+                final taskId = await DownloadHelper.downloadFile(
                   url: url,
                   savedFileName: 'permit_${permit.id}.pdf',
                   context: context,
                 );
 
                 if (taskId != null) {
-                  debugPrint(
-                      'Download task enqueued (Permohonan): $taskId');
+                  debugPrint('Download task enqueued (Permohonan): $taskId');
                 }
               },
               funcRead: () {

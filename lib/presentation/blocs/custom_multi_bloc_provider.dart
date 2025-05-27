@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracking_apps/configs/network/notification/notification_service.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/permit/permit_service.dart';
+import 'package:tracking_apps/configs/network/user/user_service.dart';
 import 'package:tracking_apps/presentation/blocs/auth/reset/reset_password_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/notification/all/notification_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
@@ -37,31 +38,33 @@ class CustomMultiBlocProvider extends StatelessWidget {
         BlocProvider(
             create: (context) => ProfileBloc(userService: UserService())),
         BlocProvider(
-            create: (context) => UploadBloc(userService: UserService())),
-        BlocProvider(
-            create: (context) => PermitLetterBloc(userService: UserService())),
+            create: (context) => UploadBloc(permitService: PermitService())),
         BlocProvider(
             create: (context) =>
-                DetailPermitLetterBloc(userService: UserService())),
-        BlocProvider(create: (context) => EditBloc(userService: UserService())),
-        BlocProvider(
-            create: (context) => SearchBloc(userService: UserService())),
+                PermitLetterBloc(permitService: PermitService())),
         BlocProvider(
             create: (context) =>
-                PermitLetterApprovedBloc(userService: UserService())),
+                DetailPermitLetterBloc(permitService: PermitService())),
+        BlocProvider(
+            create: (context) => EditBloc(permitService: PermitService())),
+        BlocProvider(
+            create: (context) => SearchBloc(permitService: PermitService())),
         BlocProvider(
             create: (context) =>
-                PermitLetterRejectBloc(userService: UserService())),
+                PermitLetterApprovedBloc(permitService: PermitService())),
         BlocProvider(
             create: (context) =>
-                PermitLetterPendingBloc(userService: UserService())),
+                PermitLetterRejectBloc(permitService: PermitService())),
+        BlocProvider(
+            create: (context) =>
+                PermitLetterPendingBloc(permitService: PermitService())),
         BlocProvider(
           create: (context) =>
-              PermitLetterLatestBloc(userService: UserService()),
+              PermitLetterLatestBloc(permitService: PermitService()),
         ),
         BlocProvider(
             create: (context) =>
-                PermitLetterReleaseBloc(userService: UserService())),
+                PermitLetterReleaseBloc(permitService: PermitService())),
         BlocProvider(
             create: (context) =>
                 NotificationBloc(notificationService: NotificationService())),

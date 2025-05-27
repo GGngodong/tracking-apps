@@ -1,20 +1,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/permit/permit_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'upload_event.dart';
 part 'upload_state.dart';
 
 class UploadBloc extends Bloc<UploadEvent, UploadState> {
-  final UserService userService;
+  final PermitService permitService;
 
-  UploadBloc({required this.userService}) : super(const UploadState()) {
+  UploadBloc({required this.permitService}) : super(const UploadState()) {
     on<UploadButtonPressed>((event, emit) async {
       emit(const UploadState(isLoading: true));
       try {
-        final token = await userService.getAuthTokenFromSP();
+        final token = await permitService.getAuthTokenFromSP();
         if (token == null) {
           emit(UploadFailed(
             message: 'User is not authenticated. Please log in.',
@@ -32,7 +32,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           return;
         }
         HttpResponseModel<dynamic> uploadResponse =
-            await userService.createPermit(
+            await permitService.createPermit(
           description: event.description,
           noPermit: event.noPermit,
           categoryPermit: event.categoryPermit,
