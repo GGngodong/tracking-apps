@@ -5,7 +5,6 @@ import 'package:tracking_apps/configs/network/user_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'edit_event.dart';
-
 part 'edit_state.dart';
 
 class EditBloc extends Bloc<EditEvent, EditState> {
@@ -76,7 +75,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         print('Deleting Permit with ID: ${event.id}');
 
         HttpResponseModel<dynamic> deleteResponse =
-        await userService.deletePermit(id: event.id, authToken: token);
+            await userService.deletePermit(id: event.id, authToken: token);
 
         print('================== DELETE RESPONSE RECEIVED ==================');
         print('Status Code: ${deleteResponse.statusCode}');
@@ -87,7 +86,8 @@ class EditBloc extends Bloc<EditEvent, EditState> {
             message: deleteResponse.message,
             isLoading: false,
           ));
-          print('================== PERMIT SUCCESSFULLY DELETED ==================');
+          print(
+              '================== PERMIT SUCCESSFULLY DELETED ==================');
         } else {
           emit(EditFailedState(
             message: deleteResponse.message,
@@ -105,6 +105,5 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         print(e.toString());
       }
     });
-
   }
 }

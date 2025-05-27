@@ -14,7 +14,8 @@ class CustomTextFieldWithModal extends StatefulWidget {
     required this.header,
     required this.hintText,
     this.onFieldSubmitted,
-    this.textController, this.onTap,
+    this.textController,
+    this.onTap,
   });
 
   @override
@@ -61,7 +62,7 @@ class _CustomTextFieldWithModalState extends State<CustomTextFieldWithModal> {
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Text(
-                    widget.hintText,
+                widget.hintText,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14.sp,
@@ -74,5 +75,4 @@ class _CustomTextFieldWithModalState extends State<CustomTextFieldWithModal> {
       ),
     );
   }
-
 }

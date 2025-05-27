@@ -1,7 +1,6 @@
 part of 'upload_page.dart';
 
 mixin UploadMixin on State<UploadPage> {
-
   final DateFormat dateFormat = DateFormat('dd.MM.yyyy');
   late TextEditingController _descriptionTextEditingController;
   late TextEditingController _noPermitTextEditingController;
@@ -11,7 +10,6 @@ mixin UploadMixin on State<UploadPage> {
   late TextEditingController _noPermitMabesEditingController;
   late TextEditingController _categoryAdministrationTextEditingController;
   String? _documentUrl;
-
 
   @override
   void initState() {
@@ -50,26 +48,26 @@ mixin UploadMixin on State<UploadPage> {
     }
   }
 
-
   void _submit(UploadBloc uploadBloc) {
-    final formattedDate = DateFormat('dd-MM-yyyy').format(_dateTextEditingController); // Format the date
+    final formattedDate = DateFormat('dd-MM-yyyy')
+        .format(_dateTextEditingController); // Format the date
     String description = _descriptionTextEditingController.text.trim();
     String noPermit = _noPermitTextEditingController.text.trim();
     String categoryPermit = _categoryPermitTextEditingController.text.trim();
     String companyName = _companyNameTextEditingController.text.trim();
     String noPermitMabes = _noPermitMabesEditingController.text.trim();
-      uploadBloc.add(
-        UploadButtonPressed(
+    uploadBloc.add(
+      UploadButtonPressed(
           description: description.isEmpty ? "" : description,
           noPermit: noPermit.isEmpty ? "" : noPermit,
           date: formattedDate,
           categoryPermit: categoryPermit.isEmpty ? "" : categoryPermit,
           companyName: companyName.isEmpty ? "" : companyName,
-          noPermitMabes: noPermitMabes.isEmpty ? null  : noPermitMabes,
+          noPermitMabes: noPermitMabes.isEmpty ? null : noPermitMabes,
           documentUrl: _documentUrl!,
-            categoryAdministration : _categoryAdministrationTextEditingController.text.trim()
-        ),
-      );
+          categoryAdministration:
+              _categoryAdministrationTextEditingController.text.trim()),
+    );
   }
 
   Widget buildPdfPicker() {
@@ -87,4 +85,3 @@ mixin UploadMixin on State<UploadPage> {
     );
   }
 }
-

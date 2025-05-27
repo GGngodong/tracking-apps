@@ -38,7 +38,8 @@ mixin ProfileMixin on State<ProfilePage> {
   }
 
   void _listener(ProfileState state) {
-    final ValidateSuccess validateSuccess = context.read<LoginBloc>().state as ValidateSuccess;
+    final ValidateSuccess validateSuccess =
+        context.read<LoginBloc>().state as ValidateSuccess;
     final ProfileBloc profileBloc = BlocProvider.of<ProfileBloc>(context);
     if (state is UpdateUserSuccess) {
       if (context.canPop()) {
@@ -60,31 +61,31 @@ mixin ProfileMixin on State<ProfilePage> {
     return true;
   }
 
-  // void _showLogOutDialog(BuildContext context, LoginBloc loginBloc) {
-  //   showCupertinoDialog(
-  //     context: context,
-  //     barrierDismissible: true,
-  //     builder: (BuildContext context) {
-  //       return CupertinoAlertDialog(
-  //         title: const Text('Logout').tr(),
-  //         content: const Text('Are you sure want to Logout?').tr(),
-  //         actions: <Widget>[
-  //           CupertinoDialogAction(
-  //             child: const Text('No').tr(),
-  //             onPressed: () {
-  //               if (context.canPop()) context.pop();
-  //             },
-  //           ),
-  //           CupertinoDialogAction(
-  //             child: const Text('Yes').tr(),
-  //             onPressed: () {
-  //               loginBloc.add(LogoutButtonPressed(authToken: ));
-  //               context.go(Routes.login.path);
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+// void _showLogOutDialog(BuildContext context, LoginBloc loginBloc) {
+//   showCupertinoDialog(
+//     context: context,
+//     barrierDismissible: true,
+//     builder: (BuildContext context) {
+//       return CupertinoAlertDialog(
+//         title: const Text('Logout').tr(),
+//         content: const Text('Are you sure want to Logout?').tr(),
+//         actions: <Widget>[
+//           CupertinoDialogAction(
+//             child: const Text('No').tr(),
+//             onPressed: () {
+//               if (context.canPop()) context.pop();
+//             },
+//           ),
+//           CupertinoDialogAction(
+//             child: const Text('Yes').tr(),
+//             onPressed: () {
+//               loginBloc.add(LogoutButtonPressed(authToken: ));
+//               context.go(Routes.login.path);
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
 }

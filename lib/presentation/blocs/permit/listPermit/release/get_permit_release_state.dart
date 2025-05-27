@@ -1,6 +1,5 @@
 part of 'get_permit_release_bloc.dart';
 
-
 class PermitLetterReleaseState extends Equatable {
   final String? message;
   final bool isLoading;

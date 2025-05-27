@@ -4,7 +4,6 @@ import 'package:tracking_apps/configs/network/user_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'get_permit_release_event.dart';
-
 part 'get_permit_release_state.dart';
 
 class PermitLetterReleaseBloc

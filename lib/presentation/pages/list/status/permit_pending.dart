@@ -115,37 +115,31 @@ class _PermitPendingState extends State<PermitPending> {
                     url == 'No Released Document Url') {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content:
-                        Text("Permit is not released yet.")),
+                        content: Text("Permit is not released yet.")),
                   );
                   return;
                 }
-                final externalDir =
-                await getExternalStorageDirectory();
+                final externalDir = await getExternalStorageDirectory();
                 if (externalDir != null) {
                   try {
-                    final taskId =
-                    await FlutterDownloader.enqueue(
+                    final taskId = await FlutterDownloader.enqueue(
                       url: url,
                       savedDir: externalDir.path,
                       fileName: 'permit_${permit.id}.pdf',
                       showNotification: true,
                       openFileFromNotification: true,
                     );
-                    debugPrint(
-                        'Download task enqueued with taskId: $taskId');
+                    debugPrint('Download task enqueued with taskId: $taskId');
                   } catch (e) {
                     debugPrint('Download failed: $e');
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text("Download failed: $e")),
+                      SnackBar(content: Text("Download failed: $e")),
                     );
                   }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content: Text(
-                            "Unable to access storage directory")),
+                        content: Text("Unable to access storage directory")),
                   );
                 }
               },

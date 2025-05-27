@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,8 +11,6 @@ import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_profil.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
-
-import '../../../generated/locale_keys.g.dart';
 
 part 'profile_mixin.dart';
 
@@ -103,7 +100,8 @@ class _ProfilePageState extends State<ProfilePage> with ProfileMixin {
                   onNegativePressed: () => Navigator.of(context).pop(),
                   negativeButtonText: 'Cancel',
                 ),
-                isLogOut: true, isLoading: loginState.isLoading,
+                isLogOut: true,
+                isLoading: loginState.isLoading,
               ),
             ],
           ),

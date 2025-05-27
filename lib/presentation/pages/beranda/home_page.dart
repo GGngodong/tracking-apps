@@ -304,8 +304,8 @@ class _HomePageState extends State<HomePage> {
                                     url == 'No Released Document Url') {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                            Text("Permit is not released yet.")),
+                                        content: Text(
+                                            "Permit is not released yet.")),
                                   );
                                   return;
                                 }

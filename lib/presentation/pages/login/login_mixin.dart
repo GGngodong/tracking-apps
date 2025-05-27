@@ -51,7 +51,7 @@ mixin LoginMixin on State<LoginPage> {
       print('================== CURRENT STATE  : $state ==================');
       if (state.statusCode == 401) {
         AppHelper.showCustomAlertDialog(
-            onPositivePressed: ()  => Navigator.pop(context),
+            onPositivePressed: () => Navigator.pop(context),
             title: 'Login Failed!',
             context: context,
             content: 'Invalid Email or Password');

@@ -216,17 +216,17 @@ class _SearchPageState extends State<SearchPage> {
                                     url == 'No Released Document Url') {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                        content:
-                                        Text("Permit is not released yet.")),
+                                        content: Text(
+                                            "Permit is not released yet.")),
                                   );
                                   return;
                                 }
                                 final externalDir =
-                                await getExternalStorageDirectory();
+                                    await getExternalStorageDirectory();
                                 if (externalDir != null) {
                                   try {
                                     final taskId =
-                                    await FlutterDownloader.enqueue(
+                                        await FlutterDownloader.enqueue(
                                       url: url,
                                       savedDir: externalDir.path,
                                       fileName: 'permit_${permit.id}.pdf',

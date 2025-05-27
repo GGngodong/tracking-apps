@@ -45,9 +45,9 @@ class _SearchBarPermitState extends State<SearchBarPermit> {
             value: _selectedFilter,
             items: widget.items!
                 .map((item) => DropdownMenuItem(
-              value: item,
-              child: Text(item),
-            ))
+                      value: item,
+                      child: Text(item),
+                    ))
                 .toList(),
             onChanged: (value) {
               setState(() {

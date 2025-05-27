@@ -64,7 +64,7 @@ class CardSurat extends StatelessWidget {
       );
       borderUploadColor = const Color(0xFFAF4848);
       typeUpload = 'REJECTED';
-    }  else {
+    } else {
       fontUploadSyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,

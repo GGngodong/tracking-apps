@@ -4,10 +4,10 @@ import 'package:tracking_apps/configs/network/user_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'get_approved_permit_event.dart';
-
 part 'get_approved_permit_state.dart';
 
-class PermitLetterApprovedBloc extends Bloc<PermitLetterApprovedEvent, PermitLetterApprovedState> {
+class PermitLetterApprovedBloc
+    extends Bloc<PermitLetterApprovedEvent, PermitLetterApprovedState> {
   final UserService userService;
 
   PermitLetterApprovedBloc({required this.userService})
@@ -31,14 +31,16 @@ class PermitLetterApprovedBloc extends Bloc<PermitLetterApprovedEvent, PermitLet
             message: response.message,
             isLoading: false,
           ));
-          print('================== GET APPROVED PERMIT SUCCESS ==================');
+          print(
+              '================== GET APPROVED PERMIT SUCCESS ==================');
         } else {
           emit(PermitLetterFailedState(
             message: response.message ?? 'Failed to load permits',
             isLoading: false,
             statusCode: response.statusCode,
           ));
-          print('================== GET APPROVED PERMIT FAILED ==================');
+          print(
+              '================== GET APPROVED PERMIT FAILED ==================');
         }
       } catch (e) {
         emit(PermitLetterFailedState(

@@ -98,8 +98,7 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                           onPressed: () {
                             if (_usernameTextEditingController.text.isEmpty) {
                               AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () =>
-                                    Navigator.pop(context),
+                                onPositivePressed: () => Navigator.pop(context),
                                 title: 'Username tidak boleh kosong!',
                                 context: context,
                                 content: 'Silahkan isi username.',
@@ -107,8 +106,7 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                             }
                             if (_emailTextEditingController.text.isEmpty) {
                               AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () =>
-                                    Navigator.pop(context),
+                                onPositivePressed: () => Navigator.pop(context),
                                 title: 'Email tidak boleh kosong!',
                                 context: context,
                                 content: 'Silahkan isi email.',
@@ -116,8 +114,7 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                             }
                             if (_divisionTextEditingController.text.isEmpty) {
                               AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () =>
-                                    Navigator.pop(context),
+                                onPositivePressed: () => Navigator.pop(context),
                                 title: 'Divisi tidak boleh kosong!',
                                 context: context,
                                 content: 'Silahkan pilih divisi.',
@@ -125,17 +122,16 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                             }
                             if (_passwordTextEditingController.text.isEmpty) {
                               AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () =>
-                                    Navigator.pop(context),
+                                onPositivePressed: () => Navigator.pop(context),
                                 title: 'Password tidak boleh kosong!',
                                 context: context,
                                 content: 'Silahkan isi password.',
                               );
                             }
-                            if (_passwordTextEditingController.text.length < 8) {
+                            if (_passwordTextEditingController.text.length <
+                                8) {
                               AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () =>
-                                    Navigator.pop(context),
+                                onPositivePressed: () => Navigator.pop(context),
                                 title: 'Password minimal 8 karakter!',
                                 context: context,
                                 content: 'Silahkan isi password.',

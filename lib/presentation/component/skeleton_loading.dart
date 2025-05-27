@@ -7,11 +7,12 @@ class SkeletonLoading extends StatelessWidget {
   final double cornerRadius;
   final BoxShape shape;
 
-  const SkeletonLoading({super.key,
-    required this.height,
-    required this.width,
-    this.cornerRadius = 0,
-    this.shape = BoxShape.rectangle});
+  const SkeletonLoading(
+      {super.key,
+      required this.height,
+      required this.width,
+      this.cornerRadius = 0,
+      this.shape = BoxShape.rectangle});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +26,10 @@ class SkeletonLoading extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
               shape: shape,
-              borderRadius: shape == BoxShape.circle ? null : BorderRadius
-                  .circular(cornerRadius),
-              color: Colors.grey[300]
-          ),
-        )
-    );
+              borderRadius: shape == BoxShape.circle
+                  ? null
+                  : BorderRadius.circular(cornerRadius),
+              color: Colors.grey[300]),
+        ));
   }
 }

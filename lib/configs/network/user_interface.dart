@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
 import 'http_response_model.dart';

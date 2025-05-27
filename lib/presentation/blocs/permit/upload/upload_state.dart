@@ -39,4 +39,3 @@ class UploadFailed extends UploadState {
   @override
   List<Object?> get props => [message, isLoading, statusCode];
 }
-

@@ -32,7 +32,6 @@ class DetailPermitLetterLoadedState extends DetailPermitLetterState {
 }
 
 class DetailPermitLetterFailedState extends DetailPermitLetterState {
-
   const DetailPermitLetterFailedState({
     super.statusCode,
     super.message,

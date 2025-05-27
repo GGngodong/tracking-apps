@@ -8,4 +8,3 @@ abstract class PermitLetterApprovedEvent extends Equatable {
 }
 
 class GetListPermitLetter extends PermitLetterApprovedEvent {}
-

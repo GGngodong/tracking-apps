@@ -5,7 +5,6 @@ import 'package:tracking_apps/configs/network/user_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'upload_event.dart';
-
 part 'upload_state.dart';
 
 class UploadBloc extends Bloc<UploadEvent, UploadState> {
@@ -42,7 +41,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           noPermitMabes: event.noPermitMabes,
           processStatus: 'Draft Created',
           documentUrl: event.documentUrl,
-              categoryAdministration : event.categoryAdministration,
+          categoryAdministration: event.categoryAdministration,
           authToken: token,
         );
         if (uploadResponse.statusCode == 200 ||
@@ -66,8 +65,5 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
         print('================== IN UPLOAD ERROR BLOC ==================');
       }
     });
-
-
-
   }
 }

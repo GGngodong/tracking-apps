@@ -8,7 +8,10 @@ class TitleAuth extends StatelessWidget {
   final VoidCallback fun;
 
   const TitleAuth(
-      {super.key, required this.secondText, required this.firstText, required this.fun});
+      {super.key,
+      required this.secondText,
+      required this.firstText,
+      required this.fun});
 
   @override
   Widget build(BuildContext context) {

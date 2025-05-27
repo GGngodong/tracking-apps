@@ -29,7 +29,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage>
       child: BlocBuilder<ResetPasswordBloc, ResetPasswordState>(
           builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.whitePage,
+          backgroundColor: AppColors.whitePage,
           body: SingleChildScrollView(
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 200.h),

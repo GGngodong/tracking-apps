@@ -538,18 +538,14 @@ class UserService extends UserInterface {
           status: jsonResponse['status'] as String?,
           message: jsonResponse['message'] as String?,
         );
-      }
-
-      else if (response.statusCode == 404) {
+      } else if (response.statusCode == 404) {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
         return HttpResponseModel(
           statusCode: response.statusCode,
           status: 'error',
           message: body['message'] as String,
         );
-      }
-
-      else {
+      } else {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
         return HttpResponseModel(
           statusCode: response.statusCode,

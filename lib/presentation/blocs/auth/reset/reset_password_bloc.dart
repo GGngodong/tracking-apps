@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:tracking_apps/configs/network/user_service.dart';
 
 part 'reset_password_event.dart';
-
 part 'reset_password_state.dart';
 
 class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {

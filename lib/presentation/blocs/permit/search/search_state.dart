@@ -24,7 +24,6 @@ class SearchFailedState extends SearchState {
     super.isLoading,
   });
 
-
   @override
   List<Object?> get props => [statusCode, message, isLoading];
 }

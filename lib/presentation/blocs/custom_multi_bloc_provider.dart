@@ -69,8 +69,8 @@ class CustomMultiBlocProvider extends StatelessWidget {
             create: (context) => NotificationDetailBloc(
                 notificationService: NotificationService())),
         BlocProvider(
-            create: (context) =>
-                NotificationEditBloc(notificationService: NotificationService())),
+            create: (context) => NotificationEditBloc(
+                notificationService: NotificationService())),
         BlocProvider(
           create: (context) => ResetPasswordBloc(userService: UserService()),
         )

@@ -10,6 +10,7 @@ abstract class NotificationEditEvent extends Equatable {
 class MarkNotificationAsReadEvent extends NotificationEditEvent {
   final String authToken;
   final String notificationId;
+
   const MarkNotificationAsReadEvent({
     required this.authToken,
     required this.notificationId,
@@ -22,6 +23,7 @@ class MarkNotificationAsReadEvent extends NotificationEditEvent {
 class DeleteNotificationEvent extends NotificationEditEvent {
   final String authToken;
   final String notificationId;
+
   const DeleteNotificationEvent({
     required this.authToken,
     required this.notificationId,
@@ -30,4 +32,3 @@ class DeleteNotificationEvent extends NotificationEditEvent {
   @override
   List<Object> get props => [authToken, notificationId];
 }
-

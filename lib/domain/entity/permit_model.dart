@@ -61,7 +61,8 @@ class PermitModel {
       companyName: map['nama_pt'] ?? 'No Company Name',
       noPermitMabes: map['produk_no_surat_mabes']?.toString(),
       documentUrl: map['dokumen_url'] ?? 'No Document Url',
-      releasedDocumentUrl: map['released_dokumen_url'] ?? 'No Released Document Url',
+      releasedDocumentUrl:
+          map['released_dokumen_url'] ?? 'No Released Document Url',
       processStatus: map['status_tahapan'] ?? 'No Process Status',
       uploadStatus: map['upload_status'] ?? 'No Upload Status',
       note: map['note'] ?? 'No notes',

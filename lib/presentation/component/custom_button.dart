@@ -13,7 +13,8 @@ class CustomButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    required this.isLogOut, this.isLoading = false,
+    required this.isLogOut,
+    this.isLoading = false,
   });
 
   @override
@@ -27,12 +28,16 @@ class CustomButton extends StatelessWidget {
             onPressed: isLoading ? null : onPressed,
             style: ElevatedButton.styleFrom(
               backgroundColor:
-                  isLogOut ? const Color(0xFFAF4848) : AppColors.primary,
+              isLogOut ? const Color(0xFFAF4848) : AppColors.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
             ),
-            child: isLoading ? const CupertinoActivityIndicator(color: Colors.black,) : Text(
+            child: isLoading
+                ? const CupertinoActivityIndicator(
+              color: Colors.black,
+            )
+                : Text(
               text,
               style: TextStyle(
                 fontSize: 16.sp,

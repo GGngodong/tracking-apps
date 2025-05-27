@@ -9,7 +9,7 @@ class HttpResponseModel<T> {
     this.data,
     this.status,
     this.message,
-});
+  });
 
   factory HttpResponseModel.fromJson(Map<String, dynamic> json) {
     return HttpResponseModel(
@@ -22,10 +22,10 @@ class HttpResponseModel<T> {
 
   Map<String, dynamic> toJson() {
     return {
-      'statusCode' : statusCode,
-      'data' : data,
-      'status' : status,
-      'message' : message,
+      'statusCode': statusCode,
+      'data': data,
+      'status': status,
+      'message': message,
     };
   }
 }
