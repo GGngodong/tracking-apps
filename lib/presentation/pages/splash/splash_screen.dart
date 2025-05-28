@@ -65,19 +65,8 @@ class _SplashScreenState extends State<SplashScreen> with SplashScreenMixin {
     return Container(
       color: AppColors.whitePage,
       child: isTimeout
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(Icons.error, color: Colors.red, size: 50),
-                const SizedBox(height: 10),
-                ServerErrorPage(),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _restartProcess,
-                  child: const Text("Retry"),
-                ),
-              ],
+          ? ServerErrorPage(
+              onRetry: _restartProcess,
             )
           : FutureBuilder(
               future: _future(context),

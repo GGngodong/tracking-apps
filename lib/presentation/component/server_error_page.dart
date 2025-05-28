@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class ServerErrorPage extends StatelessWidget {
-  const ServerErrorPage({super.key});
+  final void Function()? onRetry;
+  const ServerErrorPage({super.key, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,28 @@ class ServerErrorPage extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w300,
                   fontFamily: 'Satoshi',
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            ElevatedButton(
+              onPressed: onRetry,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+              ),
+              child: Text(
+                'Coba Lagi',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Satoshi',
+                  color: Colors.white,
                 ),
               ),
             ),
