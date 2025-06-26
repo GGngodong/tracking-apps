@@ -6,6 +6,7 @@ import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/auth/register/register_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
@@ -51,6 +52,8 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                           hintText: 'Masukan username anda',
                           header: 'Username',
                           textController: _usernameTextEditingController,
+                          validator: ValidatorHelper.validateUsername,
+                          validateOnChange: true,
                           onFieldSubmitted: (value) {
                             _submit(registerBloc);
                           },
@@ -62,6 +65,8 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                           hintText: 'Masukan email anda',
                           header: 'Email',
                           textController: _emailTextEditingController,
+                          validator: ValidatorHelper.validateEmail,
+                          validateOnChange: true,
                           onFieldSubmitted: (value) {
                             _submit(registerBloc);
                           },
@@ -85,6 +90,8 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                           hintText: 'Masukan password anda',
                           header: 'Password',
                           isPassword: true,
+                          validator: ValidatorHelper.validatePassword,
+                          validateOnChange: true,
                           textController: _passwordTextEditingController,
                           onFieldSubmitted: (value) {
                             _submit(registerBloc);
@@ -96,54 +103,7 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                         CustomButton(
                           text: 'Sign up',
                           onPressed: () {
-                            if (_usernameTextEditingController.text.isEmpty) {
-                              AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () => Navigator.pop(context),
-                                title: 'Username tidak boleh kosong!',
-                                context: context,
-                                content: 'Silahkan isi username.',
-                              );
-                            }
-                            if (_emailTextEditingController.text.isEmpty) {
-                              AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () => Navigator.pop(context),
-                                title: 'Email tidak boleh kosong!',
-                                context: context,
-                                content: 'Silahkan isi email.',
-                              );
-                            }
-                            if (_divisionTextEditingController.text.isEmpty) {
-                              AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () => Navigator.pop(context),
-                                title: 'Divisi tidak boleh kosong!',
-                                context: context,
-                                content: 'Silahkan pilih divisi.',
-                              );
-                            }
-                            if (_passwordTextEditingController.text.isEmpty) {
-                              AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () => Navigator.pop(context),
-                                title: 'Password tidak boleh kosong!',
-                                context: context,
-                                content: 'Silahkan isi password.',
-                              );
-                            }
-                            if (_passwordTextEditingController.text.length <
-                                8) {
-                              AppHelper.showCustomAlertDialog(
-                                onPositivePressed: () => Navigator.pop(context),
-                                title: 'Password minimal 8 karakter!',
-                                context: context,
-                                content: 'Silahkan isi password.',
-                              );
-                            }
                             _submit(registerBloc);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const LoginPage(),
-                            //   )
-                            // );
                           },
                           isLogOut: false,
                           isLoading: state.isLoading,
@@ -151,14 +111,6 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                         SizedBox(
                           height: 32.h,
                         ),
-                        // const DividerText(text: 'Masuk dengan'),
-                        // // SizedBox(
-                        // //   height: 32.h,
-                        // // ),
-                        // // const SocialMediaButton(),
-                        // // SizedBox(
-                        // //   height: 32.h,
-                        // // ),
                         TitleAuth(
                           fun: () => Navigator.push(
                             context,

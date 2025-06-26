@@ -18,25 +18,7 @@ mixin LoginMixin on State<LoginPage> {
     _passwordTextEditingController.dispose();
   }
 
-  // void _forgotPasswordListener(RegisterState state) async {
-  //   if (state is ForgotPasswordCheckSuccess) {
-  //     if (state.data != null && state.data!) {
-  //       if (state.verificationCode != null) {
-  //         context.go(Routes.verify.path);
-  //       }
-  //     }
-  //   } else if (state is ForgotPasswordCheckFailed) {
-  //     print('================== CURRENT STATE : $state ==================');
-  //     AppHelper.alertDialogMessage(
-  //         context: context, content: LocaleKeys.non_existent_user_message.tr());
-  //   } else if (state is CheckFailed) {
-  //     AppHelper.alertDialogMessage(
-  //         context: context, content: LocaleKeys.something_went_wrong.tr());
-  //     print('================== CURRENT STATE : $state ==================');
-  //   }
-  // }
-
-  void _listener(LoginState state) {
+  void    _listener(LoginState state) {
     final ProfileBloc profileBloc = BlocProvider.of<ProfileBloc>(context);
     if (state is LoginSuccess) {
       print('================== CURRENT STATE : $state ==================');

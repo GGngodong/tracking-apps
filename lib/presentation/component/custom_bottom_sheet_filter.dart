@@ -22,7 +22,7 @@ class _CustomBottomSheetFilterState extends State<CustomBottomSheetFilter> {
   late String selectedCategory;
   late String selectedSubCategory;
 
-  final List<String> categories = ['OPS', 'DTU', 'DTM', 'DKK'];
+  final List<String> categories = ['LOG.', 'DTU', 'DM/GM', 'DKK'];
   final List<String> subCategories = [
     '2P BARU',
     '3P BARU',

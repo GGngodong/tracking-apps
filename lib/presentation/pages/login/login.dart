@@ -6,6 +6,7 @@ import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
@@ -69,6 +70,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               textController: _emailTextEditingController,
                               hintText: 'Masukan email anda',
                               header: 'Email',
+                              validator: ValidatorHelper.validateEmail,
+                              validateOnChange: true,
                               onFieldSubmitted: (value) {
                                 _submit(_loginBloc);
                               },
@@ -78,6 +81,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               textController: _passwordTextEditingController,
                               hintText: 'Masukan password anda',
                               header: 'Password',
+                              validator: ValidatorHelper.validatePassword,
+                              validateOnChange: true,
                               isPassword: true,
                               onFieldSubmitted: (value) {
                                 _submit(_loginBloc);
@@ -110,49 +115,11 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               isLoading: state.isLoading,
                               text: 'Sign In',
                               onPressed: () {
-                                if (_emailTextEditingController.text.isEmpty) {
-                                  AppHelper.showCustomAlertDialog(
-                                    onPositivePressed: () =>
-                                        Navigator.pop(context),
-                                    title: 'Email tidak boleh kosong!',
-                                    context: context,
-                                    content: 'Silahkan isi email',
-                                  );
-                                  return;
-                                }
-                                if (_passwordTextEditingController
-                                    .text.isEmpty) {
-                                  AppHelper.showCustomAlertDialog(
-                                    onPositivePressed: () =>
-                                        Navigator.pop(context),
-                                    title: 'Password tidak boleh kosong!',
-                                    context: context,
-                                    content: 'Silahkan isi password',
-                                  );
-                                  return;
-                                }
-                                if (_emailTextEditingController.text.isEmpty ||
-                                    _passwordTextEditingController
-                                        .text.isEmpty) {
-                                  AppHelper.showCustomAlertDialog(
-                                    onPositivePressed: () =>
-                                        Navigator.pop(context),
-                                    title:
-                                        'Email dan Password tidak boleh kosong',
-                                    context: context,
-                                    content: 'Silahkan isi email dan password',
-                                  );
-                                  return;
-                                }
                                 _submit(_loginBloc);
                               },
                               isLogOut: false,
                             ),
                             SizedBox(height: 32.h),
-                            // const DividerText(text: 'Masuk dengan'),
-                            // // SizedBox(height: 32.h),
-                            // // const SocialMediaButton(),
-                            // SizedBox(height: 32.h),
                             TitleAuth(
                               fun: () => Navigator.push(
                                 context,

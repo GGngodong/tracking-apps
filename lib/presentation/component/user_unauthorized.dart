@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
-class ServerErrorPage extends StatelessWidget {
+class UserUnauthorized extends StatelessWidget {
   final void Function()? onRetry;
 
-  const ServerErrorPage({super.key, this.onRetry});
+  const UserUnauthorized({super.key, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ServerErrorPage extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(
-              'assets/icons/server_error.png',
+              'assets/icons/user_empty.png',
               height: 120.h,
             ),
             SizedBox(
@@ -24,7 +24,7 @@ class ServerErrorPage extends StatelessWidget {
             ),
             Center(
               child: Text(
-                'Server sedang bermasalah',
+                'Unauthorized Access.',
                 style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16.sp,
@@ -34,7 +34,7 @@ class ServerErrorPage extends StatelessWidget {
             ),
             Center(
               child: Text(
-                'Silahkan cek kembali nanti',
+                'Silahkan login kembali atau hubungi admin jika masalah berlanjut',
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14.sp,

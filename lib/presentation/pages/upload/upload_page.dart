@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_datepicker.dart';
@@ -82,6 +83,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       textController: _descriptionTextEditingController,
                       hintText: 'Masukan deskripsi surat izin',
                       header: 'Uraian',
+                      validateOnChange: true,
+                      validator: ValidatorHelper.validateDescription,
                       onFieldSubmitted: (value) {
                         _submit(_uploadBloc);
                       },
@@ -93,6 +96,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       textController: _noPermitTextEditingController,
                       hintText: 'Masukan nomor surat',
                       header: 'No. Surat',
+                      validateOnChange: true,
+                      validator: ValidatorHelper.validatePermitNumber,
                       onFieldSubmitted: (value) {
                         _submit(_uploadBloc);
                       },
@@ -117,6 +122,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       textController: _companyNameTextEditingController,
                       hintText: 'Masukan nama perusahaan',
                       header: 'Nama Perusahaan',
+                      validateOnChange: true,
+                      validator: ValidatorHelper.validateCompanyName,
                       onFieldSubmitted: (value) {
                         _submit(_uploadBloc);
                       },
@@ -187,90 +194,6 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                           );
                           return;
                         }
-                        if (_categoryPermitTextEditingController.text
-                            .trim()
-                            .isEmpty) {
-                          AppHelper.showCustomAlertDialog(
-                            context: context,
-                            title: 'Bagian ini harus di isi!',
-                            content: 'Silahkan pilih jenis izin.',
-                            onPositivePressed: () =>
-                                Navigator.of(context).pop(),
-                          );
-                          return;
-                        }
-                        if (_categoryAdministrationTextEditingController.text
-                            .trim()
-                            .isEmpty) {
-                          AppHelper.showCustomAlertDialog(
-                            context: context,
-                            title: 'Bagian ini harus di isi!',
-                            content: 'Silahkan pilih divisi.',
-                            onPositivePressed: () =>
-                                Navigator.of(context).pop(),
-                          );
-                          return;
-                        }
-                        if (_descriptionTextEditingController.text
-                            .trim()
-                            .isEmpty) {
-                          AppHelper.showCustomAlertDialog(
-                            context: context,
-                            title: 'Bagian ini harus di isi!',
-                            content: 'Silahkan masukan deskripsi surat izin.',
-                            onPositivePressed: () =>
-                                Navigator.of(context).pop(),
-                          );
-                          return;
-                        }
-                        if (_noPermitTextEditingController.text
-                            .trim()
-                            .isEmpty) {
-                          AppHelper.showCustomAlertDialog(
-                            context: context,
-                            title: 'Bagian ini harus di isi!',
-                            content: 'Silahkan masukan nomor surat.',
-                            onPositivePressed: () =>
-                                Navigator.of(context).pop(),
-                          );
-                          return;
-                        }
-                        if (_companyNameTextEditingController.text
-                            .trim()
-                            .isEmpty) {
-                          AppHelper.showCustomAlertDialog(
-                            context: context,
-                            title: 'Bagian ini harus di isi!',
-                            content: 'Silahkan masukan nama perusahaan.',
-                            onPositivePressed: () =>
-                                Navigator.of(context).pop(),
-                          );
-                          return;
-                        }
-                        if (_dateTextEditingController == null) {
-                          AppHelper.showCustomAlertDialog(
-                            context: context,
-                            title: 'Bagian ini harus di isi!',
-                            content: 'Silahkan pilih tanggal surat.',
-                            onPositivePressed: () =>
-                                Navigator.of(context).pop(),
-                          );
-                          return;
-                        }
-
-                        AppHelper.showCustomAlertDialog(
-                            title: 'Unggah Permohonan',
-                            context: context,
-                            content:
-                                'Are you sure you want to upload this document?',
-                            onNegativePressed: () {
-                              Navigator.pop(context);
-                            },
-                            negativeButtonText: 'Cancel',
-                            onPositivePressed: () {
-                              _submit(_uploadBloc);
-                              Navigator.pop(context);
-                            });
                       },
                       isLogOut: false,
                       isLoading: state.isLoading,

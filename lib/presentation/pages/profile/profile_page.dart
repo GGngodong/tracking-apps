@@ -43,7 +43,6 @@ class _ProfilePageState extends State<ProfilePage> with ProfileMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.amber,
       backgroundColor: AppColors.whitePage,
       appBar: _appBar(),
       body: _body(context),
