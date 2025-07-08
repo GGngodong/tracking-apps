@@ -11,6 +11,7 @@ import 'package:tracking_apps/presentation/blocs/notification/detail/notificatio
 import 'package:tracking_apps/presentation/blocs/notification/edit/notification_edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
 import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class DetailNotificationPage extends StatefulWidget {
@@ -42,6 +43,8 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
     });
     if (token != null) {
       _fetchDetailNotification();
+    } else {
+      UserUnauthorized();
     }
   }
 

@@ -7,6 +7,7 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/document_empty_page.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
 import 'package:tracking_apps/presentation/pages/detail/detailDokumen/detail_pdf.dart';
 import 'package:tracking_apps/presentation/pages/edit/edit_page.dart';
 
@@ -47,10 +48,7 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
             GetDetailPermitLetterEvent(id: widget.id),
           );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Invalid ID or missing authentication token.')),
-      );
+      UserUnauthorized();
     }
   }
 

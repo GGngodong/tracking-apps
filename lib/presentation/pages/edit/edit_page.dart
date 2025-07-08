@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_bottom_choice_chip.dart';
@@ -91,9 +92,11 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     height: 12.h,
                   ),
                   CustomTextField(
-                    hintText: 'No. Produk Mabes',
-                    header: 'Produk Mabes',
+                    hintText: 'No. SI Mabes',
+                    header: 'No. SI TERBIT',
                     textController: _noPermitMabesTextEditingController,
+                    validateOnChange: true,
+                    validator: ValidatorHelper.validatePermitNumber,
                     onFieldSubmitted: (value) {
                       _submit(editBloc);
                     },

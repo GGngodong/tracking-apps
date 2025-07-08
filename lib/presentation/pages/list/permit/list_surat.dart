@@ -9,6 +9,7 @@ import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/document_empty.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
 import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class ListSuratPage extends StatefulWidget {
@@ -42,6 +43,8 @@ class _ListSuratPageState extends State<ListSuratPage> {
   void _fetchPermitLetters() {
     if (_authToken != null) {
       context.read<PermitLetterBloc>().add(GetListPermitLetter());
+    } else {
+      UserUnauthorized();
     }
   }
 

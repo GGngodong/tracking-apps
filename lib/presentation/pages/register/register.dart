@@ -83,9 +83,6 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
                           textEditingController: _divisionTextEditingController,
                           listDropdown: ['LOG.', 'DTU', 'DM/GM', 'DKK'],
                         ),
-                        // SizedBox(
-                        //   height: 16.h,
-                        // ),
                         CustomTextField(
                           hintText: 'Masukan password anda',
                           header: 'Password',

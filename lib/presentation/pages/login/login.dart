@@ -46,7 +46,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                       Header(
                         heightSizedBox: 250.h,
                         imageBg: 'assets/home/indonesia-nobg.png',
-                        imageFg: 'assets/home/dahana.png',
+                        // imageFg: 'assets/home/dahana.png',
+                        imageFg: '',
                         height: 100.h,
                         topFg: 80,
                         leftFg: 0,

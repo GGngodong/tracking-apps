@@ -18,7 +18,7 @@ mixin LoginMixin on State<LoginPage> {
     _passwordTextEditingController.dispose();
   }
 
-  void    _listener(LoginState state) {
+  void _listener(LoginState state) {
     final ProfileBloc profileBloc = BlocProvider.of<ProfileBloc>(context);
     if (state is LoginSuccess) {
       print('================== CURRENT STATE : $state ==================');

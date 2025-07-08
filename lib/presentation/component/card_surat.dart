@@ -267,13 +267,13 @@ class CardSurat extends StatelessWidget {
                     ImageIcon(
                       const AssetImage('assets/icons/book.png'),
                       size: 20.sp,
-                      color: AppColors.tertiary,
+                      color: Colors.grey[700],
                     ),
                     SizedBox(width: 12.w),
                     Text(
                       'Baca',
                       style: TextStyle(
-                        color: AppColors.tertiary,
+                        color: Colors.grey[700],
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Satoshi',
                         fontSize: 16.sp,
@@ -307,7 +307,7 @@ class CardSurat extends StatelessWidget {
                             const AssetImage(
                                 'assets/icons/document-download.png'),
                             size: 20.sp,
-                            color: AppColors.tertiary,
+                            color: Colors.grey[700],
                           ),
                           SizedBox(
                             width: 12.w,
@@ -316,7 +316,7 @@ class CardSurat extends StatelessWidget {
                             child: Text(
                               'Unduh Surat Permohonan',
                               style: TextStyle(
-                                color: AppColors.tertiary,
+                                color: Colors.grey[700],
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Satoshi',
                                 fontSize: 10.sp,
@@ -350,7 +350,7 @@ class CardSurat extends StatelessWidget {
                             const AssetImage(
                                 'assets/icons/document-download.png'),
                             size: 20.sp,
-                            color: AppColors.tertiary,
+                            color: Colors.grey[700],
                           ),
                           SizedBox(
                             width: 12.w,
@@ -359,7 +359,7 @@ class CardSurat extends StatelessWidget {
                             child: Text(
                               'Unduh Surat Izin Terbit',
                               style: TextStyle(
-                                color: AppColors.tertiary,
+                                color: Colors.grey[700],
                                 fontWeight: FontWeight.w600,
                                 fontFamily: 'Satoshi',
                                 fontSize: 10.sp,

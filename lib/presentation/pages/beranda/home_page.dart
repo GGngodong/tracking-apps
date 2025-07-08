@@ -9,6 +9,7 @@ import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/header.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
 import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 import 'package:tracking_apps/presentation/pages/list/permit/selengkapnya.dart';
 
@@ -37,6 +38,8 @@ class _HomePageState extends State<HomePage> {
     });
     if (token != null) {
       _fetchPermitLetters();
+    } else {
+      UserUnauthorized();
     }
   }
 
@@ -99,7 +102,8 @@ class _HomePageState extends State<HomePage> {
               Header(
                 heightSizedBox: 280.h,
                 imageBg: 'assets/home/dahana-gedung.png',
-                imageFg: 'assets/home/dahana.png',
+                // imageFg: 'assets/home/dahana.png',
+                imageFg: '',
                 height: 100.h,
                 topFg: 90,
                 leftFg: 0,

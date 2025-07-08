@@ -183,17 +183,19 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                     CustomButton(
                       text: 'Unggah Surat',
                       onPressed: () {
-                        if (_documentUrl == null) {
-                          AppHelper.showCustomAlertDialog(
+                        AppHelper.showCustomAlertDialog(
                             title: 'Unggah Permohonan',
                             context: context,
                             content:
-                                'Silahkan unggah dokumen permohonan izin terlebih dahulu.',
-                            onPositivePressed: () =>
-                                Navigator.of(context).pop(),
-                          );
-                          return;
-                        }
+                            'Are you sure you want to upload this document?',
+                            onNegativePressed: () {
+                              Navigator.pop(context);
+                            },
+                            negativeButtonText: 'Cancel',
+                            onPositivePressed: () {
+                              _submit(_uploadBloc);
+                              Navigator.pop(context);
+                            });
                       },
                       isLogOut: false,
                       isLoading: state.isLoading,

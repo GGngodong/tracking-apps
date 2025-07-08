@@ -35,7 +35,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     super.initState();
     isPasswordVisible = !widget.isPassword;
     widget.textController?.addListener(_validateField);
-    }
+  }
 
   void _validateField() {
     if (!widget.validateOnChange || widget.validator == null) return;
@@ -53,10 +53,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Theme(
       data: Theme.of(context).copyWith(
           textSelectionTheme: TextSelectionThemeData(
-            cursorColor: AppColors.primary,
-            selectionColor: AppColors.primary.withOpacity(0.4),
-            selectionHandleColor: AppColors.primary,
-          )),
+        cursorColor: AppColors.primary,
+        selectionColor: AppColors.primary.withOpacity(0.4),
+        selectionHandleColor: AppColors.primary,
+      )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -84,32 +84,32 @@ class _CustomTextFieldState extends State<CustomTextField> {
             cursorColor: AppColors.primary,
             selectionControls: materialTextSelectionControls,
             decoration: InputDecoration(
-                hintText: widget.hintText,
-                hintStyle: const TextStyle(
-                  color: AppColors.lightGrey,
-                  fontFamily: 'Satoshi',
-                ),
-                border: OutlineInputBorder(
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(
+                color: AppColors.lightGrey,
+                fontFamily: 'Satoshi',
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                    borderSide:
-                    BorderSide(color: AppColors.primary, width: 1.5.w)),
-                alignLabelWithHint: false,
-                suffixIcon: widget.isPassword
-                    ? IconButton(
-                  icon: Icon(isPasswordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      isPasswordVisible = !isPasswordVisible;
-                    });
-                  },
-                )
-                    : null,
-                errorText: errorText,
+                  borderSide:
+                      BorderSide(color: AppColors.primary, width: 1.5.w)),
+              alignLabelWithHint: false,
+              suffixIcon: widget.isPassword
+                  ? IconButton(
+                      icon: Icon(isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    )
+                  : null,
+              errorText: errorText,
             ),
             keyboardType: widget.isPassword
                 ? TextInputType.visiblePassword

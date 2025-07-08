@@ -29,7 +29,7 @@ mixin RegisterMixin on State<RegisterPage> {
 
   void _submit(RegisterBloc registerBloc) {
     HttpResponseModel httpResponseModel =
-    AppHelper.checkUsernameEmailAndPassword(
+        AppHelper.checkUsernameEmailAndPassword(
       username: _usernameTextEditingController.text.trim(),
       email: _emailTextEditingController.text.trim(),
       password: _passwordTextEditingController.text.trim(),
@@ -100,5 +100,4 @@ mixin RegisterMixin on State<RegisterPage> {
       );
     }
   }
-
 }

@@ -11,6 +11,7 @@ import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/custom_bottom_sheet_filter.dart';
 import 'package:tracking_apps/presentation/component/custom_search_bar.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
 import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class SearchPage extends StatefulWidget {
@@ -45,6 +46,8 @@ class _SearchPageState extends State<SearchPage> {
     });
     if (token != null) {
       _fetchPermitLetters();
+    } else {
+      UserUnauthorized();
     }
   }
 

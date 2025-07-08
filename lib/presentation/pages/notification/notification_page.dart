@@ -6,6 +6,8 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/blocs/notification/all/notification_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/notification/edit/notification_edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_notification.dart';
+import 'package:tracking_apps/presentation/component/notification_empty.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
 
 import 'detail/detail_notification_page.dart';
 
@@ -33,6 +35,8 @@ class _NotificationPageState extends State<NotificationPage> {
     });
     if (token != null) {
       _fetchNotifications();
+    } else {
+      UserUnauthorized();
     }
   }
 
@@ -69,7 +73,10 @@ class _NotificationPageState extends State<NotificationPage> {
         } else if (state is NotificationLoadSuccess) {
           final notifications = state.notificationListResponse.notifications;
           if (notifications.isEmpty) {
-            return Center(child: Text('No notifications'));
+            return Padding(
+              padding: EdgeInsets.only(top: 190.h),
+              child: NotificationEmpty(),
+            );
           }
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.w),
