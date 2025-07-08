@@ -17,7 +17,7 @@
 /linux/
 /macos/
 /windows/
-/web/ # If this contains generated output
+
 
 # Environment variables
 .env
