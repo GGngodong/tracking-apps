@@ -25,8 +25,8 @@ mixin SplashScreenMixin on State<SplashScreen> {
 
   void _listener(LoginState state,
       {required LoginBloc loginBloc,
-        required RegisterBloc registerBloc,
-        required ProfileBloc profileBloc}) async {
+      required RegisterBloc registerBloc,
+      required ProfileBloc profileBloc}) async {
     if (!mounted) return;
 
     if (state is ValidateSuccess) {
@@ -56,5 +56,4 @@ mixin SplashScreenMixin on State<SplashScreen> {
       );
     }
   }
-
 }

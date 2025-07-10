@@ -21,16 +21,11 @@ import 'firebase_options.dart';
 
 /// Background handler for FCM messages.
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // Re-initialize Firebase in background isolate
   await Firebase.initializeApp();
   log('Handling a background message: ${message.messageId}');
-
-  // If you want to display a local notification for data-only messages, you'd call
-  // flutterLocalNotificationsPlugin.show(...) here. Currently this only logs.
 }
 
 /// On Android 13+ (API 33+), apps must explicitly request POST_NOTIFICATIONS
-/// at runtime. This helper checks the SDK version and asks for permission if needed.
 Future<void> _requestNotificationPermissionIfNeeded() async {
   if (!Platform.isAndroid) return;
 
@@ -83,7 +78,7 @@ void main() async {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            icon: 'ic_notification', // ensure this drawable exists
+            icon: 'ic_notification',
           ),
         ),
         payload: 'Default_Sound',

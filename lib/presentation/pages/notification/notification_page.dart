@@ -75,7 +75,8 @@ class _NotificationPageState extends State<NotificationPage> {
           if (notifications.isEmpty) {
             return Padding(
               padding: EdgeInsets.only(top: 190.h),
-              child: NotificationEmpty(),
+              child: RefreshIndicator(
+                  onRefresh: _fetchNotifications, child: NotificationEmpty()),
             );
           }
           return Padding(

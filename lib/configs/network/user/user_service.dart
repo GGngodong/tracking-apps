@@ -6,6 +6,7 @@ import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/network/user/user_interface.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
+import 'package:tracking_apps/network/api_client.dart';
 
 class UserService extends UserInterface {
   final String _baseUrl = dotenv.env['BASE_URL'] ?? "";
@@ -15,20 +16,14 @@ class UserService extends UserInterface {
   Future<HttpResponseModel> login(
       {required String email, required String password}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/login');
-
-      var response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
-        },
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-        }),
-      );
-
+      final url = Uri.parse('$_devUrl/users/login');
+      final response = await ApiClient.request((headers) {
+        return http.post(
+          url,
+          headers: headers,
+          body: jsonEncode({'email': email, 'password': password}),
+        );
+      });
       return HttpResponseModel(
         statusCode: response.statusCode,
         data: jsonDecode(response.body)["data"]["token"],
@@ -47,17 +42,16 @@ class UserService extends UserInterface {
     required String email,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/users/forgot-password');
-      var response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
-        },
-        body: jsonEncode({
-          'email': email,
-        }),
-      );
+      final url = Uri.parse('$_devUrl/users/forgot-password');
+      final response = await ApiClient.request((headers) {
+        return http.post(
+          url,
+          headers: headers,
+          body: jsonEncode({
+            'email': email,
+          }),
+        );
+      });
 
       return HttpResponseModel(
         statusCode: response.statusCode,
@@ -80,20 +74,19 @@ class UserService extends UserInterface {
     required String division,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/users');
-      var response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
-        },
-        body: jsonEncode({
-          'username': username,
-          'email': email,
-          'password': password,
-          'division': division,
-        }),
-      );
+      final url = Uri.parse('$_devUrl/users');
+      final response = await ApiClient.request((headers) {
+        return http.post(
+          url,
+          headers: headers,
+          body: jsonEncode({
+            'username': username,
+            'email': email,
+            'password': password,
+            'division': division,
+          }),
+        );
+      });
 
       return HttpResponseModel(
         statusCode: response.statusCode,
@@ -110,14 +103,13 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> delete({required String authToken}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/logout');
-      var response = await http.delete(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $authToken',
-        },
-      );
+      final url = Uri.parse('$_devUrl/users/logout');
+      final response = await ApiClient.request((headers) {
+        return http.delete(
+          url,
+          headers: headers,
+        );
+      });
 
       return HttpResponseModel(
         statusCode: response.statusCode,
@@ -134,15 +126,13 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> getById({required String id}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/$id');
-      var response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Accept': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
-        },
-      );
+      final url = Uri.parse('$_devUrl/users/$id');
+      final response = await ApiClient.request((headers) {
+        return http.get(
+          url,
+          headers: headers,
+        );
+      });
 
       return HttpResponseModel(
         statusCode: response.statusCode,
@@ -158,18 +148,14 @@ class UserService extends UserInterface {
 
   @override
   Future<HttpResponseModel> validate({required String token}) async {
+    final url = Uri.parse('$_devUrl/users/current');
     try {
-      var url = Uri.parse('$_devUrl/users/current');
-      var response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Accept': 'application/json;charset=UTF-8',
-          'Charset': 'utf-8',
+      final response = await ApiClient.request((headers) {
+        return http.get(url, headers: {
+          ...headers,
           'Authorization': 'Bearer $token',
-        },
-      );
-
+        });
+      });
       return HttpResponseModel(
         statusCode: response.statusCode,
         data: jsonDecode(response.body)["data"],
@@ -177,7 +163,8 @@ class UserService extends UserInterface {
       );
     } catch (e) {
       return HttpResponseModel(
-        message: 'An error occurred: $e',
+        statusCode: 401,
+        message: 'Session expired or network error',
       );
     }
   }
@@ -185,13 +172,18 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> update({required UserModel userModel}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/${userModel.id}');
-      var response = await http.put(
-        url,
-        body: jsonEncode({
-          'username': userModel.userName,
-        }),
-      );
+      final url = Uri.parse('$_devUrl/users/${userModel.id}');
+      final response = await ApiClient.request((headers) {
+        return http.put(
+          url,
+          headers: headers,
+          body: jsonEncode({
+            'username': userModel.userName,
+            'email': userModel.email,
+            'division': userModel.division,
+          }),
+        );
+      });
 
       return HttpResponseModel(
         statusCode: response.statusCode,
@@ -224,17 +216,16 @@ class UserService extends UserInterface {
     required String deviceToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/users/update-token');
-      var response = await http.patch(
-        url,
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Authorization': 'Bearer $authToken',
-        },
-        body: jsonEncode({
-          'device_token': deviceToken,
-        }),
-      );
+      final url = Uri.parse('$_devUrl/users/update-token');
+      final response = await ApiClient.request((headers) {
+        return http.patch(
+          url,
+          headers: headers,
+          body: jsonEncode({
+            'device_token': deviceToken,
+          }),
+        );
+      });
 
       return HttpResponseModel(
         statusCode: response.statusCode,

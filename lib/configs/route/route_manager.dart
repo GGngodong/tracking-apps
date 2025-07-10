@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
+import 'package:tracking_apps/network/api_client.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/main_page.dart';
 import 'package:tracking_apps/presentation/pages/beranda/home_page.dart';
@@ -19,6 +20,7 @@ final class RouterManager {
 
   static GoRouter router({required String? userRole}) {
     return GoRouter(
+      navigatorKey: navigatorKey,
       routes: [
         GoRoute(
           path: Routes.initial.path,

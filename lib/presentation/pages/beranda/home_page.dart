@@ -196,7 +196,8 @@ class _HomePageState extends State<HomePage> {
               Header(
                 heightSizedBox: 280.h,
                 imageBg: 'assets/home/dahana-gedung.png',
-                imageFg: 'assets/home/dahana.png',
+                //imageFg: 'assets/home/dahana.png',
+                imageFg: '',
                 height: 100.h,
                 topFg: 90,
                 leftFg: 0,
@@ -291,6 +292,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final permit = state.listPermitLetter[index];
                           return CardSurat(
+                              uploadedBy: permit.uploadedBy,
                               processStatus: permit.processStatus,
                               date: permit.date,
                               categorySurat: permit.categoryPermit,

@@ -17,6 +17,8 @@ import 'package:tracking_apps/presentation/component/title_auth.dart';
 import 'package:tracking_apps/presentation/pages/login/reset/reset_password.dart';
 import 'package:tracking_apps/presentation/pages/register/register.dart';
 
+import '../../blocs/auth/register/register_bloc.dart';
+
 part 'login_mixin.dart';
 
 class LoginPage extends StatefulWidget {
@@ -122,13 +124,18 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                             ),
                             SizedBox(height: 32.h),
                             TitleAuth(
-                              fun: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const RegisterPage(),
-                                ),
-                              ),
+                              fun: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => BlocProvider.value(
+                                      value: BlocProvider.of<RegisterBloc>(
+                                          context),
+                                      child: const RegisterPage(),
+                                    ),
+                                  ),
+                                );
+                              },
                               firstText: 'Belum mempunyai akun?',
                               secondText: ' Daftar',
                             ),
