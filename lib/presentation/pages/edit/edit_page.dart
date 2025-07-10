@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_bottom_choice_chip.dart';
@@ -68,8 +67,8 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     },
                     textEditingController: _statusProcessTextEditingController,
                     listDropdown: [
-                      'Submit',
                       'Verifikasi 1',
+                      'Submit',
                       'Draft',
                       'Penelitian Dokumen',
                       'Verifikasi 2',
@@ -95,8 +94,6 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     hintText: 'No. SI Mabes',
                     header: 'No. SI TERBIT',
                     textController: _noPermitMabesTextEditingController,
-                    validateOnChange: true,
-                    validator: ValidatorHelper.validatePermitNumber,
                     onFieldSubmitted: (value) {
                       _submit(editBloc);
                     },
@@ -104,9 +101,10 @@ class _EditPageState extends State<EditPage> with EditMixin {
                   SizedBox(
                     height: 12.h,
                   ),
-                  CustomTextFieldWithModal(
+                  CustomBottomChoiceOrInput(
                     header: 'Tambahkan catatan',
                     hintText: 'Catatan',
+                    textController: _noteTextEditingController,
                     onTap: () async {
                       final result =
                           await showModalBottomSheet<Map<String, String>>(
@@ -126,17 +124,113 @@ class _EditPageState extends State<EditPage> with EditMixin {
                           choices: [
                             'Dokumen tidak Lengkap',
                             'Nama tidak sesuai',
-                            'Jumlah Tidak Sesuai'
+                            'Jumlah Tidak Sesuai',
+                            'Lainnya'
                           ],
                         ),
                       );
-                      if (result != null) {
+                      if (result == null) return;
+
+                      final pickedValues = [
+                        result['firstValue'],
+                        result['secondValue'],
+                        result['thirdValue'],
+                      ];
+                      final hasOther = pickedValues.any((v) => v == 'Lainnya');
+                      if (hasOther) {
+                        final otherController = TextEditingController();
+                        final otherText = await showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                            insetPadding:
+                                EdgeInsets.symmetric(horizontal: 16.w),
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(16.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Masukkan catatan Anda di bawah ini:',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Satoshi',
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  SizedBox(height: 16.h),
+                                  TextField(
+                                    controller: otherController,
+                                    maxLines: 3,
+                                    decoration: InputDecoration(
+                                      hintText: 'Masukkan catatan Anda...',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 16.h),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(null),
+                                          child: Text(
+                                            'Batal',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Satoshi',
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.primary,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                            ),
+                                          ),
+                                          onPressed: () => Navigator.of(context)
+                                              .pop(otherController.text),
+                                          child: Text(
+                                            'OK',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Satoshi',
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+
+                        if (otherText != null && otherText.trim().isNotEmpty) {
+                          setState(() {
+                            _noteTextEditingController.text = otherText.trim();
+                          });
+                        }
+                      } else {
                         setState(() {
                           _firstValue = result['firstValue']!;
                           _secondValue = result['secondValue']!;
                           _thirdValue = result['thirdValue']!;
                           _noteTextEditingController.text =
-                              '1. ${result['firstValue']}\n2. ${result['secondValue']}\n3. ${result['thirdValue']}';
+                              '1. $_firstValue\n2. $_secondValue\n3. $_thirdValue';
                         });
                       }
                     },

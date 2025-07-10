@@ -97,6 +97,7 @@ class _PermitReleaseState extends State<PermitRelease> {
         itemBuilder: (context, i) {
           final permit = state.listPermitLetter[i];
           return CardSurat(
+            uploadedBy: permit.uploadedBy,
             date: permit.date,
             categorySurat: permit.categoryPermit,
             namaDokumen: permit.description,

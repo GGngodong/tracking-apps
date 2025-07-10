@@ -60,22 +60,7 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Detail Surat',
-          style: TextStyle(
-            fontSize: 20.sp,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'Satoshi',
-            color: Colors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(gradient: headerAppBar),
-        ),
-        centerTitle: true,
-        elevation: 0,
-      ),
+      appBar: _appBar(),
       body: BlocListener<DetailPermitLetterBloc, DetailPermitLetterState>(
         listener: (context, state) {
           if (state is DetailPermitLetterFailedState) {
@@ -100,6 +85,93 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
           },
         ),
       ),
+    );
+  }
+
+  AppBar _appBar() {
+    final editBloc = BlocProvider.of<EditBloc>(context);
+    return AppBar(
+      title: Text(
+        'Detail Surat',
+        style: TextStyle(
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w700,
+          fontFamily: 'Satoshi',
+          color: Colors.white,
+        ),
+      ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(gradient: headerAppBar),
+      ),
+      centerTitle: true,
+      elevation: 0,
+      actions: [
+        widget.role == 'ADMIN'
+            ? PopupMenuButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r)),
+                color: Colors.white,
+                onSelected: (value) {
+                  if (value == 'Delete') {
+                    AppHelper.showCustomAlertDialog(
+                        title: 'Delete Permit',
+                        context: context,
+                        content:
+                            'Are you sure you want to delete this document?',
+                        onNegativePressed: () => Navigator.of(context).pop(),
+                        negativeButtonText: 'Cancel',
+                        onPositivePressed: () async {
+                          editBloc.add(
+                            DeleteDataButtonPressed(
+                              id: widget.id,
+                            ),
+                          );
+                          Navigator.of(context).pop();
+                          Future.delayed(Duration(milliseconds: 300));
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                        });
+                  }
+                  if (value == 'Edit') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditPage(
+                          id: widget.id.toString(),
+                        ),
+                      ),
+                    );
+                  }
+                },
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: 'Edit',
+                    child: Text(
+                      'Edit Permit',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Satoshi',
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 'Delete',
+                    child: Text(
+                      'Delete Permit',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Satoshi',
+                        color: Colors.red[500],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : const SizedBox.shrink(),
+      ],
     );
   }
 
@@ -152,7 +224,6 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
   }
 
   Widget _loadedBody(DetailPermitLetterLoadedState state) {
-    final editBloc = BlocProvider.of<EditBloc>(context);
     return RefreshIndicator(
       color: AppColors.primary,
       onRefresh: _refresh,
@@ -161,6 +232,10 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 10.h),
+            _buildRow('Pembuat Permohonan', state.permit.uploadedBy),
+            SizedBox(height: 10.h),
+            _buildRow('Telah Di edit oleh', state.permit.editedBy),
             SizedBox(height: 10.h),
             _buildRow('Nama Surat', state.permit.description),
             SizedBox(height: 10.h),
@@ -260,76 +335,6 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
               },
             ),
             SizedBox(height: 20.h),
-            widget.role == 'ADMIN'
-                ? Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFE02020),
-                          ),
-                          onPressed: () {
-                            AppHelper.showCustomAlertDialog(
-                                title: 'Delete Permit',
-                                context: context,
-                                content:
-                                    'Are you sure you want to delete this document?',
-                                onNegativePressed: () =>
-                                    Navigator.of(context).pop(),
-                                negativeButtonText: 'Cancel',
-                                onPositivePressed: () async {
-                                  editBloc.add(
-                                    DeleteDataButtonPressed(
-                                      id: widget.id,
-                                    ),
-                                  );
-                                  Navigator.of(context).pop();
-                                  Future.delayed(Duration(milliseconds: 300));
-                                  Navigator.of(context)
-                                      .popUntil((route) => route.isFirst);
-                                });
-                          },
-                          child: Text(
-                            'Delete Permit',
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF39B43B),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EditPage(
-                                  id: state.permit.id.toString(),
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'Edit',
-                            style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Satoshi',
-                                color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : SizedBox(),
           ],
         ),
       ),

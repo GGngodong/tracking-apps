@@ -204,6 +204,7 @@ class _SearchPageState extends State<SearchPage> {
                           itemBuilder: (context, index) {
                             final permit = permits[index];
                             return CardSurat(
+                              uploadedBy: permit.uploadedBy,
                               processStatus: permit.processStatus,
                               date: permit.date,
                               uploadStatus: permit.uploadStatus ?? 'Pending',

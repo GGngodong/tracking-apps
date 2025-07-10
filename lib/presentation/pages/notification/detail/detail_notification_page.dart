@@ -262,7 +262,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
       centerTitle: true,
       elevation: 0,
       actions: [
-        PopupMenuButton<String>(
+        PopupMenuButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -290,7 +290,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
             }
           },
           itemBuilder: (context) => [
-            PopupMenuItem<String>(
+            PopupMenuItem(
               value: 'delete',
               child: Text(
                 'Delete Notification',

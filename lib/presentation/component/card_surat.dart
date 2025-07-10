@@ -6,6 +6,7 @@ class CardSurat extends StatelessWidget {
   final String date;
   final String categorySurat;
   final String noSurat;
+  final String uploadedBy;
   final String namaPerusahaan;
   final String namaDokumen;
   final String noSuratIzinMabes;
@@ -17,6 +18,7 @@ class CardSurat extends StatelessWidget {
   final VoidCallback funcDownloadSuratTerbit;
 
   const CardSurat({
+    required this.uploadedBy,
     required this.date,
     required this.categorySurat,
     required this.namaDokumen,
@@ -169,7 +171,33 @@ class CardSurat extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 8.h,
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.person_2_rounded,
+                  size: 14.sp,
+                  color: AppColors.lightGrey,
+                ),
+                SizedBox(
+                  width: 6.w,
+                ),
+                Text(
+                  uploadedBy,
+                  style: TextStyle(
+                    color: AppColors.lightGrey,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Satoshi',
+                    fontSize: 12.sp,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -195,7 +223,7 @@ class CardSurat extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20.h,
+              height: 10.h,
             ),
             Text(
               namaPerusahaan,
@@ -207,7 +235,7 @@ class CardSurat extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 20.h,
+              height: 10.h,
             ),
             Text(
               'Dokumen',
@@ -219,7 +247,7 @@ class CardSurat extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 6.h,
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,

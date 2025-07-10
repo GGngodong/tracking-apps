@@ -10,12 +10,16 @@ class PermitModel {
   String documentUrl;
   String processStatus;
   String categoryAdministration;
+  String uploadedBy;
+  String editedBy;
   String? note;
   String? noPermitMabes;
   String? uploadStatus;
   String? releasedDocumentUrl;
 
   PermitModel({
+    required this.uploadedBy,
+    required this.editedBy,
     required this.id,
     required this.description,
     required this.noPermit,
@@ -46,6 +50,8 @@ class PermitModel {
       'dokumen_url': documentUrl,
       'released_dokumen_url': releasedDocumentUrl ?? '',
       'note': note ?? '',
+      'uploaded_by': uploadedBy,
+      'edited_by': editedBy,
     };
   }
 
@@ -66,6 +72,8 @@ class PermitModel {
       processStatus: map['status_tahapan'] ?? 'No Process Status',
       uploadStatus: map['upload_status'] ?? 'No Upload Status',
       note: map['note'] ?? 'No notes',
+      uploadedBy: map['uploaded_by'] ?? 'Unknown',
+      editedBy: map['edited_by'] ?? 'Haven\'t Edited Yet',
     );
   }
 

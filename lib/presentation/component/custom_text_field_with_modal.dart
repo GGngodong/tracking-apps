@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
-class CustomTextFieldWithModal extends StatefulWidget {
+class CustomBottomChoiceOrInput extends StatefulWidget {
   final String header;
   final String hintText;
   final void Function(String)? onFieldSubmitted;
   final TextEditingController? textController;
   final void Function()? onTap;
 
-  const CustomTextFieldWithModal({
+  const CustomBottomChoiceOrInput({
     super.key,
     required this.header,
     required this.hintText,
@@ -19,11 +19,11 @@ class CustomTextFieldWithModal extends StatefulWidget {
   });
 
   @override
-  State<CustomTextFieldWithModal> createState() =>
-      _CustomTextFieldWithModalState();
+  State<CustomBottomChoiceOrInput> createState() =>
+      _CustomBottomChoiceOrInputState();
 }
 
-class _CustomTextFieldWithModalState extends State<CustomTextFieldWithModal> {
+class _CustomBottomChoiceOrInputState extends State<CustomBottomChoiceOrInput> {
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -62,9 +62,13 @@ class _CustomTextFieldWithModalState extends State<CustomTextFieldWithModal> {
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Text(
-                widget.hintText,
+                (widget.textController?.text.isNotEmpty ?? false)
+                    ? widget.textController!.text
+                    : widget.hintText,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: (widget.textController?.text.isNotEmpty ?? false)
+                      ? Colors.black
+                      : Colors.black.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontFamily: 'Satoshi',
                 ),

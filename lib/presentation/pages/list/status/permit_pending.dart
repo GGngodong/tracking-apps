@@ -102,6 +102,7 @@ class _PermitPendingState extends State<PermitPending> {
           itemBuilder: (context, index) {
             final permit = state.listPermitLetter[index];
             return CardSurat(
+              uploadedBy: permit.uploadedBy,
               date: permit.date,
               categorySurat: permit.categoryPermit,
               namaDokumen: permit.description,
