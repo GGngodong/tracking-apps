@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:tracking_apps/common/shared_preferance_service.dart';
@@ -14,8 +15,11 @@ class ApiClient {
     final token = await SharedPreferencesService.instance
         .getData(PreferenceKey.authToken);
 
+    final apiKey = dotenv.env['X_API_KEY'] ?? '';
+
     final headers = {
       'Content-Type': 'application/json',
+      'X-API-KEY': apiKey,
       if (token != null) 'Authorization': 'Bearer $token',
     };
 

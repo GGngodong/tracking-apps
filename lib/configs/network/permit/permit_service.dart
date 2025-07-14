@@ -13,6 +13,7 @@ import 'package:tracking_apps/domain/entity/permit_model.dart';
 class PermitService extends PermitInterface {
   final String _baseUrl = dotenv.env['BASE_URL'] ?? "";
   final String _devUrl = dotenv.env['DEV_URL'] ?? "";
+  final apiKey = dotenv.env['X_API_KEY'] ?? '';
 
   @override
   Future<HttpResponseModel<PermitListResponse>> getListPermit({
@@ -26,6 +27,7 @@ class PermitService extends PermitInterface {
           'Content-Type': 'application/json;charset=UTF-8',
           'Accept': 'application/json;charset=UTF-8',
           'Charset': 'utf-8',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
@@ -64,6 +66,7 @@ class PermitService extends PermitInterface {
           'Content-Type': 'application/json;charset=UTF-8',
           'Accept': 'application/json;charset=UTF-8',
           'Charset': 'utf-8',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
@@ -119,7 +122,12 @@ class PermitService extends PermitInterface {
       if (noPermitMabes != null) {
         request.fields['produk_no_surat_mabes'] = noPermitMabes;
       }
-      request.headers['Authorization'] = 'Bearer $authToken';
+
+      request.headers.addAll({
+        'X-API-KEY': apiKey,
+        'Authorization': 'Bearer $authToken',
+      });
+
       final mimeType = lookupMimeType(documentUrl);
 
       if (documentUrl != null) {
@@ -208,7 +216,10 @@ class PermitService extends PermitInterface {
         request.fields['note'] = note;
       }
 
-      request.headers['Authorization'] = 'Bearer $authToken';
+      request.headers.addAll({
+        'X-API-KEY': apiKey,
+        'Authorization': 'Bearer $authToken',
+      });
 
       if (documentUrl != null && documentUrl.isNotEmpty) {
         final mimeType = lookupMimeType(documentUrl);
@@ -259,6 +270,7 @@ class PermitService extends PermitInterface {
         url,
         headers: {
           'Content-Type': 'application/json',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
@@ -317,6 +329,7 @@ class PermitService extends PermitInterface {
         uri,
         headers: {
           'Content-Type': 'application/json',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
@@ -360,6 +373,7 @@ class PermitService extends PermitInterface {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
         'Charset': 'utf-8',
+        'X-API-KEY': apiKey,
         'Authorization': 'Bearer $authToken',
       });
 
@@ -396,6 +410,7 @@ class PermitService extends PermitInterface {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
         'Charset': 'utf-8',
+        'X-API-KEY': apiKey,
         'Authorization': 'Bearer $authToken',
       });
 
@@ -432,6 +447,7 @@ class PermitService extends PermitInterface {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
         'Charset': 'utf-8',
+        'X-API-KEY': apiKey,
         'Authorization': 'Bearer $authToken',
       });
 
@@ -468,6 +484,7 @@ class PermitService extends PermitInterface {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
         'Charset': 'utf-8',
+        'X-API-KEY': apiKey,
         'Authorization': 'Bearer $authToken',
       });
 
@@ -504,6 +521,7 @@ class PermitService extends PermitInterface {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
         'Charset': 'utf-8',
+        'X-API-KEY': apiKey,
         'Authorization': 'Bearer $authToken',
       });
 

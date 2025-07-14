@@ -10,6 +10,7 @@ import 'package:tracking_apps/domain/entity/notification_model.dart';
 class NotificationService extends NotificationInterface {
   final String _baseUrl = dotenv.env['BASE_URL'] ?? "";
   final String _devUrl = dotenv.env['DEV_URL'] ?? "";
+  final apiKey = dotenv.env['X_API_KEY'] ?? '';
 
   @override
   Future<HttpResponseModel<NotificationListResponse>> getNotification(
@@ -21,6 +22,7 @@ class NotificationService extends NotificationInterface {
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'Accept': 'application/json;charset=UTF-8',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
@@ -60,6 +62,7 @@ class NotificationService extends NotificationInterface {
         url,
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
@@ -88,6 +91,7 @@ class NotificationService extends NotificationInterface {
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'Accept': 'application/json;charset=UTF-8',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
@@ -118,6 +122,7 @@ class NotificationService extends NotificationInterface {
         url,
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
+          'X-API-KEY': apiKey,
           'Authorization': 'Bearer $authToken',
         },
       );
