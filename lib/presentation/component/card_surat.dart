@@ -39,7 +39,17 @@ class CardSurat extends StatelessWidget {
     late Color borderUploadColor = const Color(0xFFBDBDBD);
     late String typeUpload;
     late TextStyle fontUploadSyle;
-    if (uploadStatus == 'PENDING') {
+    if (uploadStatus == 'PROGRESS') {
+      fontUploadSyle = TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+        fontFamily: 'Satoshi',
+      );
+      borderUploadColor = const Color(0xFFA3D5FF);
+      typeUpload = 'PROGRESS';
+    }
+    else if (uploadStatus == 'PENDING') {
       fontUploadSyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,

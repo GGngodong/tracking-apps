@@ -68,4 +68,14 @@ abstract class PermitInterface {
   Future<HttpResponseModel> getReleasePermit({
     required String authToken,
   });
+
+  Future<HttpResponseModel> getProgressPermit({
+    required String authToken,
+  });
+
+
+  Future<HttpResponseModel> getPermitLogs({
+    required String authToken,
+    required String id,
+  });
 }

@@ -39,7 +39,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           companyName: event.companyName,
           date: event.date,
           noPermitMabes: event.noPermitMabes,
-          processStatus: 'Draft Created',
+          processStatus: 'Upload',
           documentUrl: event.documentUrl,
           categoryAdministration: event.categoryAdministration,
           authToken: token,

@@ -61,7 +61,7 @@ class _SearchPageState extends State<SearchPage> {
     if (_searchController.text.isNotEmpty) {
       context.read<SearchBloc>().add(
             SearchPermitLetter(
-              _searchController.text,
+              _searchController.text.trim(),
               _defaultSearchField,
               categoryPermitSearchQuery: _selectedCategory,
               categoryPermitSearchParam:
@@ -94,11 +94,7 @@ class _SearchPageState extends State<SearchPage> {
                   hintText: 'Cari Surat Permohonan',
                   searchType: TypeSearchBar.regular,
                   items: const [],
-                  isSubmitted: (query) {
-                    if (query.isNotEmpty) {
-                      _doSearch();
-                    }
-                  },
+                  isSubmitted: (query) => _doSearch(),
                   onChanged: (value) {},
                 ),
               ),

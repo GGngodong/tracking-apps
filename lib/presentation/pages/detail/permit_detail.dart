@@ -9,6 +9,7 @@ import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/component/document_empty_page.dart';
 import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
 import 'package:tracking_apps/presentation/pages/detail/detailDokumen/detail_pdf.dart';
+import 'package:tracking_apps/presentation/pages/detail/log/permit_tracking.dart';
 import 'package:tracking_apps/presentation/pages/edit/edit_page.dart';
 
 class DetailPermitPage extends StatefulWidget {
@@ -235,8 +236,6 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
             SizedBox(height: 10.h),
             _buildRow('Pembuat Permohonan', state.permit.uploadedBy),
             SizedBox(height: 10.h),
-            _buildRow('Telah Di edit oleh', state.permit.editedBy),
-            SizedBox(height: 10.h),
             _buildRow('Nama Surat', state.permit.description),
             SizedBox(height: 10.h),
             _buildRow('No. Surat', state.permit.noPermit),
@@ -250,7 +249,39 @@ class _DetailPermitPageState extends State<DetailPermitPage> {
             _buildRow('No. Surat Izin Mabes',
                 state.permit.noPermitMabes ?? 'Belum Terbit'),
             SizedBox(height: 10.h),
-            _buildRow('Status Tahapan', state.permit.uploadStatus ?? 'Pending'),
+            _buildRowWithWidget(
+              'Rincian Progres',
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Lihat',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Satoshi',
+                      color: AppColors.lightGrey,
+                    ),
+                    textAlign: TextAlign.end,
+                  ),
+                  SizedBox(width: 5.w),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 12.sp,
+                    color: AppColors.primary,
+                  ),
+                ],
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        PermitTrackingPage(permitId: state.permit.id, permitDescription: state.permit.description, permitNumber: state.permit.noPermit)
+                  ),
+                );
+              },
+            ),
             SizedBox(height: 10.h),
             _buildRow('Proses Status', state.permit.processStatus),
             SizedBox(height: 10.h),

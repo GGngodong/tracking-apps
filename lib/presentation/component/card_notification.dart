@@ -210,6 +210,20 @@ class _CardNotificationState extends State<CardNotification> {
   Widget _buildIcon() {
     if (widget.type == 'user_permit_letter') {
       switch (widget.uploadStatus) {
+        case 'PROGRESS':
+          return Container(
+            width: 30.w,
+            height: 30.h,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: const Color(0xFFA3D5FF), // Light Grey Background
+            ),
+            child: Icon(
+              Icons.autorenew,
+              size: 20.sp,
+              color: Colors.white // Pastel Grey Icon
+            ),
+          );
         case 'PENDING':
           return Container(
             width: 30.w,

@@ -67,6 +67,8 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     },
                     textEditingController: _statusProcessTextEditingController,
                     listDropdown: [
+                      'Saran Polres',
+                      'Rekom. Polda',
                       'Verifikasi 1',
                       'Submit',
                       'Draft',
@@ -85,7 +87,7 @@ class _EditPageState extends State<EditPage> with EditMixin {
                       _submit(editBloc);
                     },
                     textEditingController: _uploadStatusTextEditingController,
-                    listDropdown: ['PENDING', 'REJECTED', 'APPROVED'],
+                    listDropdown: ['PENDING', 'PROGRESS',  'REJECTED', 'APPROVED'],
                   ),
                   SizedBox(
                     height: 12.h,

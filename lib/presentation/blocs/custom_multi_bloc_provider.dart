@@ -6,11 +6,13 @@ import 'package:tracking_apps/configs/network/user/user_service.dart';
 import 'package:tracking_apps/presentation/blocs/auth/reset/reset_password_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/notification/all/notification_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/detail/get_detail_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/detail/logs/get_logs_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/edit/edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/approved/get_approved_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/latest/get_latest_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/pending/get_pending_permit_bloc.dart';
+import 'package:tracking_apps/presentation/blocs/permit/listPermit/progress/get_progress_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/reject/get_reject_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/release/get_permit_release_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/permit/search/search_bloc.dart';
@@ -67,6 +69,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
                 PermitLetterReleaseBloc(permitService: PermitService())),
         BlocProvider(
             create: (context) =>
+                PermitLetterProgressBloc(permitService: PermitService())),
+        BlocProvider(
+            create: (context) =>
                 NotificationBloc(notificationService: NotificationService())),
         BlocProvider(
             create: (context) => NotificationDetailBloc(
@@ -76,6 +81,9 @@ class CustomMultiBlocProvider extends StatelessWidget {
                 notificationService: NotificationService())),
         BlocProvider(
           create: (context) => ResetPasswordBloc(userService: UserService()),
+        ),
+        BlocProvider(
+          create: (context) => PermitLetterLogBloc(permitService: PermitService()),
         )
       ],
       child: child,

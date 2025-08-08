@@ -4,6 +4,7 @@ import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/presentation/component/custom_tab_bar_2.dart';
 import 'package:tracking_apps/presentation/pages/list/permit/list_surat.dart';
 import 'package:tracking_apps/presentation/pages/list/permit/terbit.dart';
+import 'package:tracking_apps/presentation/pages/list/status/permit_progress.dart';
 
 class SelengkapnyaPage extends StatefulWidget {
   const SelengkapnyaPage({super.key});
@@ -37,10 +38,12 @@ class _SelengkapnyaPageState extends State<SelengkapnyaPage> {
         child: CustomTabBar2(
           tabs: [
             Tab(child: Text('Semua')),
-            Tab(child: Text('SI/TERBIT')),
+            Tab(child: Text('Progress')),
+            Tab(child: Text('Release')),
           ],
           tabViews: [
             ListSuratPage(),
+            PermitProgress(),
             TerbitPage(),
           ],
         ),

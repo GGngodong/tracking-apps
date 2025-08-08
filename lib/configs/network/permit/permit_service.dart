@@ -8,6 +8,8 @@ import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/network/permit/permit_interface.dart';
 import 'package:tracking_apps/domain/entity/permit_list_response.dart';
+import 'package:tracking_apps/domain/entity/permit_log_list_response.dart';
+import 'package:tracking_apps/domain/entity/permit_log_model.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 class PermitService extends PermitInterface {
@@ -117,7 +119,7 @@ class PermitService extends PermitInterface {
       request.fields['kategori_permit_letter'] = categoryPermit;
       request.fields['nama_pt'] = companyName;
       request.fields['tanggal'] = date;
-      request.fields['status_tahapan'] = processStatus ?? 'Draft Created';
+      request.fields['status_tahapan'] = processStatus ?? 'Upload';
       request.fields['sub_kategori_permit_letter'] = categoryAdministration;
       if (noPermitMabes != null) {
         request.fields['produk_no_surat_mabes'] = noPermitMabes;
@@ -540,6 +542,80 @@ class PermitService extends PermitInterface {
           statusCode: response.statusCode,
           message:
               jsonDecode(response.body)['message'] ?? 'Error Fetching Permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
+  Future<HttpResponseModel<PermitListResponse>> getProgressPermit({
+    required String authToken,
+  }) async {
+    try {
+      var url = Uri.parse('$_devUrl/permit-letters/progress');
+      var response = await http.get(url, headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Accept': 'application/json;charset=UTF-8',
+        'Charset': 'utf-8',
+        'X-API-KEY': apiKey,
+        'Authorization': 'Bearer $authToken',
+      });
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final pendingListResponse =
+        PermitListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: pendingListResponse,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+          jsonDecode(response.body)['message'] ?? 'Error Fetching Permits',
+          status: 'error',
+        );
+      }
+    } catch (e) {
+      return HttpResponseModel(message: 'Error Fetching Data $e');
+    }
+  }
+
+  @override
+  Future<HttpResponseModel<PermitLogListResponse>> getPermitLogs(
+      {required String authToken, required String id}) async {
+    try {
+      var url = Uri.parse('$_devUrl/permit-letters/$id/logs');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Accept': 'application/json;charset=UTF-8',
+          'Charset': 'utf-8',
+          'X-API-KEY': apiKey,
+          'Authorization': 'Bearer $authToken',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        final permitLogModel = PermitLogListResponse.fromMap(jsonResponse as Map<String, dynamic>);
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          data: permitLogModel,
+          status: jsonResponse['status'],
+          message: jsonResponse['message'],
+        );
+      } else {
+        return HttpResponseModel(
+          statusCode: response.statusCode,
+          message:
+              jsonDecode(response.body)['message'] ?? 'Error fetching permits',
           status: 'error',
         );
       }
