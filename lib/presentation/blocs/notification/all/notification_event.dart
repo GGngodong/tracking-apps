@@ -9,6 +9,7 @@ abstract class NotificationEvent extends Equatable {
 
 class LoadNotifications extends NotificationEvent {
   final String authToken;
+
   const LoadNotifications({required this.authToken});
 
   @override

@@ -26,22 +26,34 @@ mixin SplashScreenMixin on State<SplashScreen> {
   void _listener(LoginState state,
       {required LoginBloc loginBloc,
       required RegisterBloc registerBloc,
-      required ProfileBloc profileBloc}) {
+      required ProfileBloc profileBloc}) async {
+    if (!mounted) return;
+
     if (state is ValidateSuccess) {
       profileBloc.add(SetUser(user: state.user));
       registerBloc.add(const ClearRegisterData());
-      context.go(Routes.login.path);
-      _checkValues(state.user)
-          ? context.go(Routes.navigation.path)
-          : context.go(Routes.profile.path);
+
+      if (_checkValues(state.user)) {
+        context.go(Routes.navigation.path);
+      } else {
+        context.go(Routes.profile.path);
+      }
     } else if (state is ValidateFailed) {
       loginBloc.add(LogoutButtonPressed(authToken: ''));
       registerBloc.add(const ClearRegisterData());
+
+      if (!mounted) return;
       context.go(Routes.login.path);
+
+      if (!mounted) return;
       AppHelper.showCustomAlertDialog(
-          onPositivePressed: () => Navigator.pop(context),
-          context: context,
-          content: 'Session Expired! Please login again.');
+        onPositivePressed: () {
+          Navigator.pop(context);
+          context.go(Routes.login.path);
+        },
+        context: context,
+        content: 'Session Expired! Please login again.',
+      );
     }
   }
 }

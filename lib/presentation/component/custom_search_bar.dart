@@ -36,6 +36,7 @@ class CustomSearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<CustomSearchBar> {
   String? selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -167,17 +168,17 @@ class _SearchBarState extends State<CustomSearchBar> {
               ),
               items: widget.items
                   .map((item) => DropdownMenuItem<String>(
-                value: item,
-                child: Text(
-                  item,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: const Color.fromRGBO(16, 24, 40, 1),
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ))
+                        value: item,
+                        child: Text(
+                          item,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: const Color.fromRGBO(16, 24, 40, 1),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ))
                   .toList(),
               onChanged: (value) {
                 setState(() {

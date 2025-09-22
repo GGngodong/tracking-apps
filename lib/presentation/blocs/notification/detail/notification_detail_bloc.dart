@@ -7,7 +7,8 @@ import 'package:tracking_apps/domain/entity/notification_model.dart';
 part 'notification_detail_event.dart';
 part 'notification_detail_state.dart';
 
-class NotificationDetailBloc extends Bloc<NotificationDetailEvent, NotificationDetailState> {
+class NotificationDetailBloc
+    extends Bloc<NotificationDetailEvent, NotificationDetailState> {
   final NotificationService notificationService;
 
   NotificationDetailBloc({required this.notificationService})
@@ -15,8 +16,8 @@ class NotificationDetailBloc extends Bloc<NotificationDetailEvent, NotificationD
     on<LoadNotificationDetail>(_onLoadNotificationDetail);
   }
 
-  Future<void> _onLoadNotificationDetail(
-      LoadNotificationDetail event, Emitter<NotificationDetailState> emit) async {
+  Future<void> _onLoadNotificationDetail(LoadNotificationDetail event,
+      Emitter<NotificationDetailState> emit) async {
     emit(NotificationDetailLoading());
     try {
       HttpResponseModel response = await notificationService.detailNotification(

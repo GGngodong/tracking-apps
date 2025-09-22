@@ -103,16 +103,16 @@ class AppHelper {
           ),
           title: title != null
               ? Center(
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Satoshi',
-              ),
-            ),
-          )
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Satoshi',
+                    ),
+                  ),
+                )
               : null,
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -150,7 +150,7 @@ class AppHelper {
                       ),
                     ),
                     onPressed:
-                    onPositivePressed ?? () => Navigator.of(context).pop(),
+                        onPositivePressed ?? () => Navigator.of(context).pop(),
                     child: Text(
                       positiveButtonText,
                       style: TextStyle(
@@ -172,7 +172,7 @@ class AppHelper {
                       ),
                     ),
                     onPressed:
-                    onNegativePressed ?? () => Navigator.of(context).pop(),
+                        onNegativePressed ?? () => Navigator.of(context).pop(),
                     child: Text(
                       negativeButtonText,
                       style: TextStyle(
@@ -196,7 +196,7 @@ class AppHelper {
                     ),
                   ),
                   onPressed:
-                  onPositivePressed ?? () => Navigator.of(context).pop(),
+                      onPositivePressed ?? () => Navigator.of(context).pop(),
                   child: Text(
                     positiveButtonText,
                     style: TextStyle(

@@ -1,8 +1,10 @@
 part of 'profile_bloc.dart';
+
 class ProfileState extends Equatable {
   final UserModel? user;
   final String? message;
   final bool isLoading;
+
   const ProfileState({this.user, this.message, this.isLoading = false});
 
   @override

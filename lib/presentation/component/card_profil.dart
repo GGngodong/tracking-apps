@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/presentation/component/ink_effect.dart';
 
 class CardProfile extends StatelessWidget {
   final String division;
@@ -39,7 +38,7 @@ class CardProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                'assets/icons/user-profile.png',
+                'assets/icons/user_profile.png',
                 width: 64.w,
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
@@ -53,7 +52,7 @@ class CardProfile extends StatelessWidget {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: AppColors.secondary,
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: const [
                         BoxShadow(

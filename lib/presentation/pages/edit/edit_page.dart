@@ -11,6 +11,7 @@ import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field_with_modal.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
+import 'package:tracking_apps/presentation/component/pdf_upload.dart';
 
 part 'edit_mixin.dart';
 
@@ -66,8 +67,10 @@ class _EditPageState extends State<EditPage> with EditMixin {
                     },
                     textEditingController: _statusProcessTextEditingController,
                     listDropdown: [
-                      'Submit',
+                      'Saran Polres',
+                      'Rekom. Polda',
                       'Verifikasi 1',
+                      'Submit',
                       'Draft',
                       'Penelitian Dokumen',
                       'Verifikasi 2',
@@ -84,14 +87,14 @@ class _EditPageState extends State<EditPage> with EditMixin {
                       _submit(editBloc);
                     },
                     textEditingController: _uploadStatusTextEditingController,
-                    listDropdown: ['PENDING', 'REJECTED', 'APPROVED'],
+                    listDropdown: ['PENDING', 'PROGRESS',  'REJECTED', 'APPROVED'],
                   ),
                   SizedBox(
                     height: 12.h,
                   ),
                   CustomTextField(
-                    hintText: 'No. Produk Mabes',
-                    header: 'Produk Mabes',
+                    hintText: 'No. SI Mabes',
+                    header: 'No. SI TERBIT',
                     textController: _noPermitMabesTextEditingController,
                     onFieldSubmitted: (value) {
                       _submit(editBloc);
@@ -100,9 +103,10 @@ class _EditPageState extends State<EditPage> with EditMixin {
                   SizedBox(
                     height: 12.h,
                   ),
-                  CustomTextFieldWithModal(
+                  CustomBottomChoiceOrInput(
                     header: 'Tambahkan catatan',
                     hintText: 'Catatan',
+                    textController: _noteTextEditingController,
                     onTap: () async {
                       final result =
                           await showModalBottomSheet<Map<String, String>>(
@@ -122,17 +126,113 @@ class _EditPageState extends State<EditPage> with EditMixin {
                           choices: [
                             'Dokumen tidak Lengkap',
                             'Nama tidak sesuai',
-                            'Jumlah Tidak Sesuai'
+                            'Jumlah Tidak Sesuai',
+                            'Lainnya'
                           ],
                         ),
                       );
-                      if (result != null) {
+                      if (result == null) return;
+
+                      final pickedValues = [
+                        result['firstValue'],
+                        result['secondValue'],
+                        result['thirdValue'],
+                      ];
+                      final hasOther = pickedValues.any((v) => v == 'Lainnya');
+                      if (hasOther) {
+                        final otherController = TextEditingController();
+                        final otherText = await showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                            insetPadding:
+                                EdgeInsets.symmetric(horizontal: 16.w),
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(16.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Masukkan catatan Anda di bawah ini:',
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'Satoshi',
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  SizedBox(height: 16.h),
+                                  TextField(
+                                    controller: otherController,
+                                    maxLines: 3,
+                                    decoration: InputDecoration(
+                                      hintText: 'Masukkan catatan Anda...',
+                                      border: OutlineInputBorder(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 16.h),
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(null),
+                                          child: Text(
+                                            'Batal',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Satoshi',
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 8.w),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.primary,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                            ),
+                                          ),
+                                          onPressed: () => Navigator.of(context)
+                                              .pop(otherController.text),
+                                          child: Text(
+                                            'OK',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Satoshi',
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+
+                        if (otherText != null && otherText.trim().isNotEmpty) {
+                          setState(() {
+                            _noteTextEditingController.text = otherText.trim();
+                          });
+                        }
+                      } else {
                         setState(() {
                           _firstValue = result['firstValue']!;
                           _secondValue = result['secondValue']!;
                           _thirdValue = result['thirdValue']!;
                           _noteTextEditingController.text =
-                              '1. ${result['firstValue']}\n2. ${result['secondValue']}\n3. ${result['thirdValue']}';
+                              '1. $_firstValue\n2. $_secondValue\n3. $_thirdValue';
                         });
                       }
                     },
@@ -140,20 +240,49 @@ class _EditPageState extends State<EditPage> with EditMixin {
                   SizedBox(
                     height: 12.h,
                   ),
+                  buildPdfPicker(),
+                  SizedBox(
+                    height: 12.h,
+                  ),
                   CustomButton(
                     text: 'Edit Dokumen',
-                    onPressed: () => AppHelper.showCustomAlertDialog(
-                      context: context,
-                      title: 'Edit Dokumen',
-                      content: 'Are you sure want to edit this document?',
-                      onPositivePressed: () {
-                        _submit(editBloc);
-                        Navigator.of(context).pop();
-                      },
-                      onNegativePressed: () => Navigator.of(context).pop(),
-                      negativeButtonText: 'Cancel',
-                    ),
-                    isLogOut: false, isLoading: state.isLoading,
+                    onPressed: () {
+                      if (_statusProcessTextEditingController.text
+                          .trim()
+                          .isEmpty) {
+                        AppHelper.showCustomAlertDialog(
+                          context: context,
+                          title: 'Bagian ini harus di isi!',
+                          content: 'Silahkan pilih proses tahapan.',
+                          onPositivePressed: () => Navigator.pop(context),
+                        );
+                        return;
+                      }
+                      if (_uploadStatusTextEditingController.text
+                          .trim()
+                          .isEmpty) {
+                        AppHelper.showCustomAlertDialog(
+                          context: context,
+                          title: 'Bagian ini harus di isi!',
+                          content: 'Silahkan pilih status.',
+                          onPositivePressed: () => Navigator.pop(context),
+                        );
+                        return;
+                      }
+                      AppHelper.showCustomAlertDialog(
+                        context: context,
+                        title: 'Edit Dokumen',
+                        content: 'Are you sure want to edit this document?',
+                        onPositivePressed: () {
+                          _submit(editBloc);
+                          Navigator.of(context).pop();
+                        },
+                        onNegativePressed: () => Navigator.of(context).pop(),
+                        negativeButtonText: 'Cancel',
+                      );
+                    },
+                    isLogOut: false,
+                    isLoading: state.isLoading,
                   ),
                 ],
               ),

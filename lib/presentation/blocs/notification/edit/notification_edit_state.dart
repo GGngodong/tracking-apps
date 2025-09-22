@@ -13,6 +13,7 @@ class NotificationEditLoading extends NotificationEditState {}
 
 class MarkNotificationSuccess extends NotificationEditState {
   final String message;
+
   const MarkNotificationSuccess({required this.message});
 
   @override
@@ -21,6 +22,7 @@ class MarkNotificationSuccess extends NotificationEditState {
 
 class MarkNotificationFailure extends NotificationEditState {
   final String error;
+
   const MarkNotificationFailure({required this.error});
 
   @override
@@ -29,6 +31,7 @@ class MarkNotificationFailure extends NotificationEditState {
 
 class DeleteNotificationSuccess extends NotificationEditState {
   final String message;
+
   const DeleteNotificationSuccess({required this.message});
 
   @override
@@ -37,6 +40,7 @@ class DeleteNotificationSuccess extends NotificationEditState {
 
 class DeleteNotificationFailure extends NotificationEditState {
   final String error;
+
   const DeleteNotificationFailure({required this.error});
 
   @override

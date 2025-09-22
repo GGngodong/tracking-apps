@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
@@ -13,11 +12,12 @@ class CustomTabBar extends StatefulWidget {
 
   CustomTabBar(
       {super.key,
-        required this.tabs,
-        required this.tabViews,
-        this.onTap,
-        this.onTabIndexChanged,
-        this.tabGO = 0});
+      required this.tabs,
+      required this.tabViews,
+      this.onTap,
+      this.onTabIndexChanged,
+      this.tabGO = 0});
+
   @override
   State<CustomTabBar> createState() => _CustomTabBarState();
 }
@@ -34,8 +34,7 @@ class _CustomTabBarState extends State<CustomTabBar>
 
     _tabController.addListener(() {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        setState(() {
-        });
+        setState(() {});
 
         if (widget.onTabIndexChanged != null) {
           widget.onTabIndexChanged!(_tabController.index);
@@ -84,8 +83,7 @@ class _CustomTabBarState extends State<CustomTabBar>
                       labelStyle: TextStyle(
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w700,
-                          fontFamily: 'Satoshi'
-                      ),
+                          fontFamily: 'Satoshi'),
                       indicatorPadding: EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: -5,
@@ -110,39 +108,39 @@ class _CustomTabBarState extends State<CustomTabBar>
                 _tabController.index == 0
                     ? Align()
                     : Align(
-                  heightFactor: 2.w,
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () {
-                      _tabController.animateTo(
-                        _tabController.index - 1,
-                      );
-                    },
-                    icon: Icon(
-                      Icons.navigate_before,
-                      size: 24.sp,
-                      color: Color.fromRGBO(102, 102, 102, 1),
-                    ),
-                  ),
-                ),
+                        heightFactor: 2.w,
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                          onPressed: () {
+                            _tabController.animateTo(
+                              _tabController.index - 1,
+                            );
+                          },
+                          icon: Icon(
+                            Icons.navigate_before,
+                            size: 24.sp,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
+                      ),
                 _tabController.index == _tabController.length - 1
                     ? Align()
                     : Align(
-                  heightFactor: 2.w,
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    onPressed: () {
-                      _tabController.animateTo(
-                        _tabController.index + 1,
-                      );
-                    },
-                    icon: Icon(
-                      Icons.navigate_next,
-                      size: 24.sp,
-                      color: Color.fromRGBO(102, 102, 102, 1),
-                    ),
-                  ),
-                ),
+                        heightFactor: 2.w,
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          onPressed: () {
+                            _tabController.animateTo(
+                              _tabController.index + 1,
+                            );
+                          },
+                          icon: Icon(
+                            Icons.navigate_next,
+                            size: 24.sp,
+                            color: Color.fromRGBO(102, 102, 102, 1),
+                          ),
+                        ),
+                      ),
               ],
             ),
           ),

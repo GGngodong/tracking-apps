@@ -8,4 +8,3 @@ abstract class PermitLetterLatestEvent extends Equatable {
 }
 
 class GetListPermitLetter extends PermitLetterLatestEvent {}
-

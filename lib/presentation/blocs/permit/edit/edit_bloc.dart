@@ -1,21 +1,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/permit/permit_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'edit_event.dart';
-
 part 'edit_state.dart';
 
 class EditBloc extends Bloc<EditEvent, EditState> {
-  final UserService userService;
+  final PermitService permitService;
 
-  EditBloc({required this.userService}) : super(const EditState()) {
+  EditBloc({required this.permitService}) : super(const EditState()) {
     on<UpdateDataButtonPressed>((event, emit) async {
       emit(const EditState(isLoading: true));
       try {
-        final token = await userService.getAuthTokenFromSP();
+        final token = await permitService.getAuthTokenFromSP();
         if (token == null) {
           emit(EditFailedState(
             message: 'User is not authenticated. Please log in.',
@@ -29,16 +28,17 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         print('================== SENDING API REQUEST ==================');
         print('ID: ${event.id}, Status Tahapan: ${event.processStatus}');
         HttpResponseModel<dynamic> updateResponse =
-            await userService.updatePermit(
+            await permitService.updatePermit(
           id: event.id,
           processStatus: event.processStatus,
           noProdukMabes: event.noProdukMabes,
           uploadStatus: event.uploadStatus,
           note: event.note,
+          documentUrl: event.documentUrl,
           authToken: token,
         );
         if (updateResponse.statusCode == 200) {
-          final permit = PermitModel.fromMap(updateResponse.data);
+          final permit = updateResponse.data as PermitModel;
           emit(EditSuccessState(
               permit: permit,
               message: updateResponse.message,
@@ -60,7 +60,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
     on<DeleteDataButtonPressed>((event, emit) async {
       emit(const EditState(isLoading: true));
       try {
-        final token = await userService.getAuthTokenFromSP();
+        final token = await permitService.getAuthTokenFromSP();
         if (token == null) {
           emit(EditFailedState(
             message: 'User is not authenticated. Please log in.',
@@ -75,7 +75,7 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         print('Deleting Permit with ID: ${event.id}');
 
         HttpResponseModel<dynamic> deleteResponse =
-        await userService.deletePermit(id: event.id, authToken: token);
+            await permitService.deletePermit(id: event.id, authToken: token);
 
         print('================== DELETE RESPONSE RECEIVED ==================');
         print('Status Code: ${deleteResponse.statusCode}');
@@ -86,7 +86,8 @@ class EditBloc extends Bloc<EditEvent, EditState> {
             message: deleteResponse.message,
             isLoading: false,
           ));
-          print('================== PERMIT SUCCESSFULLY DELETED ==================');
+          print(
+              '================== PERMIT SUCCESSFULLY DELETED ==================');
         } else {
           emit(EditFailedState(
             message: deleteResponse.message,
@@ -104,6 +105,5 @@ class EditBloc extends Bloc<EditEvent, EditState> {
         print(e.toString());
       }
     });
-
   }
 }

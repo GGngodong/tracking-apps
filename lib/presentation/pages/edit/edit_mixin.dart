@@ -6,6 +6,7 @@ mixin EditMixin on State<EditPage> {
   late TextEditingController _uploadStatusTextEditingController;
   late TextEditingController _noteTextEditingController;
   late String? _authToken;
+  String? _documentUrl;
 
   @override
   void initState() {
@@ -65,12 +66,22 @@ mixin EditMixin on State<EditPage> {
     }
   }
 
+  Widget buildPdfPicker() {
+    return PdfUpload(
+      header: 'Upload Document',
+      onFileSelected: (String? filePath) {
+        setState(() {
+          _documentUrl = filePath ?? '';
+          print('============== PDF UPLOAD FILE : $filePath ==============');
+        });
+        Future.delayed(Duration(milliseconds: 100), () {
+          print('Updated document URL: $_documentUrl');
+        });
+      },
+    );
+  }
+
   void _submit(EditBloc editBloc) {
-    print('=======================================================');
-    print('Upload Status: ${_uploadStatusTextEditingController.text}');
-    print('Status Tahapan: ${_statusProcessTextEditingController.text}');
-    print('No Permit Mabes: ${_noPermitMabesTextEditingController.text}');
-    print('================== CURRENT : $editBloc ==================');
     editBloc.add(
       UpdateDataButtonPressed(
         id: widget.id,
@@ -78,6 +89,7 @@ mixin EditMixin on State<EditPage> {
         processStatus: _statusProcessTextEditingController.text.trim(),
         uploadStatus: _uploadStatusTextEditingController.text.trim(),
         note: _noteTextEditingController.text.trim(),
+        documentUrl: _documentUrl,
       ),
     );
   }

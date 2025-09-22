@@ -1,5 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,20 +6,18 @@ import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/generated/locale_keys.g.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
-import 'package:tracking_apps/presentation/blocs/auth/register/register_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
-import 'package:tracking_apps/presentation/component/divider_text.dart';
 import 'package:tracking_apps/presentation/component/header.dart';
 import 'package:tracking_apps/presentation/component/header_title.dart';
-import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
-import 'package:tracking_apps/presentation/main_page.dart';
 import 'package:tracking_apps/presentation/pages/login/reset/reset_password.dart';
 import 'package:tracking_apps/presentation/pages/register/register.dart';
+
+import '../../blocs/auth/register/register_bloc.dart';
 
 part 'login_mixin.dart';
 
@@ -52,7 +48,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                       Header(
                         heightSizedBox: 250.h,
                         imageBg: 'assets/home/indonesia-nobg.png',
-                        imageFg: 'assets/home/dahana.png',
+                        // imageFg: 'assets/home/dahana.png',
+                        imageFg: '',
                         height: 100.h,
                         topFg: 80,
                         leftFg: 0,
@@ -76,6 +73,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               textController: _emailTextEditingController,
                               hintText: 'Masukan email anda',
                               header: 'Email',
+                              validator: ValidatorHelper.validateEmail,
+                              validateOnChange: true,
                               onFieldSubmitted: (value) {
                                 _submit(_loginBloc);
                               },
@@ -85,6 +84,8 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               textController: _passwordTextEditingController,
                               hintText: 'Masukan password anda',
                               header: 'Password',
+                              validator: ValidatorHelper.validatePassword,
+                              validateOnChange: true,
                               isPassword: true,
                               onFieldSubmitted: (value) {
                                 _submit(_loginBloc);
@@ -122,18 +123,19 @@ class _LoginPageState extends State<LoginPage> with LoginMixin {
                               isLogOut: false,
                             ),
                             SizedBox(height: 32.h),
-                            // const DividerText(text: 'Masuk dengan'),
-                            // // SizedBox(height: 32.h),
-                            // // const SocialMediaButton(),
-                            // SizedBox(height: 32.h),
                             TitleAuth(
-                              fun: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const RegisterPage(),
-                                ),
-                              ),
+                              fun: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (ctx) => BlocProvider.value(
+                                      value: BlocProvider.of<RegisterBloc>(
+                                          context),
+                                      child: const RegisterPage(),
+                                    ),
+                                  ),
+                                );
+                              },
                               firstText: 'Belum mempunyai akun?',
                               secondText: ' Daftar',
                             ),

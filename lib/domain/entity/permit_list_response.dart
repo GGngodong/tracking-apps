@@ -26,4 +26,3 @@ class PermitListResponse {
 
   String toJson() => json.encode(toMap());
 }
-

@@ -1,17 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/download_helper.dart';
 import 'package:tracking_apps/presentation/blocs/permit/listPermit/reject/get_reject_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/document_empty.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class PermitReject extends StatefulWidget {
   const PermitReject({super.key});
@@ -38,9 +37,10 @@ class _PermitRejectState extends State<PermitReject> {
     });
     if (token != null) {
       _fetchPermitLetters();
+    } else {
+      UserUnauthorized();
     }
   }
-
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
@@ -63,9 +63,7 @@ class _PermitRejectState extends State<PermitReject> {
           return RefreshIndicator(
             color: AppColors.primary,
             onRefresh: () async {
-              context
-                  .read<PermitLetterRejectBloc>()
-                  .add(GetListPermitLetter());
+              context.read<PermitLetterRejectBloc>().add(GetListPermitLetter());
             },
             child: _buildBody(state),
           );
@@ -87,14 +85,14 @@ class _PermitRejectState extends State<PermitReject> {
   }
 
   Widget _loadedBody(PermitLetterLoadedState state) {
-    if(state.listPermitLetter.isEmpty) {
+    if (state.listPermitLetter.isEmpty) {
       return Padding(
         padding: EdgeInsets.only(top: 190.h),
         child: DocumentEmpty(),
       );
     } else {
       return SingleChildScrollView(
-        child : ListView.separated(
+        child: ListView.separated(
           shrinkWrap: true,
           primary: false,
           physics: const NeverScrollableScrollPhysics(),
@@ -102,6 +100,7 @@ class _PermitRejectState extends State<PermitReject> {
           itemBuilder: (context, index) {
             final permit = state.listPermitLetter[index];
             return CardSurat(
+              uploadedBy: permit.uploadedBy,
               date: permit.date,
               categorySurat: permit.categoryPermit,
               namaDokumen: permit.description,
@@ -110,52 +109,66 @@ class _PermitRejectState extends State<PermitReject> {
               noSuratIzinMabes: permit.noPermitMabes ?? 'Belum Terbit',
               processStatus: permit.processStatus,
               uploadStatus: permit.uploadStatus ?? 'PENDING',
+              funcDownloadSuratTerbit: () async {
+                final url = permit.releasedDocumentUrl;
+
+                if (url == null ||
+                    url.isEmpty ||
+                    url == 'No Released Document Url') {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text("Permit is not released yet.")),
+                  );
+                  return;
+                }
+
+                final taskId = await DownloadHelper.downloadFile(
+                  url: url,
+                  savedFileName: 'permit_${permit.id}.pdf',
+                  context: context,
+                );
+
+                if (taskId != null) {
+                  debugPrint('Download task enqueued (Surat Terbit): $taskId');
+                }
+              },
+              funcDownloadPermohonan: () async {
+                final url = permit.documentUrl;
+
+                if (url == null || url.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("No document URL available.")),
+                  );
+                  return;
+                }
+
+                final taskId = await DownloadHelper.downloadFile(
+                  url: url,
+                  savedFileName: 'permit_${permit.id}.pdf',
+                  context: context,
+                );
+
+                if (taskId != null) {
+                  debugPrint('Download task enqueued (Permohonan): $taskId');
+                }
+              },
               funcRead: () {
                 final profileState = context.read<ProfileBloc>().state;
                 final role = profileState.user!.role;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => DetailSuratPage(
+                    builder: (BuildContext context) => DetailPermitPage(
                       id: permit.id.toString(),
                       role: role,
                     ),
                   ),
                 );
               },
-              funcDownload: () async {
-                final url = permit.documentUrl;
-                final externalDir = await getExternalStorageDirectory();
-                if (externalDir != null) {
-                  try {
-                    final taskId = await FlutterDownloader.enqueue(
-                      url: url,
-                      savedDir: externalDir.path,
-                      fileName:
-                      'Surat Permohonan ${permit.description}.pdf',
-                      showNotification: true,
-                      openFileFromNotification: true,
-                    );
-                    debugPrint(
-                        'Download task enqueued with taskId: $taskId');
-                  } catch (e) {
-                    print(e);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Download failed: $e")),
-                    );
-                  }
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content:
-                        Text("Unable to access storage directory")),
-                  );
-                }
-              },
               detailSurat: () {
                 BlocBuilder<ProfileBloc, ProfileState>(
                   builder: (context, profileState) {
-                    return DetailSuratPage(
+                    return DetailPermitPage(
                       id: permit.id.toString(),
                       role: profileState.user!.role,
                     );
@@ -216,13 +229,16 @@ class _PermitRejectState extends State<PermitReject> {
   }
 
   Widget _loadingBody() {
-    return ListView(
-      children: [
-        SkeletonCard(),
-        SizedBox(height: 20.h),
-        SkeletonCard(),
-        SizedBox(height: 20.h),
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+      child: ListView(
+        children: [
+          SkeletonCard(),
+          SizedBox(height: 10.h),
+          SkeletonCard(),
+          SizedBox(height: 10.h),
+        ],
+      ),
     );
   }
 }

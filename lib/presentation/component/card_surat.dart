@@ -6,6 +6,7 @@ class CardSurat extends StatelessWidget {
   final String date;
   final String categorySurat;
   final String noSurat;
+  final String uploadedBy;
   final String namaPerusahaan;
   final String namaDokumen;
   final String noSuratIzinMabes;
@@ -13,9 +14,11 @@ class CardSurat extends StatelessWidget {
   final String processStatus;
   final VoidCallback detailSurat;
   final VoidCallback funcRead;
-  final VoidCallback funcDownload;
+  final VoidCallback funcDownloadPermohonan;
+  final VoidCallback funcDownloadSuratTerbit;
 
   const CardSurat({
+    required this.uploadedBy,
     required this.date,
     required this.categorySurat,
     required this.namaDokumen,
@@ -24,7 +27,8 @@ class CardSurat extends StatelessWidget {
     required this.noSuratIzinMabes,
     required this.processStatus,
     required this.funcRead,
-    required this.funcDownload,
+    required this.funcDownloadPermohonan,
+    required this.funcDownloadSuratTerbit,
     required this.detailSurat,
     required this.uploadStatus,
     super.key,
@@ -35,7 +39,17 @@ class CardSurat extends StatelessWidget {
     late Color borderUploadColor = const Color(0xFFBDBDBD);
     late String typeUpload;
     late TextStyle fontUploadSyle;
-    if (uploadStatus == 'PENDING') {
+    if (uploadStatus == 'PROGRESS') {
+      fontUploadSyle = TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+        fontSize: 12.sp,
+        fontFamily: 'Satoshi',
+      );
+      borderUploadColor = const Color(0xFFA3D5FF);
+      typeUpload = 'PROGRESS';
+    }
+    else if (uploadStatus == 'PENDING') {
       fontUploadSyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
@@ -62,7 +76,7 @@ class CardSurat extends StatelessWidget {
       );
       borderUploadColor = const Color(0xFFAF4848);
       typeUpload = 'REJECTED';
-    }  else {
+    } else {
       fontUploadSyle = TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w600,
@@ -167,7 +181,33 @@ class CardSurat extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 8.h,
+              height: 10.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.person_2_rounded,
+                  size: 14.sp,
+                  color: AppColors.lightGrey,
+                ),
+                SizedBox(
+                  width: 6.w,
+                ),
+                Text(
+                  uploadedBy,
+                  style: TextStyle(
+                    color: AppColors.lightGrey,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Satoshi',
+                    fontSize: 12.sp,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -193,7 +233,7 @@ class CardSurat extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 20.h,
+              height: 10.h,
             ),
             Text(
               namaPerusahaan,
@@ -205,7 +245,7 @@ class CardSurat extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 20.h,
+              height: 10.h,
             ),
             Text(
               'Dokumen',
@@ -217,7 +257,7 @@ class CardSurat extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 6.h,
+              height: 10.h,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -247,22 +287,57 @@ class CardSurat extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
+            SizedBox(
+              width: double.infinity,
+              height: 44.h,
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  side: BorderSide(color: AppColors.primary),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                onPressed: funcRead,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ImageIcon(
+                      const AssetImage('assets/icons/book.png'),
+                      size: 20.sp,
+                      color: Colors.grey[700],
+                    ),
+                    SizedBox(width: 12.w),
+                    Text(
+                      'Baca',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Satoshi',
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: funcDownload,
-                    child: Container(
-                      width: 122.w,
-                      height: 44.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: AppColors.primary),
-                        color: Colors.white,
+                  child: SizedBox(
+                    height: 44.h,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: AppColors.primary),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
                       ),
+                      onPressed: funcDownloadPermohonan,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -270,18 +345,20 @@ class CardSurat extends StatelessWidget {
                             const AssetImage(
                                 'assets/icons/document-download.png'),
                             size: 20.sp,
-                            color: AppColors.tertiary,
+                            color: Colors.grey[700],
                           ),
                           SizedBox(
                             width: 12.w,
                           ),
-                          Text(
-                            'Unduh',
-                            style: TextStyle(
-                              color: AppColors.tertiary,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Satoshi',
-                              fontSize: 16.sp,
+                          Flexible(
+                            child: Text(
+                              'Unduh Surat Permohonan',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Satoshi',
+                                fontSize: 10.sp,
+                              ),
                             ),
                           ),
                         ],
@@ -293,35 +370,38 @@ class CardSurat extends StatelessWidget {
                   width: 10.w,
                 ),
                 Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                    onTap: funcRead,
-                    child: Container(
-                      width: 186.w,
-                      height: 44.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: AppColors.primary),
-                        color: Colors.white,
+                  child: SizedBox(
+                    height: 44.h,
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        side: BorderSide(color: AppColors.primary),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
                       ),
+                      onPressed: funcDownloadSuratTerbit,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ImageIcon(
-                            const AssetImage('assets/icons/book.png'),
+                            const AssetImage(
+                                'assets/icons/document-download.png'),
                             size: 20.sp,
-                            color: AppColors.tertiary,
+                            color: Colors.grey[700],
                           ),
                           SizedBox(
                             width: 12.w,
                           ),
-                          Text(
-                            'Baca',
-                            style: TextStyle(
-                              color: AppColors.tertiary,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Satoshi',
-                              fontSize: 16.sp,
+                          Flexible(
+                            child: Text(
+                              'Unduh Surat Izin Terbit',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Satoshi',
+                                fontSize: 10.sp,
+                              ),
                             ),
                           ),
                         ],

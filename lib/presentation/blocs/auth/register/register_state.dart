@@ -4,6 +4,7 @@ class RegisterState extends Equatable {
   final String? message;
   final bool isLoading;
   final bool? data;
+
   const RegisterState({this.message, this.isLoading = false, this.data});
 
   @override
@@ -12,6 +13,7 @@ class RegisterState extends Equatable {
 
 class RegisterSuccess extends RegisterState {
   final UserModel user;
+
   const RegisterSuccess({required this.user, super.message, super.isLoading});
 
   @override
@@ -31,6 +33,7 @@ class CheckSuccess extends RegisterState {
   final String password;
   final String division;
   final int? verificationCode;
+
   const CheckSuccess({
     required this.division,
     required this.username,
@@ -56,6 +59,7 @@ class CheckFailed extends RegisterState {
 class ForgotPasswordCheckSuccess extends RegisterState {
   final String email;
   final int? verificationCode;
+
   const ForgotPasswordCheckSuccess({
     required this.email,
     this.verificationCode,

@@ -54,7 +54,8 @@ class _TestPageState extends State<TestPage> {
                       backgroundColor: Colors.transparent,
                       isDismissible: true,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(16.r)),
                       ),
                       clipBehavior: Clip.hardEdge,
                       builder: (context) => CustomBottomSheetFilter(),

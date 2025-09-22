@@ -5,7 +5,6 @@ import 'package:tracking_apps/configs/network/notification/notification_service.
 import 'package:tracking_apps/domain/entity/notification_list_response.dart';
 
 part 'notification_event.dart';
-
 part 'notification_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {

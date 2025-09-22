@@ -29,7 +29,6 @@ class NotificationLoadFailure extends NotificationState {
   List<Object> get props => [error];
 }
 
-
 class MarkNotificationFailure extends NotificationState {
   final String error;
 
