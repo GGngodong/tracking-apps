@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tracking_apps/common/local_notification.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/route/route_manager.dart';
@@ -16,8 +19,27 @@ import 'package:tracking_apps/presentation/blocs/custom_multi_bloc_provider.dart
 
 import 'firebase_options.dart';
 
+/// Background handler for FCM messages.
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
   log('Handling a background message: ${message.messageId}');
+}
+
+/// On Android 13+ (API 33+), apps must explicitly request POST_NOTIFICATIONS
+Future<void> _requestNotificationPermissionIfNeeded() async {
+  if (!Platform.isAndroid) return;
+
+  final androidInfo = await DeviceInfoPlugin().androidInfo;
+  final sdkInt = androidInfo.version.sdkInt!;
+  if (sdkInt >= 33) {
+    final status = await Permission.notification.status;
+    if (!status.isGranted) {
+      final result = await Permission.notification.request();
+      if (!result.isGranted) {
+        log("User denied POST_NOTIFICATIONS permission on Android 13+.");
+      }
+    }
+  }
 }
 
 void main() async {
@@ -28,12 +50,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await FlutterDownloader.initialize(
     debug: true,
     ignoreSsl: true,
   );
+
+  await _requestNotificationPermissionIfNeeded();
 
   await initializeLocalNotifications();
 
@@ -41,8 +65,8 @@ void main() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     log('Received a foreground message: ${message.notification?.title}');
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
+    final notification = message.notification;
+    final android = message.notification?.android;
 
     if (notification != null && android != null) {
       flutterLocalNotificationsPlugin.show(
@@ -54,7 +78,7 @@ void main() async {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            icon: '@mipmap/ic_launcher',
+            icon: 'ic_notification',
           ),
         ),
         payload: 'Default_Sound',
@@ -66,8 +90,9 @@ void main() async {
     log('A new onMessageOpenedApp event was published!');
   });
 
-  String? userRole = await SharedPreferencesService.instance
+  final String? userRole = await SharedPreferencesService.instance
       .getData<String>(PreferenceKey.userRole);
+
   runApp(
     CustomMultiBlocProvider(
       child: MyApp(
@@ -89,17 +114,22 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       child: MaterialApp.router(
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate
+          GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: [Locale('en', ''), Locale('id', '')],
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('id', ''),
+        ],
         title: 'Dahana Tracking',
         routerConfig: RouterManager.router(userRole: userRole),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white, fontFamily: 'Satoshi'),
+          scaffoldBackgroundColor: Colors.white,
+          fontFamily: 'Satoshi',
+        ),
         builder: (context, widget) {
           ScreenUtil.init(context);
           return MediaQuery(

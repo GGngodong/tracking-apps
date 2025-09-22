@@ -11,7 +11,8 @@ import 'package:tracking_apps/presentation/blocs/notification/detail/notificatio
 import 'package:tracking_apps/presentation/blocs/notification/edit/notification_edit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
 
 class DetailNotificationPage extends StatefulWidget {
   final String notificationId;
@@ -42,6 +43,8 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
     });
     if (token != null) {
       _fetchDetailNotification();
+    } else {
+      UserUnauthorized();
     }
   }
 
@@ -126,7 +129,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => DetailSuratPage(
+                        builder: (BuildContext context) => DetailPermitPage(
                           id: state.notificationDetail.data.permitLetterId,
                           role: role,
                         ),
@@ -218,7 +221,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => DetailSuratPage(
+                      builder: (BuildContext context) => DetailPermitPage(
                         id: state.notificationDetail.data.permitLetterId,
                         role: role,
                       ),
@@ -259,7 +262,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
       centerTitle: true,
       elevation: 0,
       actions: [
-        PopupMenuButton<String>(
+        PopupMenuButton(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -287,7 +290,7 @@ class _DetailNotificationPageState extends State<DetailNotificationPage> {
             }
           },
           itemBuilder: (context) => [
-            PopupMenuItem<String>(
+            PopupMenuItem(
               value: 'delete',
               child: Text(
                 'Delete Notification',

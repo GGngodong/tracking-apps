@@ -1,11 +1,13 @@
 class BaseUrl {
   static const baseUrl = 'http://192.168.11.69:8000';
+
   // static const baseUrl = 'http://192.168.1.10:8000';
   // USER
   static const register = '$baseUrl/api/dev/users';
   static const login = '$baseUrl/api/dev/users/login';
   static const getUser = '$baseUrl/api/dev/current';
   static const deleteUser = '$baseUrl/api/dev/users/logout';
+
   //
   static const uploadPermit = '$baseUrl/api/dev/permit-letters/upload';
   static const getPermit = '$baseUrl/api/dev/permit-letters/';

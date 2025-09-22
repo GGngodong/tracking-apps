@@ -34,6 +34,7 @@ mixin RegisterMixin on State<RegisterPage> {
       email: _emailTextEditingController.text.trim(),
       password: _passwordTextEditingController.text.trim(),
     );
+
     if (httpResponseModel.statusCode == 200) {
       registerBloc.add(
         RegisterButtonPressed(
@@ -42,22 +43,6 @@ mixin RegisterMixin on State<RegisterPage> {
           password: _passwordTextEditingController.text.trim(),
           division: _divisionTextEditingController.text.trim(),
         ),
-      );
-      Future.delayed(const Duration(seconds: 10), () {
-        registerBloc.add(const ClearRegisterData());
-      });
-      AppHelper.showCustomAlertDialog(
-        title: 'Register Success!',
-        context: context,
-        content: 'Please login to continue.',
-        onPositivePressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginPage(),
-            ),
-          );
-        },
       );
     } else {
       AppHelper.showCustomAlertDialog(
@@ -70,7 +55,26 @@ mixin RegisterMixin on State<RegisterPage> {
   }
 
   void _listener(RegisterState state) async {
-    if (state is CheckSuccess) {
+    if (state is RegisterSuccess) {
+      AppHelper.showCustomAlertDialog(
+        title: 'Register Success!',
+        context: context,
+        content: 'Please login to continue.',
+        onPositivePressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+          );
+        },
+      );
+    } else if (state is RegisterFailed) {
+      AppHelper.showCustomAlertDialog(
+        title: 'Register Failed!',
+        context: context,
+        content: state.message ?? 'Unknown error',
+        onPositivePressed: () => Navigator.pop(context),
+      );
+    } else if (state is CheckSuccess) {
       if (state.data != null && !state.data!) {
         if (state.verificationCode != null) {
           AppHelper.showCustomAlertDialog(
@@ -81,19 +85,19 @@ mixin RegisterMixin on State<RegisterPage> {
         }
       } else {
         AppHelper.showCustomAlertDialog(
-            onPositivePressed: () => Navigator.pop(context),
-            title: 'Register Failed!',
-            context: context,
-            content: 'Email already exists');
-        print('================== CURRENT STATE : $state ==================');
-      }
-    } else if (state is CheckFailed) {
-      AppHelper.showCustomAlertDialog(
           onPositivePressed: () => Navigator.pop(context),
           title: 'Register Failed!',
           context: context,
-          content: 'Something went wrong!');
-      print('================== CURRENT STATE : $state ==================');
+          content: 'Email already exists',
+        );
+      }
+    } else if (state is CheckFailed) {
+      AppHelper.showCustomAlertDialog(
+        onPositivePressed: () => Navigator.pop(context),
+        title: 'Register Failed!',
+        context: context,
+        content: 'Something went wrong!',
+      );
     }
   }
 }

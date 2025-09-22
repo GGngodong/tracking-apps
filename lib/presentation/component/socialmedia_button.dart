@@ -12,11 +12,12 @@ class SocialMediaButton extends StatelessWidget {
           radius: 25.r,
           backgroundColor: Colors.grey.shade300,
           child: CircleAvatar(
-            radius: 24.r,
-            backgroundColor: Colors.white,
-            child: Image.asset('assets/icons/logo-google.png', height: 20.h,)
-
-          ),
+              radius: 24.r,
+              backgroundColor: Colors.white,
+              child: Image.asset(
+                'assets/icons/logo-google.png',
+                height: 20.h,
+              )),
         ),
       ),
     );

@@ -1,19 +1,18 @@
 import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tracking_apps/common/app_helper.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/user/user_service.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
-import 'package:tracking_apps/generated/locale_keys.g.dart';
 import 'package:tracking_apps/presentation/blocs/auth/login/login_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/auth/register/register_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
+import 'package:tracking_apps/presentation/component/server_error_page.dart';
 
 part 'splash_screen_mixin.dart';
 
@@ -66,22 +65,8 @@ class _SplashScreenState extends State<SplashScreen> with SplashScreenMixin {
     return Container(
       color: AppColors.whitePage,
       child: isTimeout
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(Icons.error, color: Colors.red, size: 50),
-                const SizedBox(height: 10),
-                const Text(
-                  "Server error. Please try again.",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _restartProcess,
-                  child: const Text("Retry"),
-                ),
-              ],
+          ? ServerErrorPage(
+              onRetry: _restartProcess,
             )
           : FutureBuilder(
               future: _future(context),

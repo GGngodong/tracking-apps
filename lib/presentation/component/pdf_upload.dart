@@ -112,7 +112,7 @@ class _PdfUploadState extends State<PdfUpload> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: '\nPDF (maksimal 5 MB)',
+                                    text: '\nPDF (maksimal 25 MB)',
                                     style: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,

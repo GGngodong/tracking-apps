@@ -9,6 +9,7 @@ class CustomTextField extends StatefulWidget {
   final void Function(String)? onFieldSubmitted;
   final String? Function(String?)? validator;
   final TextEditingController? textController;
+  final bool validateOnChange;
 
   const CustomTextField({
     super.key,
@@ -18,6 +19,7 @@ class CustomTextField extends StatefulWidget {
     this.textController,
     this.validator,
     this.onFieldSubmitted,
+    this.validateOnChange = true,
   });
 
   @override
@@ -26,11 +28,24 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   bool isPasswordVisible = false;
+  String? errorText;
 
   @override
   void initState() {
     super.initState();
     isPasswordVisible = !widget.isPassword;
+    widget.textController?.addListener(_validateField);
+  }
+
+  void _validateField() {
+    if (!widget.validateOnChange || widget.validator == null) return;
+
+    final result = widget.validator!(widget.textController?.text);
+    if (errorText != result) {
+      setState(() {
+        errorText = result;
+      });
+    }
   }
 
   @override
@@ -94,6 +109,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       },
                     )
                   : null,
+              errorText: errorText,
             ),
             keyboardType: widget.isPassword
                 ? TextInputType.visiblePassword

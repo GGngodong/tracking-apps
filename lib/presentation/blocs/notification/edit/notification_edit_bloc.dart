@@ -4,7 +4,6 @@ import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/network/notification/notification_service.dart';
 
 part 'notification_edit_event.dart';
-
 part 'notification_edit_state.dart';
 
 class NotificationEditBloc
@@ -17,7 +16,7 @@ class NotificationEditBloc
       emit(NotificationEditLoading());
       try {
         HttpResponseModel markResponse =
-        await notificationService.markNotificationAsRead(
+            await notificationService.markNotificationAsRead(
           authToken: event.authToken,
           notificationId: event.notificationId,
         );
@@ -38,7 +37,7 @@ class NotificationEditBloc
       emit(NotificationEditLoading());
       try {
         HttpResponseModel deleteResponse =
-        await notificationService.deleteNotification(
+            await notificationService.deleteNotification(
           authToken: event.authToken,
           notificationId: event.notificationId,
         );

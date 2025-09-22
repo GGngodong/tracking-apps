@@ -20,8 +20,7 @@ class CustomDropdownForm extends StatefulWidget {
   });
 
   @override
-  State<CustomDropdownForm> createState() =>
-      _CustomDropdownFormState();
+  State<CustomDropdownForm> createState() => _CustomDropdownFormState();
 }
 
 class _CustomDropdownFormState extends State<CustomDropdownForm> {

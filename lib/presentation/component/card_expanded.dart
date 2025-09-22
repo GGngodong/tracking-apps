@@ -34,14 +34,32 @@ class _CardExpandedState extends State<CardExpanded> {
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
       child: ExpansionTile(
-        title: Text(
-          widget.namaDokumen,
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 16.sp,
-            fontFamily: 'Satoshi',
-            color: AppColors.primary,
-          ),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.namaDokumen,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 16.sp,
+                fontFamily: 'Satoshi',
+                color: AppColors.primary,
+              ),
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Text(
+              widget.date,
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 10.sp,
+                fontFamily: 'Satoshi',
+                color: Colors.grey,
+              ),
+            ),
+          ],
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.r),

@@ -16,7 +16,8 @@ class CardNotification extends StatefulWidget {
     required this.uploadStatus,
     required this.type,
     required this.isRead,
-    required this.onTap, required this.date,
+    required this.onTap,
+    required this.date,
   });
 
   @override
@@ -76,7 +77,8 @@ class _CardNotificationState extends State<CardNotification> {
                   ),
                 ),
                 Text(
-                  DateFormat("MM-dd-yyyy '•' HH:mm").format(widget.date.toLocal()),
+                  DateFormat("MM-dd-yyyy '•' HH:mm")
+                      .format(widget.date.toLocal()),
                   style: TextStyle(
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w500,
@@ -99,10 +101,9 @@ class _CardNotificationState extends State<CardNotification> {
               widget.notification,
               maxLines: 2,
               style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w500,
-                color: textColor
-              ),
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w500,
+                  color: textColor),
             ),
           ],
         );
@@ -122,7 +123,8 @@ class _CardNotificationState extends State<CardNotification> {
                   ),
                 ),
                 Text(
-                  DateFormat("MM-dd-yyyy '•' HH:mm").format(widget.date.toLocal()),
+                  DateFormat("MM-dd-yyyy '•' HH:mm")
+                      .format(widget.date.toLocal()),
                   style: TextStyle(
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w500,
@@ -169,7 +171,8 @@ class _CardNotificationState extends State<CardNotification> {
                 ),
               ),
               Text(
-                DateFormat("MM-dd-yyyy '•' HH:mm").format(widget.date.toLocal()),
+                DateFormat("MM-dd-yyyy '•' HH:mm")
+                    .format(widget.date.toLocal()),
                 style: TextStyle(
                   fontSize: 10.sp,
                   fontWeight: FontWeight.w500,
@@ -207,6 +210,20 @@ class _CardNotificationState extends State<CardNotification> {
   Widget _buildIcon() {
     if (widget.type == 'user_permit_letter') {
       switch (widget.uploadStatus) {
+        case 'PROGRESS':
+          return Container(
+            width: 30.w,
+            height: 30.h,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: const Color(0xFFA3D5FF), // Light Grey Background
+            ),
+            child: Icon(
+              Icons.autorenew,
+              size: 20.sp,
+              color: Colors.white // Pastel Grey Icon
+            ),
+          );
         case 'PENDING':
           return Container(
             width: 30.w,

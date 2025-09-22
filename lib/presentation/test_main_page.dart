@@ -8,7 +8,6 @@ import 'pages/profile/profile_page.dart';
 import 'pages/upload/upload_page.dart';
 
 class TestMainPage extends StatefulWidget {
-
   final String role;
 
   const TestMainPage({super.key, required this.role});
@@ -85,11 +84,10 @@ class _TestMainPageState extends State<TestMainPage> {
         BottomNavigationBarItem(
           activeIcon: Padding(
             padding: EdgeInsets.only(bottom: 4.h),
-            child: const ImageIcon(
-                AssetImage('assets/icons/home-selected.png')),
+            child:
+                const ImageIcon(AssetImage('assets/icons/home-selected.png')),
           ),
-          icon: const ImageIcon(
-              AssetImage('assets/icons/home-unselected.png')),
+          icon: const ImageIcon(AssetImage('assets/icons/home-unselected.png')),
           label: "Home",
         ),
         BottomNavigationBarItem(
@@ -97,8 +95,8 @@ class _TestMainPageState extends State<TestMainPage> {
               padding: EdgeInsets.only(bottom: 4.h),
               child: const ImageIcon(
                   AssetImage('assets/icons/upload-selected.png'))),
-          icon: const ImageIcon(
-              AssetImage('assets/icons/upload-unselected.png')),
+          icon:
+              const ImageIcon(AssetImage('assets/icons/upload-unselected.png')),
           label: "Unggah",
         ),
         BottomNavigationBarItem(
@@ -114,11 +112,10 @@ class _TestMainPageState extends State<TestMainPage> {
         BottomNavigationBarItem(
           activeIcon: Padding(
             padding: EdgeInsets.only(bottom: 4.h),
-            child: const ImageIcon(
-                AssetImage('assets/icons/user-selected.png')),
+            child:
+                const ImageIcon(AssetImage('assets/icons/user-selected.png')),
           ),
-          icon: const ImageIcon(
-              AssetImage('assets/icons/user-unselected.png')),
+          icon: const ImageIcon(AssetImage('assets/icons/user-unselected.png')),
           label: "Profil",
         ),
       ];
@@ -127,11 +124,10 @@ class _TestMainPageState extends State<TestMainPage> {
         BottomNavigationBarItem(
           activeIcon: Padding(
             padding: EdgeInsets.only(bottom: 4.h),
-            child: const ImageIcon(
-                AssetImage('assets/icons/home-selected.png')),
+            child:
+                const ImageIcon(AssetImage('assets/icons/home-selected.png')),
           ),
-          icon: const ImageIcon(
-              AssetImage('assets/icons/home-unselected.png')),
+          icon: const ImageIcon(AssetImage('assets/icons/home-unselected.png')),
           label: "Home",
         ),
         BottomNavigationBarItem(
@@ -147,11 +143,10 @@ class _TestMainPageState extends State<TestMainPage> {
         BottomNavigationBarItem(
           activeIcon: Padding(
             padding: EdgeInsets.only(bottom: 4.h),
-            child: const ImageIcon(
-                AssetImage('assets/icons/user-selected.png')),
+            child:
+                const ImageIcon(AssetImage('assets/icons/user-selected.png')),
           ),
-          icon: const ImageIcon(
-              AssetImage('assets/icons/user-unselected.png')),
+          icon: const ImageIcon(AssetImage('assets/icons/user-unselected.png')),
           label: "Profil",
         ),
       ];

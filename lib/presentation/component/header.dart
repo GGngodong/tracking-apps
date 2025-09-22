@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
 
 class Header extends StatelessWidget {
-  final String imageBg;
-  final String imageFg;
+  final String? imageBg;
+  final String? imageFg;
   final double? heightSizedBox;
   final double? height, width;
   final double? topFg, leftFg, rightFg, bottomFg;
@@ -40,21 +40,23 @@ class Header extends StatelessWidget {
               decoration: BoxDecoration(gradient: headerAppBar),
             ),
           ),
-          Positioned(
-            top: topBg,
-            left: leftBg,
-            right: rightBg,
-            child: Image.asset(imageBg),
-          ),
-          Positioned(
-            top: topFg,
-            left: leftFg,
-            right: rightFg,
-            child: Image.asset(
-              imageFg,
-              height: height,
+          if (imageBg != null && imageBg!.isNotEmpty)
+            Positioned(
+              top: topBg,
+              left: leftBg,
+              right: rightBg,
+              child: Image.asset(imageBg!),
             ),
-          )
+          if (imageFg != null && imageFg!.isNotEmpty)
+            Positioned(
+              top: topFg,
+              left: leftFg,
+              right: rightFg,
+              child: Image.asset(
+                imageFg!,
+                height: height,
+              ),
+            )
         ],
       ),
     );

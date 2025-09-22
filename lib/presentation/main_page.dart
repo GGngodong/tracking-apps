@@ -52,7 +52,6 @@ class _MainPageState extends State<MainPage> {
         ProfilePage(),
       ];
       _navBarItems = [
-
         _buildNavBarItem('home'),
         _buildNavBarItem('upload'),
         _buildNavBarItem('search'),

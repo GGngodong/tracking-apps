@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,16 +6,13 @@ import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
 import 'package:tracking_apps/configs/route/routes.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/generated/locale_keys.g.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/auth/register/register_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
-import 'package:tracking_apps/presentation/component/divider_text.dart';
 import 'package:tracking_apps/presentation/component/dropdown_form_status_tahapan.dart';
-import 'package:tracking_apps/presentation/component/socialmedia_button.dart';
 import 'package:tracking_apps/presentation/component/title_auth.dart';
 import 'package:tracking_apps/presentation/pages/login/login.dart';
-
 
 part 'register_mixin.dart';
 
@@ -27,14 +23,13 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
-
+class _RegisterPageState extends State<RegisterPage> with RegisterMixin {
   @override
   Widget build(BuildContext context) {
     final RegisterBloc registerBloc = BlocProvider.of<RegisterBloc>(context);
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
-        _listener (state);
+        _listener(state);
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
         builder: (context, state) {
@@ -57,6 +52,8 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                           hintText: 'Masukan username anda',
                           header: 'Username',
                           textController: _usernameTextEditingController,
+                          validator: ValidatorHelper.validateUsername,
+                          validateOnChange: true,
                           onFieldSubmitted: (value) {
                             _submit(registerBloc);
                           },
@@ -68,6 +65,8 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                           hintText: 'Masukan email anda',
                           header: 'Email',
                           textController: _emailTextEditingController,
+                          validator: ValidatorHelper.validateEmail,
+                          validateOnChange: true,
                           onFieldSubmitted: (value) {
                             _submit(registerBloc);
                           },
@@ -84,13 +83,12 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                           textEditingController: _divisionTextEditingController,
                           listDropdown: ['LOG.', 'DTU', 'DM/GM', 'DKK'],
                         ),
-                        // SizedBox(
-                        //   height: 16.h,
-                        // ),
                         CustomTextField(
                           hintText: 'Masukan password anda',
                           header: 'Password',
                           isPassword: true,
+                          validator: ValidatorHelper.validatePassword,
+                          validateOnChange: true,
                           textController: _passwordTextEditingController,
                           onFieldSubmitted: (value) {
                             _submit(registerBloc);
@@ -101,14 +99,8 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                         ),
                         CustomButton(
                           text: 'Sign up',
-                          onPressed: ()  {
+                          onPressed: () {
                             _submit(registerBloc);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const LoginPage(),
-                            //   )
-                            // );
                           },
                           isLogOut: false,
                           isLoading: state.isLoading,
@@ -116,14 +108,6 @@ class _RegisterPageState extends State<RegisterPage> with RegisterMixin{
                         SizedBox(
                           height: 32.h,
                         ),
-                        // const DividerText(text: 'Masuk dengan'),
-                        // // SizedBox(
-                        // //   height: 32.h,
-                        // // ),
-                        // // const SocialMediaButton(),
-                        // // SizedBox(
-                        // //   height: 32.h,
-                        // // ),
                         TitleAuth(
                           fun: () => Navigator.push(
                             context,

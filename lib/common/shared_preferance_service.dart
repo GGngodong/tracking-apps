@@ -1,11 +1,11 @@
+// lib/common/shared_preferance_service.dart
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-final class SharedPreferencesService {
+class SharedPreferencesService {
   SharedPreferencesService._();
 
-  static final _instance = SharedPreferencesService._();
-
-  static SharedPreferencesService get instance => _instance;
+  static final SharedPreferencesService instance = SharedPreferencesService._();
 
   late final SharedPreferences _preferences;
 
@@ -13,40 +13,43 @@ final class SharedPreferencesService {
     _preferences = await SharedPreferences.getInstance();
   }
 
-  Future<bool> setData<T>(PreferenceKey key, T data) async {
-    assert(T == double || T == int || T == bool || T == String, 'Invalid Type');
-    return switch (T) {
-      const (double) => _preferences.setDouble(key.name, data as double),
-      const (int) => _preferences.setInt(key.name, data as int),
-      const (bool) => _preferences.setBool(key.name, data as bool),
-      const (String) => _preferences.setString(key.name, data as String),
-      _ => Future.value(false),
-    };
+  Future<bool> setData<T>(PreferenceKey key, T data) {
+    if (data is String) {
+      return _preferences.setString(key.name, data);
+    }
+    if (data is int) {
+      return _preferences.setInt(key.name, data);
+    }
+    if (data is double) {
+      return _preferences.setDouble(key.name, data);
+    }
+    if (data is bool) {
+      return _preferences.setBool(key.name, data);
+    }
+    throw ArgumentError.value(
+      data,
+      'data',
+      'Type ${data.runtimeType} not supported. Must be String/int/double/bool.',
+    );
   }
 
   T? getData<T>(PreferenceKey key) {
-    assert(T == double || T == int || T == bool || T == String, 'Invalid Type');
-    return switch (T) {
-      const (double) => _preferences.getDouble(key.name) as T?,
-      const (int) => _preferences.getInt(key.name) as T?,
-      const (bool) => _preferences.getBool(key.name) as T?,
-      const (String) => _preferences.getString(key.name) as T?,
-      _ => null,
-    };
+    final Object? value = _preferences.get(key.name);
+    if (value is T) {
+      return value;
+    }
+    return null;
   }
 
-  Future<bool> removeData(PreferenceKey key) async {
-    return await _preferences.remove(key.name);
+  Future<bool> removeData(PreferenceKey key) {
+    return _preferences.remove(key.name);
   }
 }
 
 enum PreferenceKey {
-  authToken("auth_token"),
-  userRole('user_role'),
-  useDeviceTheme("use_device_theme"),
-  isDark("is_dark");
-
-  const PreferenceKey(this.key);
-
-  final String key;
+  authToken,
+  userRole,
+  useDeviceTheme,
+  isDark,
+  ;
 }

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/permit/upload/upload_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_datepicker.dart';
@@ -82,6 +83,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       textController: _descriptionTextEditingController,
                       hintText: 'Masukan deskripsi surat izin',
                       header: 'Uraian',
+                      validateOnChange: true,
+                      validator: ValidatorHelper.validateDescription,
                       onFieldSubmitted: (value) {
                         _submit(_uploadBloc);
                       },
@@ -93,6 +96,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       textController: _noPermitTextEditingController,
                       hintText: 'Masukan nomor surat',
                       header: 'No. Surat',
+                      validateOnChange: true,
+                      validator: ValidatorHelper.validatePermitNumber,
                       onFieldSubmitted: (value) {
                         _submit(_uploadBloc);
                       },
@@ -117,17 +122,8 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       textController: _companyNameTextEditingController,
                       hintText: 'Masukan nama perusahaan',
                       header: 'Nama Perusahaan',
-                      onFieldSubmitted: (value) {
-                        _submit(_uploadBloc);
-                      },
-                    ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    CustomTextField(
-                      textController: _noPermitMabesEditingController,
-                      hintText: 'Masukan nomor surat',
-                      header: 'Nomor Surat Mabes',
+                      validateOnChange: true,
+                      validator: ValidatorHelper.validateCompanyName,
                       onFieldSubmitted: (value) {
                         _submit(_uploadBloc);
                       },
@@ -154,30 +150,27 @@ class _UploadPageState extends State<UploadPage> with UploadMixin {
                       textEditingController:
                           _categoryAdministrationTextEditingController,
                       listDropdown: [
-                        '2P BARU',
-                        '3P BARU',
-                        'PENGGUNAAN SISA',
-                        'AHLI GUNA',
+                        'GUDANG BARU',
+                        '(P3) PEMILIKAN, PENYIMPANAN, PENGUASAAN BARU',
+                        '(P2) PEMBELIAN DAN PENGGUNAAN BARU',
+                        'GUDANG PERPANJANGAN',
+                        '(P3) PERPANJANGAN',
+                        '(P2) PERPANJANGAN',
+                        '(P2) GUNA SISA',
+                        '(P1) PENGGUNAAN SISA',
+                        'PENGANGKUTAN',
+                        'ALIH GUNA/HIBAH',
                         'PEMUSNAHAN',
-                        '3P PERPANJANG',
-                        'PENGANGKUTAN ANTAR POLDA',
-                        '2P PERPANJANGAN',
-                        '3P PERPANJANGAN',
-                        'AHLI GUNA/HIBAH',
-                        'GUDANG',
-                        'GUDANG PERPANJANG',
-                        'RE-EKSPOR',
-                        'PENGGUNAAN/PROD. DI WIL PENGGUNA AKHIR',
                         'IMPOR',
                         'EKSPOR',
-                        'PEMBUATAN/PROD. HANDAK',
+                        'RE-EKSPOR',
+                        'PRODUKSI/PEMBUATAN',
+                        'PRODUKSI DI WIL. PENGGUNA AKHIR',
                         'UJI COBA',
-                        'PEMBELIAN DAN PENGGUNAAN',
-                        'PENGGUNAAN',
-                        '3P',
-                        'BARU',
-                        'PERPANJANGAN',
-                        'ANGKUT SENPI DAN AMUNISI',
+                        'REKOM. BADAN USAHA JASA PERGUDANGAN',
+                        'REKOM. BADAN USAHA JASA PELEDAKAN',
+                        'REKOM. BADAN USAHA JASA PENGANGKUTAN',
+                        'REKOM. BADAN USAHA JASA PENGELOLAAN',
                       ],
                     ),
                     buildPdfPicker(),

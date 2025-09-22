@@ -1,11 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tracking_apps/configs/network/http_response_model.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/user/user_service.dart';
 import 'package:tracking_apps/domain/entity/user_model.dart';
 
 part 'profile_event.dart';
-
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {

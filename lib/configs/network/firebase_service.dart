@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -23,8 +24,9 @@ class FirebaseService {
 
   static Future<int?> sendVerificationCode({required String toMail}) async {
     try {
-      HttpsCallableResult result =
-      await FirebaseFunctions.instance.httpsCallable('sendVerificationCode').call(<String, dynamic>{
+      HttpsCallableResult result = await FirebaseFunctions.instance
+          .httpsCallable('sendVerificationCode')
+          .call(<String, dynamic>{
         'to': toMail,
         'subject': LocaleKeys.verification_code_mail_subject.tr(),
         'text': LocaleKeys.verification_code_mail_text.tr(),
@@ -40,9 +42,15 @@ class FirebaseService {
     }
   }
 
-  static Future<bool> sendMail({required String toMail, required String subject, String? text, String? html}) async {
+  static Future<bool> sendMail(
+      {required String toMail,
+      required String subject,
+      String? text,
+      String? html}) async {
     try {
-      HttpsCallableResult result = await FirebaseFunctions.instance.httpsCallable('sendMail').call(<String, dynamic>{
+      HttpsCallableResult result = await FirebaseFunctions.instance
+          .httpsCallable('sendMail')
+          .call(<String, dynamic>{
         'to': toMail,
         'subject': subject,
         'text': text,

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tracking_apps/common/shared_preferance_service.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
-import 'package:tracking_apps/presentation/blocs/permit/listPermit/get_permit_bloc.dart';
+import 'package:tracking_apps/helper/download_helper.dart';
+import 'package:tracking_apps/presentation/blocs/permit/listPermit/latest/get_latest_permit_bloc.dart';
 import 'package:tracking_apps/presentation/blocs/profile/profile_bloc.dart';
 import 'package:tracking_apps/presentation/component/card_surat.dart';
 import 'package:tracking_apps/presentation/component/header.dart';
 import 'package:tracking_apps/presentation/component/skeleton_card.dart';
-import 'package:tracking_apps/presentation/pages/detail/detail_surat.dart';
-import 'package:tracking_apps/presentation/pages/list/permit/list_surat.dart';
+import 'package:tracking_apps/presentation/component/user_unauthorized.dart';
+import 'package:tracking_apps/presentation/pages/detail/permit_detail.dart';
+import 'package:tracking_apps/presentation/pages/list/permit/selengkapnya.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,12 +38,14 @@ class _HomePageState extends State<HomePage> {
     });
     if (token != null) {
       _fetchPermitLetters();
+    } else {
+      UserUnauthorized();
     }
   }
 
   void _fetchPermitLetters() {
     if (_authToken != null) {
-      context.read<PermitLetterBloc>().add(GetListPermitLetter());
+      context.read<PermitLetterLatestBloc>().add(GetListPermitLetter());
     }
   }
 
@@ -52,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.whitePage,
-      body: BlocListener<PermitLetterBloc, PermitLetterState>(
+      body: BlocListener<PermitLetterLatestBloc, PermitLetterLatestState>(
         listener: (context, state) {
           if (state is PermitLetterFailedState) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -60,12 +62,14 @@ class _HomePageState extends State<HomePage> {
             );
           }
         },
-        child: BlocBuilder<PermitLetterBloc, PermitLetterState>(
+        child: BlocBuilder<PermitLetterLatestBloc, PermitLetterLatestState>(
           builder: (context, state) {
             return RefreshIndicator(
               color: AppColors.primary,
               onRefresh: () async {
-                context.read<PermitLetterBloc>().add(GetListPermitLetter());
+                context
+                    .read<PermitLetterLatestBloc>()
+                    .add(GetListPermitLetter());
               },
               child: _buildBody(state),
             );
@@ -75,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildBody(PermitLetterState state) {
+  Widget _buildBody(PermitLetterLatestState state) {
     if (state is PermitLetterLoadingState || state.isLoading) {
       return _loadingBody();
     } else if (state is PermitLetterLoadedState) {
@@ -89,65 +93,95 @@ class _HomePageState extends State<HomePage> {
 
   Widget _loadingBody() {
     print('================== IN PERMIT LOADING ==================');
-    return Column(
-      children: [
-        Stack(
-          children: [
-            Header(
-              heightSizedBox: 280.h,
-              imageBg: 'assets/home/dahana-gedung.png',
-              imageFg: 'assets/home/dahana.png',
-              height: 100.h,
-              topFg: 90,
-              leftFg: 0,
-              rightFg: 0,
-              topBg: 40,
-              leftBg: 0,
-              rightBg: 0,
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              child: Column(
-                children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width,
-                      minWidth: 0,
-                    ),
-                  )
-                ],
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              Header(
+                heightSizedBox: 280.h,
+                imageBg: 'assets/home/dahana-gedung.png',
+                // imageFg: 'assets/home/dahana.png',
+                imageFg: '',
+                height: 100.h,
+                topFg: 90,
+                leftFg: 0,
+                rightFg: 0,
+                topBg: 40,
+                leftBg: 0,
+                rightBg: 0,
               ),
-            ),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 16.h,
-              ),
-              child: Text(
-                'Surat Izin Terbaru',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                child: Column(
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width,
+                        minWidth: 0,
+                      ),
+                    )
+                  ],
                 ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.w,
-                vertical: 16.h,
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 16.h,
+                ),
+                child: Text(
+                  'Surat Izin Terbaru',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                  ),
+                ),
               ),
-              child: SkeletonCard(),
-            ),
-          ],
-        ),
-      ],
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 16.h,
+                ),
+                child: SkeletonCard(),
+              ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const SelengkapnyaPage(),
+                      ),
+                    ),
+                    child: Text(
+                      'Lihat Selengkapnya',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Satoshi',
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -162,7 +196,8 @@ class _HomePageState extends State<HomePage> {
               Header(
                 heightSizedBox: 280.h,
                 imageBg: 'assets/home/dahana-gedung.png',
-                imageFg: 'assets/home/dahana.png',
+                //imageFg: 'assets/home/dahana.png',
+                imageFg: '',
                 height: 100.h,
                 topFg: 90,
                 leftFg: 0,
@@ -214,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                         color: AppColors.primary,
                         onRefresh: () async {
                           context
-                              .read<PermitLetterBloc>()
+                              .read<PermitLetterLatestBloc>()
                               .add(GetListPermitLetter());
                         },
                         child: Column(
@@ -257,6 +292,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (context, index) {
                           final permit = state.listPermitLetter[index];
                           return CardSurat(
+                              uploadedBy: permit.uploadedBy,
                               processStatus: permit.processStatus,
                               date: permit.date,
                               categorySurat: permit.categoryPermit,
@@ -266,35 +302,54 @@ class _HomePageState extends State<HomePage> {
                               noSuratIzinMabes:
                                   permit.noPermitMabes ?? 'Belum Terbit',
                               uploadStatus: permit.uploadStatus ?? 'PENDING',
-                              funcDownload: () async {
-                                final url = permit.documentUrl;
-                                final externalDir =
-                                    await getExternalStorageDirectory();
-                                if (externalDir != null) {
-                                  try {
-                                    final taskId =
-                                        await FlutterDownloader.enqueue(
-                                      url: url,
-                                      savedDir: externalDir.path,
-                                      fileName: 'permit_${permit.id}.pdf',
-                                      showNotification: true,
-                                      openFileFromNotification: true,
-                                    );
-                                    debugPrint(
-                                        'Download task enqueued with taskId: $taskId');
-                                  } catch (e) {
-                                    print(e);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text("Download failed: $e")),
-                                    );
-                                  }
-                                } else {
+                              funcDownloadSuratTerbit: () async {
+                                final url = permit.releasedDocumentUrl;
+
+                                if (url == null ||
+                                    url.isEmpty ||
+                                    url == 'No Released Document Url') {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text(
-                                            "Unable to access storage directory")),
+                                            "Permit is not released yet.")),
                                   );
+                                  return;
+                                }
+
+                                final taskId =
+                                    await DownloadHelper.downloadFile(
+                                  url: url,
+                                  savedFileName: 'permit_${permit.id}.pdf',
+                                  context: context,
+                                );
+
+                                if (taskId != null) {
+                                  debugPrint(
+                                      'Download task enqueued (Surat Terbit): $taskId');
+                                }
+                              },
+                              funcDownloadPermohonan: () async {
+                                final url = permit.documentUrl;
+
+                                if (url == null || url.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text("No document URL available.")),
+                                  );
+                                  return;
+                                }
+
+                                final taskId =
+                                    await DownloadHelper.downloadFile(
+                                  url: url,
+                                  savedFileName: 'permit_${permit.id}.pdf',
+                                  context: context,
+                                );
+
+                                if (taskId != null) {
+                                  debugPrint(
+                                      'Download task enqueued (Permohonan): $taskId');
                                 }
                               },
                               funcRead: () {
@@ -305,7 +360,7 @@ class _HomePageState extends State<HomePage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        DetailSuratPage(
+                                        DetailPermitPage(
                                       id: permit.id.toString(),
                                       role: role,
                                     ),
@@ -315,7 +370,7 @@ class _HomePageState extends State<HomePage> {
                               detailSurat: () {
                                 BlocBuilder<ProfileBloc, ProfileState>(
                                   builder: (context, profileState) {
-                                    return DetailSuratPage(
+                                    return DetailPermitPage(
                                       id: permit.id.toString(),
                                       role: profileState.user!.role,
                                     );
@@ -342,7 +397,7 @@ class _HomePageState extends State<HomePage> {
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) =>
-                            const ListSuratPage(),
+                            const SelengkapnyaPage(),
                       ),
                     ),
                     child: Text(

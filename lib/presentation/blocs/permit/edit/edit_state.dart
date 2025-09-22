@@ -29,7 +29,6 @@ class EditSuccessState extends EditState {
 
   @override
   List<Object?> get props => [permit, message, isLoading, statusCode];
-
 }
 
 class EditFailedState extends EditState {

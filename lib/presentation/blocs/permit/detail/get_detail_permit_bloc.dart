@@ -1,23 +1,22 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tracking_apps/configs/network/user_service.dart';
+import 'package:tracking_apps/configs/network/permit/permit_service.dart';
 import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 part 'get_detail_permit_event.dart';
-
 part 'get_detail_permit_state.dart';
 
 class DetailPermitLetterBloc
     extends Bloc<DetailPermitLetterEvent, DetailPermitLetterState> {
-  final UserService userService;
+  final PermitService permitService;
 
-  DetailPermitLetterBloc({required this.userService})
+  DetailPermitLetterBloc({required this.permitService})
       : super(const DetailPermitLetterState()) {
     on<GetDetailPermitLetterEvent>(
       (event, state) async {
         emit(const DetailPermitLetterState(isLoading: true));
         try {
-          final token = await userService.getAuthTokenFromSP();
+          final token = await permitService.getAuthTokenFromSP();
           if (token == null) {
             emit(DetailPermitLetterFailedState(
                 message: 'User is not authenticated. Please log in',
@@ -25,8 +24,8 @@ class DetailPermitLetterBloc
                 statusCode: 401));
             return;
           }
-          final response =
-              await userService.getDetailPermit(authToken: token, id: event.id);
+          final response = await permitService.getDetailPermit(
+              authToken: token, id: event.id);
           if (response.statusCode == 200 && response.data != null) {
             emit(
               DetailPermitLetterLoadedState(

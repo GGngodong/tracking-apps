@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tracking_apps/common/app_helper.dart';
 import 'package:tracking_apps/configs/theme/app_colors.dart';
+import 'package:tracking_apps/helper/validator_helper.dart';
 import 'package:tracking_apps/presentation/blocs/auth/reset/reset_password_bloc.dart';
 import 'package:tracking_apps/presentation/component/custom_button.dart';
 import 'package:tracking_apps/presentation/component/custom_text_field.dart';
@@ -29,7 +30,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage>
       child: BlocBuilder<ResetPasswordBloc, ResetPasswordState>(
           builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.whitePage,
+          backgroundColor: AppColors.whitePage,
           body: SingleChildScrollView(
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 200.h),
@@ -81,6 +82,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage>
                       hintText: 'Masukan Email Anda',
                       header: 'Email',
                       textController: _emailTextEditingController,
+                      validator: ValidatorHelper.validateEmail,
+                      validateOnChange: true,
                       onFieldSubmitted: (value) {
                         _submit(resetBloc);
                       },
