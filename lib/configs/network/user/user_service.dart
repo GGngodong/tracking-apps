@@ -10,14 +10,13 @@ import 'package:tracking_apps/domain/entity/user_model.dart';
 
 class UserService extends UserInterface {
   final String _baseUrl = dotenv.env['BASE_URL'] ?? "";
-  final String _devUrl = dotenv.env['DEV_URL'] ?? "";
   final apiKey = dotenv.env['X_API_KEY'] ?? '';
 
   @override
   Future<HttpResponseModel> login(
       {required String email, required String password}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/login');
+      var url = Uri.parse('$_baseUrl/users/login');
 
       var response = await http.post(
         url,
@@ -50,7 +49,7 @@ class UserService extends UserInterface {
     required String email,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/users/forgot-password');
+      var url = Uri.parse('$_baseUrl/users/forgot-password');
       var response = await http.post(
         url,
         headers: {
@@ -85,7 +84,7 @@ class UserService extends UserInterface {
     required String division,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/users');
+      var url = Uri.parse('$_baseUrl/users');
       var response = await http.post(
         url,
         headers: {
@@ -116,7 +115,7 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> delete({required String authToken}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/logout');
+      var url = Uri.parse('$_baseUrl/users/logout');
       var response = await http.delete(
         url,
         headers: {
@@ -141,7 +140,7 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> getById({required String id}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/$id');
+      var url = Uri.parse('$_baseUrl/users/$id');
       var response = await http.get(
         url,
         headers: {
@@ -168,7 +167,7 @@ class UserService extends UserInterface {
   Future<HttpResponseModel> validate({required String token}) async {
 
     try {
-      var url = Uri.parse('$_devUrl/users/current');
+      var url = Uri.parse('$_baseUrl/users/current');
       var response = await http.get(
         url,
         headers: {
@@ -196,7 +195,7 @@ class UserService extends UserInterface {
   @override
   Future<HttpResponseModel> update({required UserModel userModel}) async {
     try {
-      var url = Uri.parse('$_devUrl/users/${userModel.id}');
+      var url = Uri.parse('$_baseUrl/users/${userModel.id}');
       var response = await http.put(
         url,
         body: jsonEncode({
@@ -234,7 +233,7 @@ class UserService extends UserInterface {
     required String deviceToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/users/update-token');
+      var url = Uri.parse('$_baseUrl/users/update-token');
       var response = await http.patch(
         url,
         headers: {

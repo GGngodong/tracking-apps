@@ -9,14 +9,13 @@ import 'package:tracking_apps/domain/entity/notification_model.dart';
 
 class NotificationService extends NotificationInterface {
   final String _baseUrl = dotenv.env['BASE_URL'] ?? "";
-  final String _devUrl = dotenv.env['DEV_URL'] ?? "";
   final apiKey = dotenv.env['X_API_KEY'] ?? '';
 
   @override
   Future<HttpResponseModel<NotificationListResponse>> getNotification(
       {required String authToken}) async {
     try {
-      final url = Uri.parse('$_devUrl/notifications');
+      final url = Uri.parse('$_baseUrl/notifications');
       final response = await http.get(
         url,
         headers: {
@@ -57,7 +56,7 @@ class NotificationService extends NotificationInterface {
     required String notificationId,
   }) async {
     try {
-      final url = Uri.parse('$_devUrl/notifications/$notificationId/read');
+      final url = Uri.parse('$_baseUrl/notifications/$notificationId/read');
       final response = await http.patch(
         url,
         headers: {
@@ -85,7 +84,7 @@ class NotificationService extends NotificationInterface {
     required String notificationId,
   }) async {
     try {
-      final url = Uri.parse('$_devUrl/notifications/$notificationId');
+      final url = Uri.parse('$_baseUrl/notifications/$notificationId');
       final response = await http.get(
         url,
         headers: {
@@ -117,7 +116,7 @@ class NotificationService extends NotificationInterface {
     required String notificationId,
   }) async {
     try {
-      final url = Uri.parse('$_devUrl/notifications/delete/$notificationId');
+      final url = Uri.parse('$_baseUrl/notifications/delete/$notificationId');
       final response = await http.delete(
         url,
         headers: {

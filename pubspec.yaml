@@ -77,7 +77,6 @@ flutter:
     - assets/home/
     - assets/icons/
     - assets/fonts/
-    - assets/translation/
     - .env
 
   fonts:

@@ -14,7 +14,6 @@ import 'package:tracking_apps/domain/entity/permit_model.dart';
 
 class PermitService extends PermitInterface {
   final String _baseUrl = dotenv.env['BASE_URL'] ?? "";
-  final String _devUrl = dotenv.env['DEV_URL'] ?? "";
   final apiKey = dotenv.env['X_API_KEY'] ?? '';
 
   @override
@@ -22,7 +21,7 @@ class PermitService extends PermitInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/');
+      var url = Uri.parse('$_baseUrl/permit-letters/');
       var response = await http.get(
         url,
         headers: {
@@ -61,7 +60,7 @@ class PermitService extends PermitInterface {
   Future<HttpResponseModel<PermitModel>> getDetailPermit(
       {required String authToken, required String id}) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/$id');
+      var url = Uri.parse('$_baseUrl/permit-letters/$id');
       var response = await http.get(
         url,
         headers: {
@@ -111,7 +110,7 @@ class PermitService extends PermitInterface {
     String? uploadStatus,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/upload');
+      var url = Uri.parse('$_baseUrl/permit-letters/upload');
       var request = http.MultipartRequest('POST', url);
 
       request.fields['uraian'] = description;
@@ -202,7 +201,7 @@ class PermitService extends PermitInterface {
     String? documentUrl,
   }) async {
     try {
-      final url = Uri.parse('$_devUrl/permit-letters/edit/$id');
+      final url = Uri.parse('$_baseUrl/permit-letters/edit/$id');
       final request = http.MultipartRequest('POST', url);
       request.fields['_method'] = 'PUT';
       if (processStatus != null) {
@@ -267,7 +266,7 @@ class PermitService extends PermitInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/delete/$id');
+      var url = Uri.parse('$_baseUrl/permit-letters/delete/$id');
       var response = await http.delete(
         url,
         headers: {
@@ -324,7 +323,7 @@ class PermitService extends PermitInterface {
         params[subCategoryPermitSearchParam] = subCategoryPermitSearchQuery;
       }
 
-      final uri = Uri.parse('$_devUrl/permit-letters/search')
+      final uri = Uri.parse('$_baseUrl/permit-letters/search')
           .replace(queryParameters: params);
 
       final response = await http.get(
@@ -370,7 +369,7 @@ class PermitService extends PermitInterface {
   Future<HttpResponseModel<PermitListResponse>> getReleasePermit(
       {required String authToken}) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/release');
+      var url = Uri.parse('$_baseUrl/permit-letters/release');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -407,7 +406,7 @@ class PermitService extends PermitInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/approved');
+      var url = Uri.parse('$_baseUrl/permit-letters/approved');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -444,7 +443,7 @@ class PermitService extends PermitInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/rejected');
+      var url = Uri.parse('$_baseUrl/permit-letters/rejected');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -481,7 +480,7 @@ class PermitService extends PermitInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/latest');
+      var url = Uri.parse('$_baseUrl/permit-letters/latest');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -518,7 +517,7 @@ class PermitService extends PermitInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/pending');
+      var url = Uri.parse('$_baseUrl/permit-letters/pending');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -555,7 +554,7 @@ class PermitService extends PermitInterface {
     required String authToken,
   }) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/progress');
+      var url = Uri.parse('$_baseUrl/permit-letters/progress');
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Accept': 'application/json;charset=UTF-8',
@@ -591,7 +590,7 @@ class PermitService extends PermitInterface {
   Future<HttpResponseModel<PermitLogListResponse>> getPermitLogs(
       {required String authToken, required String id}) async {
     try {
-      var url = Uri.parse('$_devUrl/permit-letters/$id/logs');
+      var url = Uri.parse('$_baseUrl/permit-letters/$id/logs');
       var response = await http.get(
         url,
         headers: {
